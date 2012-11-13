@@ -97,9 +97,11 @@ public class XtEditorExecutableExtensionFactory extends AbstractGuiceAwareExecut
 		IWorkbenchWindow activeWorkbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		ISelectionService selectionService = activeWorkbenchWindow.getSelectionService();
 		IStructuredSelection selection = (IStructuredSelection) selectionService.getSelection("org.eclipse.jdt.ui.PackageExplorer");
-		Object selectedElement = selection.getFirstElement();
-		if (selectedElement instanceof IFile) {
-			return (IFile) selectedElement;
+		if (selection != null) {			
+			Object selectedElement = selection.getFirstElement();
+			if (selectedElement instanceof IFile) {
+				return (IFile) selectedElement;
+			}
 		}
 		return null;
 	}
