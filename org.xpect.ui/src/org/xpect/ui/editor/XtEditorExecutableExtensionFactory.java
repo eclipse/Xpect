@@ -19,7 +19,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.xtext.ui.guice.AbstractGuiceAwareExecutableExtensionFactory;
 import org.osgi.framework.Bundle;
-import org.xpect.XpectConstants;
 import org.xpect.registry.ILanguageInfo;
 import org.xpect.ui.XpectPluginActivator;
 import org.xpect.ui.util.XtInjectorSetupUtil;
@@ -100,9 +99,7 @@ public class XtEditorExecutableExtensionFactory extends AbstractGuiceAwareExecut
 		IStructuredSelection selection = (IStructuredSelection) selectionService.getSelection("org.eclipse.jdt.ui.PackageExplorer");
 		Object selectedElement = selection.getFirstElement();
 		if (selectedElement instanceof IFile) {
-			IFile file = (IFile) selectedElement;
-			if (XpectConstants.XT_FILE_EXT.equals(file.getFileExtension()))
-				return file;
+			return (IFile) selectedElement;
 		}
 		return null;
 	}
