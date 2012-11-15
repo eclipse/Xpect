@@ -16,6 +16,7 @@ import org.xpect.ui.builder.IResourceServiceProviderProvider;
 import org.xpect.ui.util.XtInjectorSetupUtil;
 import org.xpect.util.URIDelegationHandler;
 
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 /**
@@ -23,8 +24,9 @@ import com.google.inject.Injector;
  */
 public class XtResourceUIServiceProviderProvider extends DefaultResourceUIServiceProvider implements IResourceServiceProviderProvider {
 
-	public XtResourceUIServiceProviderProvider() {
-		super(null);
+	@Inject
+	public XtResourceUIServiceProviderProvider(IResourceServiceProvider delegate) {
+		super(delegate);
 	}
 
 	public IResourceServiceProvider get(URI uri, String contentType) {

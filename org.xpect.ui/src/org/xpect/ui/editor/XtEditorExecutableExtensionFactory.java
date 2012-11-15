@@ -8,9 +8,11 @@
 package org.xpect.ui.editor;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
@@ -38,6 +40,8 @@ public class XtEditorExecutableExtensionFactory extends AbstractGuiceAwareExecut
 	@Override
 	protected Injector getInjector() {
 		IFile file = getFileOfCurrentlyOpeningEditor();
+		if (file == null)
+			file = getXtFileSelectedInPackageExplorer();
 		if (file == null)
 			throw new RuntimeException("Could not determine which editor is currently being opened.");
 		String fileExtension = new URIDelegationHandler().getOriginalFileExtension(file.getName());
@@ -87,5 +91,18 @@ public class XtEditorExecutableExtensionFactory extends AbstractGuiceAwareExecut
 		} catch (PartInitException e) {
 			throw new RuntimeException();
 		}
+	}
+	
+	protected IFile getXtFileSelectedInPackageExplorer() {
+		IWorkbenchWindow activeWorkbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		ISelectionService selectionService = activeWorkbenchWindow.getSelectionService();
+		IStructuredSelection selection = (IStructuredSelection) selectionService.getSelection("org.eclipse.jdt.ui.PackageExplorer");
+		if (selection != null) {			
+			Object selectedElement = selection.getFirstElement();
+			if (selectedElement instanceof IFile) {
+				return (IFile) selectedElement;
+			}
+		}
+		return null;
 	}
 }

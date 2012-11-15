@@ -317,7 +317,7 @@
 	</extension>
   	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
         <resourceServiceProvider
-            class="org.xpect.ui.services.XtResourceUIServiceProviderProvider"
+            class="org.xpect.ui.XpectExecutableExtensionFactory:org.xpect.ui.services.XtResourceUIServiceProviderProvider"
             uriExtension="xt">
         </resourceServiceProvider>
     </extension>
