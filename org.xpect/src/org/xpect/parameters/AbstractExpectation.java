@@ -44,7 +44,7 @@ public class AbstractExpectation implements ITypedProvider {
 	protected String getExpectation(String indentation) {
 		if (length < 0)
 			return "";
-		String substring = document.substring(offset, offset + length - 1);
+		String substring = document.substring(offset, Math.max(offset + length - 1, offset));
 		String[] lines = substring.split("\\n");
 		if (lines.length == 1)
 			return lines[0];
