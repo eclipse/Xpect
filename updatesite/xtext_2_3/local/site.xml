@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.xpect.sdk_0.1.0.201303211111.jar" id="org.xpect.sdk" version="0.1.0.201303211111">
+   <feature url="features/org.xpect.sdk_0.1.0.201303252114.jar" id="org.xpect.sdk" version="0.1.0.201303252114">
       <category name="Xpect 0.1.0"/>
    </feature>
    <category-def name="Xpect 0.1.0" label="Xpect 0.1.0"/>
