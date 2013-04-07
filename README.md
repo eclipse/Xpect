@@ -2,7 +2,7 @@ Xpect
 =====
 
 A unit- and integration-testing framework that stores test data in any kind of text files and is based on JUnit. 
-The core focus of Xpect is on testing Xtend languages and supporting the process of designing Xtext languages.
+The core focus of Xpect is on testing Xtext languages and supporting the process of designing Xtext languages.
 
 
 Installation further Information
