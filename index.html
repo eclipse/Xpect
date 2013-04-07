@@ -80,9 +80,7 @@ package pkg1 {
     // XPECT scope at int --> int, String, java.lang.String, boolean, !foooobar, ...
     id:int
     
-    // XPECT errors ---
-       "Couldn't resolve reference to JvmType 'integer'." at "integer"
-    ---
+    // XPECT errors --> "Couldn't resolve reference to JvmType 'integer'." at "integer"
     id:integer
   }
 }</pre>
@@ -107,6 +105,9 @@ package pkg1 {
     					In the context menu of a test in the JUnit view, you can select "go to XPECT" to open and select test case in the DSL-File.
     				</li> 
     			</ul>
+    		</li>
+    		<li>
+    			Find further examples for the Domainmodel Language <a href="https://github.com/meysholdt/Xpect/tree/master/org.eclipse.xtext.example.domainmodel.xpect.tests">here</a>.
     		</li>
     	</ol>
       
