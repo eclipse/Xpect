@@ -43,7 +43,7 @@ public @interface XpectTestFiles {
 	}
 
 	public static enum FileRoot {
-		CLASS, PROJECT
+		CURRENT, CLASS, PROJECT
 	}
 
 	public static class XpectTestFileCollector implements IXpectURIProvider {
@@ -115,6 +115,8 @@ public @interface XpectTestFiles {
 
 		protected File getBaseDir() {
 			switch (ctx.relativeTo()) {
+			case CURRENT:
+				return new File(ctx.baseDir());
 			case CLASS:
 				File base = getOwningJavaClassFolder(owner);
 				if (ctx.baseDir() != null && !"".equals(ctx.baseDir()))
