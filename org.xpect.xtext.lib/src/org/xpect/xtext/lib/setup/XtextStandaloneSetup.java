@@ -78,7 +78,8 @@ public class XtextStandaloneSetup extends AbstractXpectSetup<ClassCtx, FileCtx, 
 		if (userCtx.getResourceSet() != null) {
 			Resource result = null;
 			for (ISetupFile file : userCtx.getResourceSet().getFiles()) {
-				Resource res = injector.getInstance(IResourceFactory.class).createResource(file.getURI(frameworkCtx));
+				Injector langInjector = frameworkCtx.getInjector(file.getURI(frameworkCtx));
+				Resource res = langInjector.getInstance(IResourceFactory.class).createResource(file.getURI(frameworkCtx));
 				resourceSet.getResources().add(res);
 				res.load(file.createInputStream(frameworkCtx), null);
 				if (file instanceof ThisFile)
