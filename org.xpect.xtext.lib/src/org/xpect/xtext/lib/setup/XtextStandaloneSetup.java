@@ -21,6 +21,7 @@ import org.xpect.parameter.ParameterProvider;
 import org.xpect.parameter.XpectParameterAdapter;
 import org.xpect.setup.AbstractXpectSetup;
 import org.xpect.setup.ISetupInitializer;
+import org.xpect.util.URIDelegationHandler;
 import org.xpect.xtext.lib.setup.ThisOffset.ThisOffsetProvider;
 import org.xpect.xtext.lib.setup.XtextStandaloneSetup.ClassCtx;
 import org.xpect.xtext.lib.setup.XtextStandaloneSetup.TestCtx;
@@ -78,8 +79,9 @@ public class XtextStandaloneSetup extends AbstractXpectSetup<ClassCtx, FileCtx, 
 		if (userCtx.getResourceSet() != null) {
 			Resource result = null;
 			for (ISetupFile file : userCtx.getResourceSet().getFiles()) {
+				URI originalURI = new URIDelegationHandler().getOriginalURI(file.getURI(frameworkCtx));
 				Injector langInjector = frameworkCtx.getInjector(file.getURI(frameworkCtx));
-				Resource res = langInjector.getInstance(IResourceFactory.class).createResource(file.getURI(frameworkCtx));
+				Resource res = langInjector.getInstance(IResourceFactory.class).createResource(originalURI);
 				resourceSet.getResources().add(res);
 				res.load(file.createInputStream(frameworkCtx), null);
 				if (file instanceof ThisFile)
@@ -88,7 +90,9 @@ public class XtextStandaloneSetup extends AbstractXpectSetup<ClassCtx, FileCtx, 
 			return (XtextResource) result;
 		} else {
 			URI thisURI = frameworkCtx.getXpectFile().eResource().getURI();
-			Resource res = injector.getInstance(IResourceFactory.class).createResource(thisURI);
+			Injector langInjector = frameworkCtx.getInjector(thisURI);
+			URI originalURI = new URIDelegationHandler().getOriginalURI(thisURI);
+			Resource res = langInjector.getInstance(IResourceFactory.class).createResource(originalURI);
 			resourceSet.getResources().add(res);
 			res.load(resourceSet.getURIConverter().createInputStream(thisURI), null);
 			return (XtextResource) res;

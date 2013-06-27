@@ -17,12 +17,11 @@ public class URIDelegationHandler {
 
 	public URI getOriginalURI(URI uri) {
 		String ext = uri.fileExtension();
-		if (ext == null || !"xt".equals(ext))
-			return null;
-		URI trimmed = uri.trimFileExtension();
-		if (trimmed.fileExtension() == null)
-			return null;
-		return trimmed;
+		if (ext == null || !"xt".equals(ext)) {
+			return uri;
+		} else {
+			return uri.trimFileExtension();
+		}
 	}
 
 	public String getOriginalFileExtension(String simpleFilename) {
