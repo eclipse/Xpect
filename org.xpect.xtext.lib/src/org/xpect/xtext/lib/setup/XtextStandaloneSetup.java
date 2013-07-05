@@ -19,6 +19,7 @@ import org.eclipse.xtext.xbase.jvmmodel.JvmModelInferrerRegistry;
 import org.xpect.Environment;
 import org.xpect.parameter.ParameterProvider;
 import org.xpect.parameter.XpectParameterAdapter;
+import org.xpect.services.XtResourceServiceProviderProvider;
 import org.xpect.setup.AbstractXpectSetup;
 import org.xpect.setup.ISetupInitializer;
 import org.xpect.xtext.lib.setup.ThisOffset.ThisOffsetProvider;
@@ -42,6 +43,7 @@ public class XtextStandaloneSetup extends AbstractXpectSetup<ClassCtx, FileCtx, 
 	@Override
 	public ClassCtx beforeClass(IClassSetupContext frameworkCtx) {
 		JvmModelInferrerRegistry.INSTANCE.setUseRegistry(false);
+		XtResourceServiceProviderProvider.INSTANCE.setSetupContext(frameworkCtx);
 		return new ClassCtx();
 	}
 

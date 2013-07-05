@@ -21,10 +21,12 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.util.Modules2;
+import org.xpect.XpectConstants;
 import org.xpect.registry.StandalonePluginXMLParser.EMFExtensionParserInfo;
 import org.xpect.registry.StandalonePluginXMLParser.EMFGeneratedPackageInfo;
 import org.xpect.registry.StandalonePluginXMLParser.EditorInfo;
 import org.xpect.registry.StandalonePluginXMLParser.ExtensionInfo;
+import org.xpect.services.XtResourceServiceProviderProvider;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;
@@ -236,6 +238,7 @@ public class StandaloneLanguageRegistry implements ILanguageInfo.Registry {
 					ext2language.put(ext, info);
 			}
 		}
+		registerRSPProviderForXt();
 	}
 
 	public ILanguageInfo getLanguageByFileExtension(String fileExtension) {
@@ -278,4 +281,12 @@ public class StandaloneLanguageRegistry implements ILanguageInfo.Registry {
 		EPackage.Registry.INSTANCE.put(info.getUri(), new EPackageDescriptorImpl(info));
 		EcorePlugin.getEPackageNsURIToGenModelLocationMap().put(info.getUri(), URI.createURI(info.getGenModel()));
 	}
+
+	protected void registerRSPProviderForXt() {
+		if (IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().get(XpectConstants.XT_FILE_EXT) == null) {
+			IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().put(XpectConstants.XT_FILE_EXT,
+					XtResourceServiceProviderProvider.INSTANCE);
+		}
+	}
+
 }
