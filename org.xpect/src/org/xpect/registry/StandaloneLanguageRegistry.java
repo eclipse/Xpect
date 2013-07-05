@@ -26,6 +26,7 @@ import org.xpect.registry.StandalonePluginXMLParser.EMFExtensionParserInfo;
 import org.xpect.registry.StandalonePluginXMLParser.EMFGeneratedPackageInfo;
 import org.xpect.registry.StandalonePluginXMLParser.EditorInfo;
 import org.xpect.registry.StandalonePluginXMLParser.ExtensionInfo;
+import org.xpect.services.XtResourceServiceProviderProvider;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;
@@ -237,7 +238,7 @@ public class StandaloneLanguageRegistry implements ILanguageInfo.Registry {
 					ext2language.put(ext, info);
 			}
 		}
-		registerXpectRSPforXt();
+		registerRSPProviderForXt();
 	}
 
 	public ILanguageInfo getLanguageByFileExtension(String fileExtension) {
@@ -281,12 +282,10 @@ public class StandaloneLanguageRegistry implements ILanguageInfo.Registry {
 		EcorePlugin.getEPackageNsURIToGenModelLocationMap().put(info.getUri(), URI.createURI(info.getGenModel()));
 	}
 
-	protected void registerXpectRSPforXt() {
+	protected void registerRSPProviderForXt() {
 		if (IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().get(XpectConstants.XT_FILE_EXT) == null) {
-			Object xpectRSP = IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().get(XpectConstants.XPECT_FILE_EXT);
-			if (xpectRSP != null) {
-				IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().put(XpectConstants.XT_FILE_EXT, xpectRSP);
-			}
+			IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().put(XpectConstants.XT_FILE_EXT,
+					XtResourceServiceProviderProvider.INSTANCE);
 		}
 	}
 
