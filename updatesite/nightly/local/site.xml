@@ -9,5 +9,8 @@
    <feature url="features/org.xpect.sdk_0.1.0.201306110942.jar" id="org.xpect.sdk" version="0.1.0.201306110942">
       <category name="Xpect 0.1.0"/>
    </feature>
+   <feature url="features/org.xpect.sdk_0.1.0.201307091651.jar" id="org.xpect.sdk" version="0.1.0.201307091651">
+      <category name="Xpect 0.1.0"/>
+   </feature>
    <category-def name="Xpect 0.1.0" label="Xpect 0.1.0"/>
 </site>
