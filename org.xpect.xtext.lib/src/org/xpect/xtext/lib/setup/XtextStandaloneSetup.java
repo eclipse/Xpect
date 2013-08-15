@@ -7,38 +7,80 @@
  *******************************************************************************/
 package org.xpect.xtext.lib.setup;
 
-import java.io.IOException;
 import java.util.EnumSet;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.xtext.resource.IResourceFactory;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.xbase.jvmmodel.JvmModelInferrerRegistry;
 import org.xpect.Environment;
-import org.xpect.expectation.ITargetSyntaxSupport;
-import org.xpect.parameter.ParameterProvider;
 import org.xpect.parameter.XpectParameterAdapter;
 import org.xpect.services.XtResourceServiceProviderProvider;
-import org.xpect.setup.AbstractXpectSetup;
 import org.xpect.setup.ISetupInitializer;
-import org.xpect.xtext.lib.setup.ThisOffset.ThisOffsetProvider;
 import org.xpect.xtext.lib.setup.XtextStandaloneSetup.ClassCtx;
+import org.xpect.xtext.lib.setup.XtextStandaloneSetup.Config;
 import org.xpect.xtext.lib.setup.XtextStandaloneSetup.TestCtx;
+import org.xpect.xtext.lib.setup.emf.File;
+import org.xpect.xtext.lib.setup.emf.ResourceFactory;
+import org.xpect.xtext.lib.setup.generic.GenericResource;
+import org.xpect.xtext.lib.util.XtextOffsetAdapter;
 
 import com.google.inject.Injector;
 
 /**
  * @author Moritz Eysholdt - Initial contribution and API
  */
+@SuppressWarnings("restriction")
 @XpectParameterAdapter(XtextOffsetAdapter.class)
-public class XtextStandaloneSetup extends AbstractXpectSetup<ClassCtx, FileCtx, TestCtx, FileCtx> {
+public class XtextStandaloneSetup extends AbstractXtextSetup<ClassCtx, Config, TestCtx, Config> {
 
 	protected static class ClassCtx {
 	}
 
-	protected static class TestCtx extends FileCtx {
+	public static class Config extends AbstractXtextSetup.AbstractConfig {
+
+		private org.xpect.xtext.lib.setup.emf.ResourceSet resourceSet = null;
+
+		public void add(org.xpect.xtext.lib.setup.emf.ResourceSet resourceSet) {
+			if (this.resourceSet != null)
+				throw new IllegalStateException("Only one ResourceSet per test is supported.");
+			this.resourceSet = resourceSet;
+		}
+
+		public org.xpect.xtext.lib.setup.emf.ResourceSet getResourceSet() {
+			return resourceSet;
+		}
+
+	}
+
+	public class Defaults implements ISetupInitializer<Config> {
+		private final ISetupInitializer<Config> delegate;
+
+		public Defaults(ISetupInitializer<Config> delegate) {
+			this.delegate = delegate;
+		}
+
+		protected ResourceFactory convert(GenericResource res) {
+			if (res instanceof org.xpect.xtext.lib.setup.generic.File)
+				return new File((org.xpect.xtext.lib.setup.generic.File) res);
+			else if (res instanceof org.xpect.xtext.lib.setup.generic.ThisFile)
+				return new org.xpect.xtext.lib.setup.emf.ThisFile((org.xpect.xtext.lib.setup.generic.ThisFile) res);
+			throw new IllegalStateException();
+		}
+
+		public void initialize(Config object) {
+			delegate.initialize(object);
+			if (object.getResourceSet() == null)
+				object.add(new org.xpect.xtext.lib.setup.emf.ResourceSet());
+			for (GenericResource res : object.getGenericResources())
+				object.getResourceSet().add(convert(res));
+			if (!object.getResourceSet().hasThisFile())
+				object.getResourceSet().add(new org.xpect.xtext.lib.setup.emf.ThisFile());
+		}
+	}
+
+	protected static class TestCtx extends Config {
 	}
 
 	@Override
@@ -49,58 +91,38 @@ public class XtextStandaloneSetup extends AbstractXpectSetup<ClassCtx, FileCtx, 
 	}
 
 	@Override
-	public FileCtx beforeFile(IFileSetupContext frameworkCtx, ClassCtx userCtx, ISetupInitializer<FileCtx> initializer) throws IOException {
-		FileCtx ctx = new FileCtx();
-		initializer.initialize(ctx);
+	public Config beforeFile(IFileSetupContext frameworkCtx, ClassCtx userCtx, ISetupInitializer<Config> initializer) throws Exception {
+		Config ctx = new Config();
+		new Defaults(initializer).initialize(ctx);
 		Resource resource = loadThisResource(frameworkCtx.getInjector(), frameworkCtx, ctx);
-		validate(ctx, resource);
+		ctx.getValidate().validate(resource);
 		return ctx;
 	}
 
-	protected void validate(FileCtx ctx, Resource resource) {
-		ctx.getValidate().validate(resource);
-	}
-
 	@Override
-	public TestCtx beforeTest(ITestSetupContext frameworkCtx, FileCtx userCtx) throws IOException {
+	public TestCtx beforeTest(ITestSetupContext frameworkCtx, Config userCtx) throws Exception {
 		Injector injector = frameworkCtx.getInjector();
 		injector.injectMembers(frameworkCtx.getTestInstance());
 		XtextResource res = loadThisResource(injector, frameworkCtx, userCtx);
-		frameworkCtx.installParameterValue(ITargetSyntaxSupport.Annotation.class, new ParameterProvider(new XtextTargetSyntaxSupport(res)));
-		frameworkCtx.installParameterValue(ThisResource.class, new ParameterProvider(res));
-		frameworkCtx.installParameterValue(ThisOffset.class, new ThisOffsetProvider(frameworkCtx.getXpectInvocation(), res));
-		if (!res.getContents().isEmpty())
-			frameworkCtx.installParameterValue(ThisModel.class, new ParameterProvider(res.getContents().get(0)));
+		installResourceParameterValues(frameworkCtx, res);
 		return null;
-	}
-
-	public XtextResource loadThisResource(Injector injector, IFileSetupContext frameworkCtx, FileCtx userCtx) throws IOException {
-		org.eclipse.emf.ecore.resource.ResourceSet resourceSet = injector.getInstance(org.eclipse.emf.ecore.resource.ResourceSet.class);
-		if (resourceSet instanceof XtextResourceSet) {
-			((XtextResourceSet) resourceSet).setClasspathURIContext(frameworkCtx.getTestClass());
-		}
-		if (userCtx.getResourceSet() != null) {
-			Resource result = null;
-			for (ISetupFile file : userCtx.getResourceSet().getFiles()) {
-				Injector langInjector = frameworkCtx.getInjector(file.getURI(frameworkCtx));
-				Resource res = langInjector.getInstance(IResourceFactory.class).createResource(file.getURI(frameworkCtx));
-				resourceSet.getResources().add(res);
-				res.load(file.createInputStream(frameworkCtx), null);
-				if (file instanceof ThisFile)
-					result = res;
-			}
-			return (XtextResource) result;
-		} else {
-			URI thisURI = frameworkCtx.getXpectFile().eResource().getURI();
-			Resource res = injector.getInstance(IResourceFactory.class).createResource(thisURI);
-			resourceSet.getResources().add(res);
-			res.load(resourceSet.getURIConverter().createInputStream(thisURI), null);
-			return (XtextResource) res;
-		}
 	}
 
 	public EnumSet<Environment> getEnvironments() {
 		return EnumSet.of(Environment.STANDALONE_TEST);
+	}
+
+	public XtextResource loadThisResource(Injector injector, IFileSetupContext frameworkCtx, Config config) throws Exception {
+		ResourceSet resourceSet = injector.getInstance(ResourceSet.class);
+		if (resourceSet instanceof XtextResourceSet)
+			((XtextResourceSet) resourceSet).setClasspathURIContext(frameworkCtx.getTestClass());
+		Resource result = null;
+		for (ResourceFactory file : config.getResourceSet().getFactories()) {
+			Resource res = file.create(frameworkCtx, resourceSet);
+			if (file instanceof org.xpect.xtext.lib.setup.emf.ThisFile)
+				result = res;
+		}
+		return (XtextResource) result;
 	}
 
 }
