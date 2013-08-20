@@ -27,5 +27,8 @@
    <feature url="features/org.xpect.sdk_0.1.0.201308161707.jar" id="org.xpect.sdk" version="0.1.0.201308161707">
       <category name="Xpect 0.1.0"/>
    </feature>
+   <feature url="features/org.xpect.sdk_0.1.0.201308201623.jar" id="org.xpect.sdk" version="0.1.0.201308201623">
+      <category name="Xpect 0.1.0"/>
+   </feature>
    <category-def name="Xpect 0.1.0" label="Xpect 0.1.0"/>
 </site>
