@@ -36,5 +36,8 @@
    <feature url="features/org.xpect.sdk_0.1.0.201308231740.jar" id="org.xpect.sdk" version="0.1.0.201308231740">
       <category name="Xpect 0.1.0"/>
    </feature>
+   <feature url="features/org.xpect.sdk_0.1.0.201309091726.jar" id="org.xpect.sdk" version="0.1.0.201309091726">
+      <category name="Xpect 0.1.0"/>
+   </feature>
    <category-def name="Xpect 0.1.0" label="Xpect 0.1.0"/>
 </site>
