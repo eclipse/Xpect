@@ -16,7 +16,6 @@ import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.xbase.jvmmodel.JvmModelInferrerRegistry;
 import org.xpect.Environment;
 import org.xpect.parameter.XpectParameterAdapter;
-import org.xpect.services.XtResourceServiceProviderProvider;
 import org.xpect.setup.ISetupInitializer;
 import org.xpect.xtext.lib.setup.XtextStandaloneSetup.ClassCtx;
 import org.xpect.xtext.lib.setup.XtextStandaloneSetup.Config;
@@ -86,7 +85,6 @@ public class XtextStandaloneSetup extends AbstractXtextSetup<ClassCtx, Config, T
 	@Override
 	public ClassCtx beforeClass(IClassSetupContext frameworkCtx) {
 		JvmModelInferrerRegistry.INSTANCE.setUseRegistry(false);
-		XtResourceServiceProviderProvider.INSTANCE.setSetupContext(frameworkCtx);
 		return new ClassCtx();
 	}
 

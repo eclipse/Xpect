@@ -11,8 +11,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.xpect.XpectConstants;
 import org.xpect.registry.ILanguageInfo;
-import org.xpect.setup.IXpectRunnerSetup.IClassSetupContext;
-import org.xpect.util.URIDelegationHandler;
+import org.xpect.runner.XpectRunner;
+import org.xpect.util.IXtInjectorProvider;
 
 import com.google.inject.Injector;
 
@@ -26,35 +26,13 @@ public class XtResourceServiceProviderProvider implements IResourceServiceProvid
 	private XtResourceServiceProviderProvider() {
 	}
 
-	private ThreadLocal<IClassSetupContext> setupContext = new ThreadLocal<IClassSetupContext>();
-
-	public synchronized void setSetupContext(IClassSetupContext setupContext) {
-		this.setupContext.set(setupContext);
-	}
-
-	private synchronized IClassSetupContext getSetupContext() {
-		return setupContext.get();
-	}
-
 	public IResourceServiceProvider get(URI uri, String contentType) {
-		String ext = new URIDelegationHandler().getOriginalFileExtension(uri.lastSegment());
-		if (ext != null) {
-			ILanguageInfo info = ILanguageInfo.Registry.INSTANCE.getLanguageByFileExtension(ext);
-			if (info == null)
-				throw new IllegalStateException("No Xtext language configuration found for file extension '" + ext + "'.");
-			Injector injector = info.getInjector();
-
-			// consider modules
-			if (getSetupContext() != null) {
-				injector = getSetupContext().getInjector(uri);
-			}
-
-			if (injector != null) {
+		if (XpectRunner.INSTANCE != null) {
+			Injector injector = IXtInjectorProvider.INSTANCE.getInjector(XpectRunner.INSTANCE.getXpectJavaModel(), uri);
+			if (injector != null)
 				return injector.getInstance(IResourceServiceProvider.class);
-			}
 		}
-		return ILanguageInfo.Registry.INSTANCE.getLanguageByFileExtension(XpectConstants.XT_FILE_EXT).getInjector()
-				.getInstance(IResourceServiceProvider.class);
+		Injector injector = ILanguageInfo.Registry.INSTANCE.getLanguageByFileExtension(XpectConstants.XT_FILE_EXT).getInjector();
+		return injector.getInstance(IResourceServiceProvider.class);
 	}
-
 }
