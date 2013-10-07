@@ -1,5 +1,7 @@
 package org.xpect.xtext.lib.util;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
@@ -14,6 +16,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 /**
  * @author Moritz Eysholdt - Initial contribution and API
@@ -23,6 +26,8 @@ public class EObjectFormatter implements Function<EObject, String> {
 	protected boolean resolveCrossReferences = false;
 
 	protected boolean showIndex = false;
+	
+	protected boolean sortFeatures = false;
 
 	public String apply(EObject from) {
 		return format(from);
@@ -41,11 +46,23 @@ public class EObjectFormatter implements Function<EObject, String> {
 		StringBuilder result = new StringBuilder();
 		result.append(object.eClass().getName());
 		result.append(" {");
-		for (EStructuralFeature feature : object.eClass().getEAllStructuralFeatures())
+		for (EStructuralFeature feature : getAllFeatures(object))
 			if (shouldFormat(object, feature))
 				result.append(indent("\n" + format(object, feature)));
 		result.append("\n}");
 		return result.toString();
+	}
+
+	protected List<EStructuralFeature> getAllFeatures(EObject object) {
+		if (!sortFeatures)
+			return object.eClass().getEAllStructuralFeatures();
+		List<EStructuralFeature> result = Lists.newArrayList(object.eClass().getEAllStructuralFeatures());
+		Collections.sort(result, new Comparator<EStructuralFeature>() {
+			public int compare(EStructuralFeature o1, EStructuralFeature o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
+		return result;
 	}
 
 	protected String format(EObject object, EStructuralFeature feature) {
@@ -143,6 +160,11 @@ public class EObjectFormatter implements Function<EObject, String> {
 
 	public EObjectFormatter showIndex() {
 		this.showIndex = true;
+		return this;
+	}
+	
+	public EObjectFormatter sortFeaturesByName() {
+		this.sortFeatures = true;
 		return this;
 	}
 
