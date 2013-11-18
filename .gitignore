@@ -1,8 +1,6 @@
 *.class
-
-# Package Files #
 *.jar
-*.war
-*.ear
 bin
 xtend-gen
+target
+.DS_Store
