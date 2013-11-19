@@ -14,9 +14,10 @@ Go to http://www.xpect-tests.org (and look for an Eclipse update-site).
 Prerequisite: Java 1.6 or newer; Eclipse 3.8 or 4.2 or newer; Xtext 2.4. 
 
  1. Clone https://github.com/meysholdt/Xpect (this repository)
- 2. Clone https://github.com/meysholdt/eclipse_jdt_junit_runners
- 3. Clone https://github.com/meysholdt/xtext_stateful_lexer
- 4. Import all projects from all repositories into your workspace.
- 5. Run /org.xpect/src/org/xpect/GenerateXpect.mwe2. 
+ 2. Import all projects into your Eclipse workspace.
+ 3. Set target platform /org.xpect.releng/target-platforms/org.xpect.target.target
+ 4. Run /org.xpect/src/org/xpect/GenerateXpect.mwe2. Now your projects should be without errors markers. 
+ 5. Run "mvn clean install" to build artefacts and create a p2 repository (formerly known as update site).
 
-Now your projects should be without errors markers.
+
+ 
