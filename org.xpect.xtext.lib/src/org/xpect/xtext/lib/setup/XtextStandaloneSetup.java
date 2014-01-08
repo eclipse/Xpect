@@ -68,5 +68,4 @@ public class XtextStandaloneSetup {
 		return ctx;
 	}
 
-
 }
