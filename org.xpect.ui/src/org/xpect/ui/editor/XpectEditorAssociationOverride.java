@@ -57,6 +57,9 @@ public class XpectEditorAssociationOverride implements IEditorAssociationOverrid
 
 	protected boolean hasFavoriteEditor(IFile file) {
 		try {
+			if (!file.exists()) {
+				return false;
+			}
 			String favoriteEditor = file.getPersistentProperty(IDE.EDITOR_KEY);
 			if (favoriteEditor != null)
 				return true;
