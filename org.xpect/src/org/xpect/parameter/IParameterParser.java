@@ -17,6 +17,14 @@ import org.xpect.XpectInvocation;
 import org.xpect.text.IRegion;
 
 /**
+ * 
+ * Parsing is done in two steps:
+ * <ol>
+ * <li>Claim regions, usually larger then the region to actually parse, e.g., the whole line (cf. {@link ParameterParser#endToken()}
+ * <li>Parse the regions, the region to parse is usually smaller than the claimed region.
+ * </ol>
+ * This way, we can avoid overlaps.
+ * 
  * @author Moritz Eysholdt - Initial contribution and API
  */
 public interface IParameterParser {
@@ -26,8 +34,14 @@ public interface IParameterParser {
 	}
 
 	public interface IMultiParameterParser extends IParameterParser {
+		/**
+		 * In a first step, each parser claims a region.
+		 */
 		IRegion claimRegion(XpectInvocation invocation);
 
+		/**
+		 * In second step all claimed regions are parsed.
+		 */
 		List<IParsedParameterProvider> parseRegion(XpectInvocation invocation, List<IClaimedRegion> claims);
 	}
 
