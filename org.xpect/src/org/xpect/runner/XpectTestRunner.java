@@ -19,7 +19,9 @@ import org.junit.runner.Description;
 import org.xpect.XjmXpectMethod;
 import org.xpect.XpectInvocation;
 import org.xpect.model.XpectInvocationImplCustom;
+import org.xpect.parameter.IParameterParser;
 import org.xpect.parameter.IParameterProvider;
+import org.xpect.parameter.ParameterParser;
 import org.xpect.parameter.ParameterProvider;
 import org.xpect.setup.ThisTestObject;
 import org.xpect.state.Creates;
@@ -28,6 +30,10 @@ import org.xpect.state.StateContainer;
 import com.google.common.base.Preconditions;
 
 /**
+ * Runs a single test by retrieving arguments from parsers and state container.
+ * In order to call a test method, the arguments are to be computed. This is done via
+ * {@link StateContainer#tryGet(Class, Object...)}.
+ * 
  * @author Moritz Eysholdt - Initial contribution and API
  */
 public class XpectTestRunner extends AbstractTestRunner {

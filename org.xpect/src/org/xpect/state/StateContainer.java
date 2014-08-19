@@ -10,6 +10,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.xtext.util.IAcceptor;
+import org.xpect.parameter.IParameterAdapter;
+import org.xpect.parameter.IParameterParser;
+import org.xpect.parameter.IParameterProvider;
+import org.xpect.parameter.ParameterParser;
+import org.xpect.parameter.XpectParameterAdapter;
+import org.xpect.runner.XpectRunner;
 import org.xpect.state.ResolvedConfiguration.DerivedValue;
 import org.xpect.state.ResolvedConfiguration.Factory;
 import org.xpect.state.ResolvedConfiguration.PrimaryValue;
@@ -20,6 +26,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+/**
+ * Similar to a Guice injector. It is created from the {@link Configuration} by the Xpect runners. It can inject using key (annotation) and type (of object). If the type is unique,
+ * the default annotation is used and only the type is used as a key. This injector is aware of dependencies, that is, if an object is to be created which needs other objects,
+ * these other objects are created as well.
+ * <p>
+ * The state container is also used to retrieve arguments for a test method call, see {@link #tryGet(Class, Object...)} for details.
+ * 
+ */
 public class StateContainer {
 	protected class FactoryInstance {
 		private final List<Instance> dependees = Lists.newArrayList();
@@ -190,6 +204,20 @@ public class StateContainer {
 		return get(expectedType, true, annotations);
 	}
 
+	/**
+	 * The following workflow is performed to get the argument of expected type (annotated with given annotations):
+	 * <ol>
+	 * <li>get "raw" value:
+	 * <ol>
+	 * <li>get the parameter from the parser defined by {@link ParameterParser} if possible
+	 * <li>if this fails, get value identified via annotations (used as key) and type
+	 * </ol>
+	 * <li>for all parsers (some parameters may be parsers, e.g., expectations), get the {@link IParameterProvider} via {@code parseRegion()} defined similarly (not equally) in
+	 * {@link IParameterParser} subtypes.
+	 * <li>if necessary, also create {@link IParameterAdapter}, configured via {@link XpectParameterAdapter}.
+	 * <li>use {@link IParameterProvider} or {@link IParameterAdapter} to get argument
+	 * </ol>
+	 */
 	public <T> T tryGet(Class<T> expectedType, Object... annotations) {
 		Managed<T> managed = get(expectedType, false, annotations);
 		if (managed != null)

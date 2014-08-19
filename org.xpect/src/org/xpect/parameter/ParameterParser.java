@@ -48,6 +48,12 @@ import com.google.common.collect.Maps;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @MultiParameterParser(ParameterParserImpl.class)
+/**
+ * Parses text between method name and expectation separator ('---' or '-->') in order to
+ * provide arguments for the test. Syntax similar to Xtext, including alternatives etc.
+ *  
+ *  
+ */
 public @interface ParameterParser {
 	public static class AssignedProduction extends StringProduction {
 
@@ -312,10 +318,25 @@ public @interface ParameterParser {
 	}
 
 	public enum Token {
+		/**
+		 * String
+		 */
 		ID("[a-zA-Z][a-zA-Z0-9_]*"), //
+		/**
+		 * Integer
+		 */
 		INT("[0-9]+"), //
+		/**
+		 * Integer, returns position of first occurrence of pattern below the test 
+		 */
 		OFFSET("'([^']*)'|[^\\s]+"), //
+		/**
+		 * String, returns the string inside the quotes.
+		 */
 		STRING("'([^']*)'"), //
+		/**
+		 * String, similar to ID but accepts more characters, i.e. anything that is not whitespace
+		 */
 		TEXT("[^\\s]+");
 
 		public final Pattern pattern;
