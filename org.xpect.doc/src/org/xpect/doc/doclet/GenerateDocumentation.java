@@ -12,7 +12,7 @@ import org.xpect.parameter.IParameterParser.SingleParameterParser;
 import org.xpect.runner.Xpect;
 import org.xpect.runner.XpectSuiteClasses;
 import org.xpect.runner.XpectURIProvider;
-import org.xpect.setup.IXpectRunnerSetup;
+import org.xpect.setup.IXpectSetup;
 import org.xpect.setup.XpectSetup;
 
 import com.google.common.base.Charsets;
@@ -115,7 +115,7 @@ public class GenerateDocumentation {
 
 	private Chapter generateSetups() {
 		Chapter chapter = new Chapter("Setups");
-		for (ClassDoc cls : root.findSubclassesOf(IXpectRunnerSetup.class))
+		for (ClassDoc cls : root.findSubclassesOf(IXpectSetup.class))
 			if (!cls.isAbstract()) {
 				Chapter c = new Chapter(cls.qualifiedName());
 				c.add(cls.commentText());
