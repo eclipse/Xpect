@@ -1,6 +1,7 @@
 package org.xpect.doc.doclet;
 
 
+
 public class GenerateDocumentation {
 
 //	private static String GIT_SRC = "../";
@@ -122,4 +123,5 @@ public class GenerateDocumentation {
 //			return false;
 //		}
 //	}
+
 }
