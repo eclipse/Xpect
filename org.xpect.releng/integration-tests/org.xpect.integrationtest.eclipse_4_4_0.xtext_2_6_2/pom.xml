@@ -26,29 +26,4 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-surefire-plugin</artifactId>
-				<version>0.19.0</version>
-				<configuration>
-					<dependencies>
-						<dependency>
-							<!-- we need to include this explicitly because it's a fragment -->
-							<type>eclipse-plugin</type>
-							<artifactId>org.eclipse.xtext.example.arithmetics.xpect.tests</artifactId>
-							<groupId>org.eclipse.xtext.example.arithmetics</groupId>
-						</dependency>
-						<dependency>
-							<type>eclipse-plugin</type>
-							<artifactId>org.eclipse.xtext.logging</artifactId>
-						</dependency>
-					</dependencies>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
-
 </project>
