@@ -1,0 +1,17 @@
+   XPECT_SETUP org.xpect.tests.runner.RunnerTest END_SETUP
+
+test passes: green 
+XPECT expectedExpectation --> expectedExpectation
+
+tests fails: can assert the error as a diff
+XPECT testFailureDiff --> ['other'|expectedExpectation]
+XPECT expectedExpectation --> 'other'
+
+test fails as expected by FIXME, therefore the test is green
+XPECT FIXME expectedExpectation --> "a xyz"
+
+the test passes as *not* expected by FIXME, therefore we can assert an error message
+XPECT testFailureMessage --> Congrats, this FIXME test is suddenly fixed!
+XPECT FIXME expectedExpectation --> expectedExpectation
+
+

@@ -24,6 +24,11 @@
   <eClassifiers xsi:type="ecore:EClass" name="XpectInvocation" eSuperTypes="#//Member">
     <eOperations name="getMethodName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ignore" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fixme" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Flag to indicate that the reported issue is a bug and will be fixed in future development steps.&#xA;Semantically this will break the build if and only if the issue is not encountered any more. (a.k.a. is fixed).&#xA;This can help tracking known issues. "/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="method" eType="ecore:EClass XpectJavaModel.ecore#//XjmXpectMethod"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameters" unique="false"
         upperBound="-1" eType="#//ParameterProvider" changeable="false" transient="true"
