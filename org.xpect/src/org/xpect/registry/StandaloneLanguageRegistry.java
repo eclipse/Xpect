@@ -8,6 +8,7 @@
 package org.xpect.registry;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -18,6 +19,8 @@ import org.xpect.XpectConstants;
 import org.xpect.registry.IEmfFileExtensionInfo.IXtextFileExtensionInfo;
 import org.xpect.services.XtResourceServiceProviderProvider;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -34,10 +37,17 @@ public class StandaloneLanguageRegistry implements ILanguageInfo.Registry {
 		}
 
 		protected Injector createInjector(Module... modules) {
-			if (modules.length > 0)
-				return Guice.createInjector(Modules2.mixin(getRuntimeModule(), Modules2.mixin(modules)));
-			else
-				return Guice.createInjector(getRuntimeModule());
+			try {
+				if (modules.length > 0)
+					return Guice.createInjector(Modules2.mixin(getRuntimeModule(), Modules2.mixin(modules)));
+				else
+					return Guice.createInjector(getRuntimeModule());
+			} catch (Throwable t) {
+				List<String> moduleNames = Lists.newArrayList(getRuntimeModule().getClass().getName());
+				for (Module m : modules)
+					moduleNames.add(m.getClass().getName());
+				throw new RuntimeException("Error creating Injector with modules " + Joiner.on(", ").join(moduleNames), t);
+			}
 		}
 
 	}
@@ -96,8 +106,7 @@ public class StandaloneLanguageRegistry implements ILanguageInfo.Registry {
 
 	protected void registerRSPProviderForXt() {
 		if (IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().get(XpectConstants.XT_FILE_EXT) == null) {
-			IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().put(XpectConstants.XT_FILE_EXT,
-					XtResourceServiceProviderProvider.INSTANCE);
+			IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().put(XpectConstants.XT_FILE_EXT, XtResourceServiceProviderProvider.INSTANCE);
 		}
 	}
 
