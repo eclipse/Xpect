@@ -1,0 +1,15 @@
+/** XPECT_SETUP org.xpect.tests.fixme.FixmeTest 
+	END_SETUP  
+ */
+	
+// green XPECT joy --> 'fun'
+
+// blue XPECT joy --> 'other'
+
+// if FIXME really works, this is green
+// green! XPECT FIXME joy --> "a xyz"
+
+// if FIXME really works, this is blue (fails)
+// XPECT FIXME joy --> 'fun'
+
+
