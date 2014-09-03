@@ -16,18 +16,11 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated Xpect -->
       <package
-            uri="http://www.eclipse.org/xpect/Xpect"
-            class="org.xpect.XpectPackage"
-            genModel="model/Xpect.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated Xpect -->
-      <package
             uri="http://www.eclipse.org/xpect/XpectJavaModel"
             class="org.xpect.XpectJavaModelPackage"
             genModel="model/Xpect.genmodel"/>
    </extension>
+   
    <extension
          point="org.xpect.fileExtensions">
       <fileExtension
