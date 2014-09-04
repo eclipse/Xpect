@@ -12,6 +12,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
+import junit.framework.AssertionFailedError;
+
 import org.eclipse.emf.common.util.EList;
 import org.junit.runner.Description;
 import org.xpect.XjmMethod;
@@ -122,14 +124,26 @@ public class XpectTestRunner extends AbstractTestRunner {
 		// ctx.setXpectInvocation(getInvocation());
 		// ctx.setMethod(getMethod());
 		// ctx.setTestInstance(test);
+		boolean fixmeMessage = false;
 		try {
 			// if (setup != null)
 			// ctx.setUserTestCtx(setup.beforeTest(ctx, ctx.getUserFileCtx()));
 			List<IParameterProvider> parameterProviders = collectParameters();
 			Object[] params = createParameterValues(parameterProviders);
 			getMethod().getJavaMethod().invoke(test, params);
+			// reaching this point implies that no exception was thrown, hence the test passes.
+			if( invocation.isFixme() ) {
+				fixmeMessage = true;
+				throw new InvocationTargetException( new AssertionFailedError("Congrats, this FIXME test is suddenly fixed!"));
+			}
 		} catch (InvocationTargetException e) {
-			throw e.getCause();
+			Throwable cause = e.getCause();
+			if( invocation.isFixme() && ! fixmeMessage ) {
+				// swallow 
+			} else {
+				// rethrow
+				throw cause;
+			}
 		}
 		// finally {
 		// if (setup != null)
