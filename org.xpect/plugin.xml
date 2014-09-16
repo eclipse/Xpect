@@ -20,6 +20,7 @@
             class="org.xpect.XpectJavaModelPackage"
             genModel="model/Xpect.genmodel"/>
    </extension>
+   
    <extension
          point="org.xpect.fileExtensions">
       <fileExtension
