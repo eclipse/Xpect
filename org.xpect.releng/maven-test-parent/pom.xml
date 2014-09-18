@@ -166,61 +166,94 @@
       </build>
     </profile>
 
+    <profile>
+      <id>osx</id>
+      <activation>
+        <os>
+          <family>mac</family>
+        </os>
+      </activation>
+      <properties>
+        <os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
+      </properties>
+      <build>
+
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.eclipse.tycho</groupId>
+              <artifactId>tycho-surefire-plugin</artifactId>
+              <version>${tycho-version}</version>
+              <configuration>
+
+                <!-- makes test run in UI thread when under OSX -->
+                <argLine>-XstartOnFirstThread</argLine>
+
+                <dependencies>
+                  <dependency>
+                    <type>eclipse-plugin</type>
+                    <artifactId>org.eclipse.xtext.logging</artifactId>
+                  </dependency>
+                  <dependency>
+                    <!-- we need to include this explicitly because it's a fragment -->
+                    <type>eclipse-plugin</type>
+                    <artifactId>org.eclipse.xtext.example.arithmetics.xpect.tests</artifactId>
+                    <groupId>org.eclipse.xtext.example.arithmetics</groupId>
+                  </dependency>
+                  <!-- makes OSX JVM visible to test environment -->
+                  <dependency>
+                    <type>eclipse-plugin</type>
+                    <artifactId>org.eclipse.jdt.launching.macosx</artifactId>
+                  </dependency>
+                  <dependency>
+                    <type>eclipse-plugin</type>
+                    <artifactId>org.eclipse.jdt.launching.ui.macosx</artifactId>
+                  </dependency>
+                </dependencies>
+
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+
 	  <profile>
-	    <id>osx</id>
+	    <id>linux</id>
 	    <activation>
 	      <os>
-	        <family>mac</family>
+	        <family>unix</family>
 	      </os>
 	    </activation>
-			<properties>
-				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
-			</properties>
 	    <build>
 
-	      <pluginManagement>
-	        <plugins>
-	          <plugin>
-	            <groupId>org.eclipse.tycho</groupId>
-	            <artifactId>tycho-surefire-plugin</artifactId>
-	            <version>${tycho-version}</version>
-	            <configuration>
+      <pluginManagement>
+        <plugins>
+          <plugin>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>tycho-surefire-plugin</artifactId>
+            <version>${tycho-version}</version>
+            <configuration>
 
-								<useSystemClassLoader>false</useSystemClassLoader>
+              <dependencies>
+								<dependency>
+									<type>eclipse-plugin</type>
+									<artifactId>org.eclipse.xtext.logging</artifactId>
+								</dependency>
+                <dependency>
+                  <!-- we need to include this explicitly because it's a fragment -->
+                  <type>eclipse-plugin</type>
+                  <artifactId>org.eclipse.xtext.example.arithmetics.xpect.tests</artifactId>
+                  <groupId>org.eclipse.xtext.example.arithmetics</groupId>
+                </dependency>
+              </dependencies>
 
-	              <!-- makes test run in UI thread when under OSX -->
-	              <argLine>-XstartOnFirstThread</argLine>
-
-	              <!-- makes OSX JVM visible to test environment -->
-	              <dependencies>
-									<dependency>
-										<type>eclipse-plugin</type>
-										<artifactId>org.eclipse.xtext.logging</artifactId>
-									</dependency>
-	                <dependency>
-	                  <type>eclipse-plugin</type>
-	                  <artifactId>org.eclipse.jdt.launching.macosx</artifactId>
-	                </dependency>
-									<dependency>
-										<type>eclipse-plugin</type>
-										<artifactId>org.eclipse.jdt.launching.ui.macosx</artifactId>
-									</dependency>
-	              </dependencies>
-
-                <environments>
-	                <environment>
-                    <os>macosx</os>
-                    <ws>cocoa</ws>
-                    <arch>x86_64</arch>
-                  </environment>
-                </environments>
-
-	            </configuration>
-	          </plugin>
-	        </plugins>
-	      </pluginManagement>
-	    </build>
-	  </profile>
+            </configuration>
+          </plugin>
+        </plugins>
+      </pluginManagement>
+    </build>
+  </profile>
 
   </profiles>
 </project>
