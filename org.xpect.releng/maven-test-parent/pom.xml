@@ -161,6 +161,29 @@
                 </environments>
               </configuration>
             </plugin>
+
+            <plugin>
+              <groupId>org.eclipse.tycho</groupId>
+              <artifactId>tycho-surefire-plugin</artifactId>
+              <version>${tycho-version}</version>
+              <configuration>
+
+                <dependencies>
+                  <dependency>
+                    <type>eclipse-plugin</type>
+                    <artifactId>org.eclipse.xtext.logging</artifactId>
+                  </dependency>
+                  <dependency>
+                    <!-- we need to include this explicitly because it's a fragment -->
+                    <type>eclipse-plugin</type>
+                    <artifactId>org.eclipse.xtext.example.arithmetics.xpect.tests</artifactId>
+                    <groupId>org.eclipse.xtext.example.arithmetics</groupId>
+                  </dependency>
+                </dependencies>
+
+              </configuration>
+            </plugin>
+
           </plugins>
         </pluginManagement>
       </build>
@@ -217,43 +240,5 @@
         </pluginManagement>
       </build>
     </profile>
-
-	  <profile>
-	    <id>linux</id>
-	    <activation>
-	      <os>
-	        <family>unix</family>
-	      </os>
-	    </activation>
-	    <build>
-
-      <pluginManagement>
-        <plugins>
-          <plugin>
-            <groupId>org.eclipse.tycho</groupId>
-            <artifactId>tycho-surefire-plugin</artifactId>
-            <version>${tycho-version}</version>
-            <configuration>
-
-              <dependencies>
-								<dependency>
-									<type>eclipse-plugin</type>
-									<artifactId>org.eclipse.xtext.logging</artifactId>
-								</dependency>
-                <dependency>
-                  <!-- we need to include this explicitly because it's a fragment -->
-                  <type>eclipse-plugin</type>
-                  <artifactId>org.eclipse.xtext.example.arithmetics.xpect.tests</artifactId>
-                  <groupId>org.eclipse.xtext.example.arithmetics</groupId>
-                </dependency>
-              </dependencies>
-
-            </configuration>
-          </plugin>
-        </plugins>
-      </pluginManagement>
-    </build>
-  </profile>
-
   </profiles>
 </project>
