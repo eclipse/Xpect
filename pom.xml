@@ -7,6 +7,9 @@
 	<artifactId>org.xpect.root</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	<properties>
+		<tycho-version>0.19.0</tycho-version>
+	</properties>
 	<modules>
 		<module>org.xpect.releng/target-platforms</module>
 		<module>org.xpect</module>
