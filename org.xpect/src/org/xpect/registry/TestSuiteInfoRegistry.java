@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.xpect.util.URIDelegationHandler;
 
@@ -17,6 +18,9 @@ import com.google.common.collect.Multimap;
 
 public class TestSuiteInfoRegistry implements ITestSuiteInfo.Registry {
 
+	private static final String ORG_XPECT_TEST_SUITE = "org.xpect.testSuite";
+	private final static Logger LOG = Logger.getLogger(TestSuiteInfoRegistry.class);
+
 	public static class Delegate implements ITestSuiteInfo.Registry {
 
 		private ITestSuiteInfo.Registry delegate;
@@ -27,6 +31,11 @@ public class TestSuiteInfoRegistry implements ITestSuiteInfo.Registry {
 
 		public void setDelegate(ITestSuiteInfo.Registry delegate) {
 			this.delegate = delegate;
+		}
+
+		@Override
+		public String toString() {
+			return delegate.toString();
 		}
 	}
 
@@ -64,9 +73,17 @@ public class TestSuiteInfoRegistry implements ITestSuiteInfo.Registry {
 
 	public TestSuiteInfoRegistry() {
 		Multimap<LazyClass<Object>, String> suiteToExt = HashMultimap.create();
-		for (IExtensionInfo info : IExtensionInfo.Registry.INSTANCE.getExtensions("org.xpect.testSuite")) {
+		for (IExtensionInfo info : IExtensionInfo.Registry.INSTANCE.getExtensions(ORG_XPECT_TEST_SUITE)) {
 			LazyClass<Object> clazz = LazyClass.create(Object.class, info, "class");
+			if (clazz == null) {
+				LOG.warn("Attribute 'class' missing for extension '" + ORG_XPECT_TEST_SUITE + "' in " + info.getLocation());
+				continue;
+			}
 			String fileExtension = info.getAttributeValue("fileExtension");
+			if (fileExtension == null) {
+				LOG.warn("Attribute 'fileExtension' missing for extension '" + ORG_XPECT_TEST_SUITE + "' in " + info.getLocation());
+				continue;
+			}
 			suiteToExt.put(clazz, fileExtension);
 		}
 		Map<String, ITestSuiteInfo> infos = Maps.newHashMap();
