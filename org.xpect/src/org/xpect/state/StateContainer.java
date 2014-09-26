@@ -15,7 +15,6 @@ import org.xpect.parameter.IParameterParser;
 import org.xpect.parameter.IParameterProvider;
 import org.xpect.parameter.ParameterParser;
 import org.xpect.parameter.XpectParameterAdapter;
-import org.xpect.runner.XpectRunner;
 import org.xpect.state.ResolvedConfiguration.DerivedValue;
 import org.xpect.state.ResolvedConfiguration.Factory;
 import org.xpect.state.ResolvedConfiguration.PrimaryValue;
