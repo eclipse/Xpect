@@ -16,14 +16,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.xtext.common.types.access.ClasspathTypeProviderFactory;
 import org.eclipse.xtext.resource.ClassloaderClasspathUriResolver;
 import org.eclipse.xtext.resource.XtextResourceFactory;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.ui.util.JdtClasspathUriResolver;
 import org.xpect.XpectFile;
 import org.xpect.XpectJavaModel;
-import org.xpect.XpectTest;
 import org.xpect.runner.XpectRunner;
 import org.xpect.ui.internal.XpectActivator;
 
@@ -32,7 +30,6 @@ import com.google.inject.Injector;
 /**
  * @author Moritz Eysholdt - Initial contribution and API
  */
-@SuppressWarnings("restriction")
 public class XpectUtil {
 	public static XpectFile loadFile(IFile file) {
 		Injector injector = XpectActivator.getInstance().getInjector(XpectActivator.ORG_XPECT_XPECT);
@@ -41,7 +38,6 @@ public class XpectUtil {
 		if (XpectRunner.testClassloader != null) {
 			rs.setClasspathURIContext(XpectRunner.testClassloader);
 			rs.setClasspathUriResolver(new ClassloaderClasspathUriResolver());
-			new ClasspathTypeProviderFactory(XpectRunner.testClassloader).createTypeProvider(rs);
 		} else if (javaProject != null && javaProject.exists()) {
 			rs.setClasspathURIContext(javaProject);
 			rs.setClasspathUriResolver(new JdtClasspathUriResolver());
@@ -62,12 +58,8 @@ public class XpectUtil {
 
 	public static XpectJavaModel loadJavaModel(IFile file) {
 		XpectFile xpectFile = XpectUtil.loadFile(file);
-		if (xpectFile != null) {
-			XpectTest xpectTest = xpectFile.getTest();
-			if (xpectTest != null && !xpectTest.eIsProxy()) {
-				return xpectTest.getTestClassOrSuite();
-			}
-		}
+		if (xpectFile != null)
+			return xpectFile.getJavaModel();
 		return null;
 	}
 

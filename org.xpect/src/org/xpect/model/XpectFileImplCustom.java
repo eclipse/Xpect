@@ -9,10 +9,19 @@ package org.xpect.model;
 
 import java.util.Map;
 
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.xtext.common.types.JvmDeclaredType;
+import org.eclipse.xtext.common.types.JvmType;
+import org.eclipse.xtext.common.types.access.IJvmTypeProvider;
 import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.resource.XtextResourceSet;
 import org.xpect.XpectIgnore;
 import org.xpect.XpectInvocation;
+import org.xpect.XpectJavaModel;
 import org.xpect.XpectTest;
+import org.xpect.registry.ITestSuiteInfo;
+import org.xpect.registry.LazyClass;
+import org.xpect.util.XpectJavaModelManager;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
@@ -20,9 +29,40 @@ import com.google.common.collect.Maps;
 /**
  * @author Moritz Eysholdt - Initial contribution and API
  */
+@SuppressWarnings("restriction")
 public class XpectFileImplCustom extends XpectFileImpl {
 
 	private Map<String, XpectInvocation> id2invocation;
+
+	private XpectJavaModel javaModel;
+
+	private XpectJavaModel findJavaModel() {
+		XtextResource resource = (XtextResource) eResource();
+		ResourceSet resourceSet = (XtextResourceSet) resource.getResourceSet();
+		XpectTest test = getTest();
+		if (test != null) {
+			JvmDeclaredType suite = test.getDeclaredSuite();
+			if (suite != null) {
+				if (suite.eIsProxy())
+					return null;
+				return XpectJavaModelManager.getOrCreate(suite);
+			}
+		}
+		ITestSuiteInfo suiteInfo = ITestSuiteInfo.Registry.INSTANCE.getTestSuite(eResource());
+		if (suiteInfo == null)
+			return null;
+		LazyClass<Object> lazyClass = suiteInfo.getClazz();
+		if (lazyClass.getLoader() == null) {
+			IJvmTypeProvider iJvmTypeProvider = resource.getResourceServiceProvider().get(IJvmTypeProvider.Factory.class).findOrCreateTypeProvider(resourceSet);
+			JvmType eObject = iJvmTypeProvider.findTypeByName(lazyClass.getName());
+			if (eObject instanceof JvmDeclaredType)
+				return XpectJavaModelManager.getOrCreate((JvmDeclaredType) eObject);
+		} else {
+			Class<Object> clazz = lazyClass.load();
+			return XpectJavaModelManager.getOrCreate(resourceSet, clazz);
+		}
+		return null;
+	}
 
 	public String getDocument() {
 		return ((XtextResource) eResource()).getParseResult().getRootNode().getText();
@@ -38,6 +78,13 @@ public class XpectFileImplCustom extends XpectFileImpl {
 	@Override
 	public Iterable<XpectInvocation> getInvocations() {
 		return Iterables.filter(getMembers(), XpectInvocation.class);
+	}
+
+	@Override
+	public XpectJavaModel getJavaModel() {
+		if (javaModel == null)
+			javaModel = findJavaModel();
+		return javaModel;
 	}
 
 	@Override
@@ -72,5 +119,9 @@ public class XpectFileImplCustom extends XpectFileImpl {
 			for (XpectInvocation inv : getInvocations())
 				((XpectInvocationImplCustom) inv).setId(null);
 		}
+	}
+
+	public void unsetJavaModel() {
+		javaModel = null;
 	}
 }

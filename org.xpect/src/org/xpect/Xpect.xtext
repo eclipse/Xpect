@@ -19,7 +19,7 @@ Text:
 ;
 	
 Lexicalspace_Setup returns XpectTest hidden(WS, ML_COMMENT, SL_COMMENT):
-	{XpectTest} "XPECT_SETUP" testClassOrSuite=[xjm::XpectJavaModel|QualifiedName] 
+	{XpectTest} "XPECT_SETUP" declaredSuite=[types::JvmDeclaredType|QualifiedName]? 
 	assignments+=Assignment*
 	"END_SETUP"
 ;
@@ -57,7 +57,7 @@ XpectIgnore:
 	{XpectIgnore} "XPECT_IGNORE";
 
 Lexicalspace_Invocation returns XpectInvocation hidden(WS, ML_COMMENT, SL_COMMENT):
-	"XPECT" ignore?="!"? method=[xjm::XjmXpectMethod|INVOCATION];
+	"XPECT" ignore?="!"? (fixme?="FIXME")? method=[xjm::XjmXpectMethod|INVOCATION];
 	
 AnyText:
 	ANY_OTHER+

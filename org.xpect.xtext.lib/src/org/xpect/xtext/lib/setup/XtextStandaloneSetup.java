@@ -6,7 +6,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
-import org.eclipse.xtext.xbase.jvmmodel.JvmModelInferrerRegistry;
 import org.xpect.Environment;
 import org.xpect.parameter.XpectParameterAdapter;
 import org.xpect.setup.ThisRootTestClass;
@@ -22,7 +21,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 
-@SuppressWarnings("restriction")
 @XpectParameterAdapter(XtextOffsetAdapter.class)
 @XpectSetup({ XtextTargetSyntaxSupport.class, XtextTestObjectSetup.class, InjectorSetup.class, XtextValidatingSetup.class })
 public class XtextStandaloneSetup {
@@ -42,7 +40,7 @@ public class XtextStandaloneSetup {
 		super();
 		this.resourceSetConfig = resourceSet;
 		this.ctx = ctx;
-		JvmModelInferrerRegistry.INSTANCE.setUseRegistry(false);
+		JvmModelInferrerRegistryFix.apply();
 		injector.injectMembers(this);
 	}
 

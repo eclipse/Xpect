@@ -12,11 +12,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
+import junit.framework.AssertionFailedError;
+
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.junit.runner.Description;
-import org.xpect.XjmMethod;
 import org.xpect.XjmXpectMethod;
 import org.xpect.XpectInvocation;
 import org.xpect.model.XpectInvocationImplCustom;
@@ -24,9 +23,8 @@ import org.xpect.parameter.IParameterParser;
 import org.xpect.parameter.IParameterProvider;
 import org.xpect.parameter.ParameterParser;
 import org.xpect.parameter.ParameterProvider;
-import org.xpect.setup.ThisTestClass;
 import org.xpect.setup.ThisTestObject;
-import org.xpect.state.Configuration;
+import org.xpect.state.Creates;
 import org.xpect.state.StateContainer;
 
 import com.google.common.base.Preconditions;
@@ -39,29 +37,14 @@ import com.google.common.base.Preconditions;
  * @author Moritz Eysholdt - Initial contribution and API
  */
 public class XpectTestRunner extends AbstractTestRunner {
-
 	private final XpectInvocation invocation;
 	private final StateContainer state;
 
-	public XpectTestRunner(XpectFileRunner uriRunner, XpectInvocation invocation) {
+	public XpectTestRunner(StateContainer state, XpectFileRunner uriRunner, XpectInvocation invocation) {
 		super(uriRunner);
 		Preconditions.checkNotNull(invocation);
 		this.invocation = invocation;
-		this.state = createState(createConfiguration());
-	}
-
-	@Override
-	public StateContainer getState() {
-		return state;
-	}
-
-	protected Configuration createConfiguration() {
-		Configuration config = new Configuration();
-		config.addValue(ThisTestClass.class, Class.class, this.invocation.getMethod().getTest().getJavaClass());
-		config.addDefaultValue(XpectInvocation.class, this.invocation);
-		config.addDefaultValue(XjmXpectMethod.class, this.invocation.getMethod());
-		config.addDefaultValue(XjmMethod.class, this.invocation.getMethod());
-		return config;
+		this.state = state;
 	}
 
 	protected List<IParameterProvider> collectParameters() {
@@ -91,15 +74,16 @@ public class XpectTestRunner extends AbstractTestRunner {
 		return result;
 	}
 
+	@Creates
+	public XpectTestRunner create() {
+		return this;
+	}
+
 	public Description createDescription() {
-		XpectRunner runner = getUriRunner().getRunner();
+		XpectRunner runner = getFileRunner().getRunner();
 		Class<?> javaClass = runner.getTestClass().getJavaClass();
-		URI uri = runner.getUriProvider().deresolveToProject(EcoreUtil.getURI(invocation));
-		String title = getTitle();
-		if (title != null)
-			return Description.createTestDescription(javaClass, uri.toString() + ": " + title);
-		else
-			return Description.createTestDescription(javaClass, uri.toString());
+		Description description = DescriptionFactory.createTestDescription(javaClass, runner.getUriProvider(), invocation);
+		return description;
 	}
 
 	protected Object[] createParameterValues(List<IParameterProvider> proposedParameters) {
@@ -121,8 +105,9 @@ public class XpectTestRunner extends AbstractTestRunner {
 		return invocation.getMethod();
 	}
 
-	protected String getTitle() {
-		return new XpectTestTitleProvider().getTitle(invocation);
+	@Override
+	public StateContainer getState() {
+		return state;
 	}
 
 	@Override
@@ -138,14 +123,26 @@ public class XpectTestRunner extends AbstractTestRunner {
 		// ctx.setXpectInvocation(getInvocation());
 		// ctx.setMethod(getMethod());
 		// ctx.setTestInstance(test);
+		boolean fixmeMessage = false;
 		try {
 			// if (setup != null)
 			// ctx.setUserTestCtx(setup.beforeTest(ctx, ctx.getUserFileCtx()));
 			List<IParameterProvider> parameterProviders = collectParameters();
 			Object[] params = createParameterValues(parameterProviders);
 			getMethod().getJavaMethod().invoke(test, params);
+			// reaching this point implies that no exception was thrown, hence the test passes.
+			if( invocation.isFixme() ) {
+				fixmeMessage = true;
+				throw new InvocationTargetException( new AssertionFailedError("Congrats, this FIXME test is suddenly fixed!"));
+			}
 		} catch (InvocationTargetException e) {
-			throw e.getCause();
+			Throwable cause = e.getCause();
+			if( invocation.isFixme() && ! fixmeMessage ) {
+				// swallow 
+			} else {
+				// rethrow
+				throw cause;
+			}
 		}
 		// finally {
 		// if (setup != null)

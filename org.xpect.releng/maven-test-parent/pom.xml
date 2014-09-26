@@ -11,26 +11,23 @@
 		<os-jvm-flags />
 		<memory-settings>-Xmx1G</memory-settings>
 		<target-platform-artifactId>org.xpect.target.eclipse_3_8_2-xtext_2_4_0</target-platform-artifactId>
+		<tycho-version>0.19.0</tycho-version>
 	</properties>
-
-	<profiles>
-		<profile>
-			<id>macosx-jvm-flags</id>
-			<activation>
-				<os>
-					<family>mac</family>
-				</os>
-			</activation>
-			<properties>
-				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
-			</properties>
-		</profile>
-	</profiles>
 
 	<build>
 		<!-- make sure surefire finds our test classes even though they are in 
 			the "src" folder -->
 		<testOutputDirectory>target/classes</testOutputDirectory>
+
+		<pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-surefire-plugin</artifactId>
+          <version>${tycho-version}</version>
+        </plugin>
+      </plugins>
+		</pluginManagement>
 
 		<plugins>
 
@@ -38,7 +35,7 @@
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-maven-plugin</artifactId>
-				<version>0.19.0</version>
+				<version>${tycho-version}</version>
 				<extensions>true</extensions>
 			</plugin>
 
@@ -46,7 +43,7 @@
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
-				<version>0.19.0</version>
+				<version>${tycho-version}</version>
 				<configuration>
 					<target>
 						<artifact>
@@ -55,18 +52,6 @@
 							<version>0.1.0-SNAPSHOT</version>
 						</artifact>
 					</target>
-					<environments>
-						<!-- <environment> <os>linux</os> <ws>gtk</ws> <arch>x86</arch> </environment> 
-							<environment> <os>linux</os> <ws>gtk</ws> <arch>x86_64</arch> </environment> 
-							<environment> <os>win32</os> <ws>win32</ws> <arch>x86</arch> </environment> 
-							<environment> <os>macosx</os> <ws>cocoa</ws> <arch>x86</arch> </environment> 
-							<environment> <os>win32</os> <ws>win32</ws> <arch>x86_64</arch> </environment> -->
-						<environment>
-							<os>macosx</os>
-							<ws>cocoa</ws>
-							<arch>x86_64</arch>
-						</environment>
-					</environments>
 				</configuration>
 			</plugin>
 
@@ -123,12 +108,6 @@
 					<useUIHarness>true</useUIHarness>
 					<useUIThread>true</useUIThread>
 					<argLine>${memory-settings} ${os-jvm-flags}</argLine>
-					<dependencies>
-						<dependency>
-							<type>eclipse-plugin</type>
-							<artifactId>org.eclipse.xtext.logging</artifactId>
-						</dependency>
-					</dependencies>
 					<!-- <debugPort>5005</debugPort> -->
 				</configuration>
 				<!-- <executions> <execution> <phase>integration-test</phase> <goals> 
@@ -136,4 +115,130 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+
+    <profile>
+      <id>non-osx</id>
+      <activation>
+        <os>
+          <family>!mac</family>
+        </os>
+      </activation>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.eclipse.tycho</groupId>
+              <artifactId>target-platform-configuration</artifactId>
+              <configuration>
+                <environments>
+                  <environment>
+                    <os>linux</os>
+                    <ws>gtk</ws>
+                    <arch>x86</arch>
+                  </environment>
+                  <environment>
+                    <os>linux</os>
+                    <ws>gtk</ws>
+                    <arch>x86_64</arch>
+                  </environment>
+                  <environment>
+                    <os>win32</os>
+                    <ws>win32</ws>
+                    <arch>x86</arch>
+                  </environment>
+                  <environment>
+                    <os>win32</os>
+                    <ws>win32</ws>
+                    <arch>x86_64</arch>
+                  </environment>
+                  <environment>
+                    <os>macosx</os>
+                    <ws>cocoa</ws>
+                    <arch>x86_64</arch>
+                  </environment>
+                </environments>
+              </configuration>
+            </plugin>
+
+            <plugin>
+              <groupId>org.eclipse.tycho</groupId>
+              <artifactId>tycho-surefire-plugin</artifactId>
+              <version>${tycho-version}</version>
+              <configuration>
+
+                <dependencies>
+                  <dependency>
+                    <type>eclipse-plugin</type>
+                    <artifactId>org.eclipse.xtext.logging</artifactId>
+                  </dependency>
+                  <dependency>
+                    <!-- we need to include this explicitly because it's a fragment -->
+                    <type>eclipse-plugin</type>
+                    <artifactId>org.eclipse.xtext.example.arithmetics.xpect.tests</artifactId>
+                    <groupId>org.eclipse.xtext.example.arithmetics</groupId>
+                  </dependency>
+                </dependencies>
+
+              </configuration>
+            </plugin>
+
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+
+    <profile>
+      <id>osx</id>
+      <activation>
+        <os>
+          <family>mac</family>
+        </os>
+      </activation>
+      <properties>
+        <os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
+      </properties>
+      <build>
+
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.eclipse.tycho</groupId>
+              <artifactId>tycho-surefire-plugin</artifactId>
+              <version>${tycho-version}</version>
+              <configuration>
+
+                <!-- makes test run in UI thread when under OSX -->
+                <argLine>-XstartOnFirstThread</argLine>
+
+                <dependencies>
+                  <dependency>
+                    <type>eclipse-plugin</type>
+                    <artifactId>org.eclipse.xtext.logging</artifactId>
+                  </dependency>
+                  <dependency>
+                    <!-- we need to include this explicitly because it's a fragment -->
+                    <type>eclipse-plugin</type>
+                    <artifactId>org.eclipse.xtext.example.arithmetics.xpect.tests</artifactId>
+                    <groupId>org.eclipse.xtext.example.arithmetics</groupId>
+                  </dependency>
+                  <!-- makes OSX JVM visible to test environment -->
+                  <dependency>
+                    <type>eclipse-plugin</type>
+                    <artifactId>org.eclipse.jdt.launching.macosx</artifactId>
+                  </dependency>
+                  <dependency>
+                    <type>eclipse-plugin</type>
+                    <artifactId>org.eclipse.jdt.launching.ui.macosx</artifactId>
+                  </dependency>
+                </dependencies>
+
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  </profiles>
 </project>
