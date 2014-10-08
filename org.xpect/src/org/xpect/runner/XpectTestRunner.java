@@ -28,6 +28,10 @@ import org.xpect.state.StateContainer;
 import com.google.common.base.Preconditions;
 
 /**
+ * Runs a single test by retrieving arguments from parsers and state container.
+ * In order to call a test method, the arguments are to be computed. This is done via
+ * {@link StateContainer#tryGet(Class, Object...)}.
+ * 
  * @author Moritz Eysholdt - Initial contribution and API
  */
 public class XpectTestRunner extends AbstractTestRunner {
