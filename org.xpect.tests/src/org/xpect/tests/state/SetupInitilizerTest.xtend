@@ -3,7 +3,7 @@ package org.xpect.tests.state
 import org.junit.Test
 
 import static extension org.junit.Assert.*
-import org.xpect.tests.state.SetupInitializerTestData.SiT
+import org.xpect.tests.state.SetupInitializerTestData$SiT
 import org.xpect.tests.state.SetupInitializerTestData.A
 
 class SetupInitilizerTest {
