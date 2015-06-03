@@ -13,12 +13,18 @@ var file.extensions = "xpect"
 var runtimeProject = "../${projectName}"
 
 Workflow {
+	bean = org.eclipse.xtext.resource.XtextResourceSet : theResourceSet auto-inject {
+		
+	}
 	bean = StandaloneSetup {
+		resourceSetImpl = theResourceSet
+		resourceSet = theResourceSet
 		scanClassPath = true
 		platformUri = "${runtimeProject}/.."// The following two lines can be removed, if Xbase is not used.
 		registerGeneratedEPackage = "org.eclipse.xtext.common.types.TypesPackage"
 		registerGenModelFile = "platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.genmodel"
 	}
+	
 
 	component = DirectoryCleaner {
 		directory = "${runtimeProject}/src-gen"
@@ -34,14 +40,16 @@ Workflow {
 	}
 
 	component = Generator {
+		
 		pathRtProject = runtimeProject
 		pathUiProject = "${runtimeProject}.ui"
 		pathTestProject = "${runtimeProject}.tests"
 		projectNameRt = projectName
 		projectNameUi = "${projectName}.ui"
 		language = {
-			loadedResource = xjmEcoreURI
-			loadedResource = xpectEcoreURI
+			forcedResourceSet = theResourceSet
+			
+			loadedResource = ecoreURI
 			uri = grammarURI
 			fileExtensions = file.extensions
 
