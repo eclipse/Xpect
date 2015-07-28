@@ -1,4 +1,4 @@
-package org.xpect.tests.state
+ package org.xpect.tests.state
 
 import org.junit.Test
 
