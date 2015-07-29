@@ -173,6 +173,12 @@
         launcher="/org.xpect.releng/GenerateXpect.launch">
       <description>Generate Xpect Language</description>
     </setupTask>
+    <setupTask
+        xsi:type="launching:LaunchTask"
+        id="GenerateXpectLanguage2"
+        launcher="/org.xpect.releng/GenerateXpect.launch">
+      <description>Generate Xpect Language</description>
+    </setupTask>
     <stream
         name="master"/>
     <description>Xpect Source Code</description>
