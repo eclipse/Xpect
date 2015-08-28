@@ -32,6 +32,7 @@ public class JavaProject extends Project {
 	public JavaProject(String name) {
 		super(name);
 		addNature(JavaCore.NATURE_ID);
+		addBuilder(JavaCore.BUILDER_ID);
 		this.classpathEntries.add(JavaCore.newContainerEntry(new Path(JRE_CONTAINER_1_5)));
 	}
 
