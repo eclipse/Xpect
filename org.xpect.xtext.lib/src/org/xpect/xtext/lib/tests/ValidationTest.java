@@ -35,6 +35,7 @@ import org.xpect.xtext.lib.util.NextLine;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
@@ -67,12 +68,19 @@ public class ValidationTest {
 	}
 
 	private Predicate<Issue> severityFilter(final Severity severity) {
-		return new Predicate<Issue>() {
-			@Override
-			public boolean apply(Issue input) {
-				return input.getSeverity() == severity;
-			}
-		};
+		if (severity == null) 
+		{
+			return Predicates.alwaysTrue();
+		}
+		else 
+		{
+			return new Predicate<Issue>() {
+				@Override
+				public boolean apply(Issue input) {
+					return input.getSeverity() == severity;
+				}
+			};
+		}
 	}
 
 	@Xpect
