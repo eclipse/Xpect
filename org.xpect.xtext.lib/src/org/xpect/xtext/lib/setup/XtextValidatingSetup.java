@@ -72,7 +72,7 @@ public class XtextValidatingSetup extends ValidatingSetup {
 		IDiagnosticConverter converer = resource.getResourceServiceProvider().get(IDiagnosticConverter.class);
 		for (Diagnostic diagnostic : resource.getErrors())
 			converer.convertResourceDiagnostic(diagnostic, Severity.ERROR, new ListAcceptor<Issue>(result));
-		for (Diagnostic diagnostic : resource.getErrors())
+		for (Diagnostic diagnostic : resource.getWarnings())
 			converer.convertResourceDiagnostic(diagnostic, Severity.WARNING, new ListAcceptor<Issue>(result));
 		return result;
 	}
