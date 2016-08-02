@@ -81,6 +81,36 @@ public class ValidationTest {
 	@Xpect
 	@ConsumedIssues({ Severity.INFO, Severity.ERROR, Severity.WARNING })
 	public void noIssues(@IssuesByLine Multimap<IRegion, Issue> line2issue, @NextLine IRegion line) {
+		assertNoIssuesInLine(line2issue, line);
+	}
+
+	@Xpect
+	@ConsumedIssues({ Severity.ERROR })
+	public void noErrors(@IssuesByLine Multimap<IRegion, Issue> line2issue, @NextLine IRegion line) {
+		assertNoIssuesInLine(line2issue, line);
+	}
+
+	@Xpect
+	@Deprecated
+	@ConsumedIssues({ Severity.ERROR })
+	public void noerrors(@IssuesByLine Multimap<IRegion, Issue> line2issue, @NextLine IRegion line) {
+		assertNoIssuesInLine(line2issue, line);
+	}
+
+	@Xpect
+	@ConsumedIssues({ Severity.WARNING })
+	public void noWarnings(@IssuesByLine Multimap<IRegion, Issue> line2issue, @NextLine IRegion line) {
+		assertNoIssuesInLine(line2issue, line);
+	}
+
+	@Xpect
+	@Deprecated
+	@ConsumedIssues({ Severity.WARNING })
+	public void nowarnings(@IssuesByLine Multimap<IRegion, Issue> line2issue, @NextLine IRegion line) {
+		assertNoIssuesInLine(line2issue, line);
+	}
+
+	protected void assertNoIssuesInLine(Multimap<IRegion, Issue> line2issue, IRegion line) throws ComparisonFailure {
 		Collection<Issue> issues = line2issue.get(line);
 		if (!issues.isEmpty()) {
 			String document = line.getDocument().toString();
