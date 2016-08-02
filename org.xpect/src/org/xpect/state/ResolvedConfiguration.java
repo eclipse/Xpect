@@ -457,7 +457,7 @@ public class ResolvedConfiguration {
 								for (Value value : annotatio2value.get(a))
 									if (value instanceof PrimaryValue && value.getType() == Class.class)
 										binding = (Class<?>) ((PrimaryValue) value).getValue().get();
-								if (binding != null) {
+								if (binding != null && !binding.getName().startsWith("org.xpect")) { // never bing e.g. XpectInvocation for ? extends EObject.
 									for (Type bound : var.getBounds())
 										if (!(bound instanceof Class && ((Class<?>) bound).isAssignableFrom(binding)))
 											continue PARAM;
