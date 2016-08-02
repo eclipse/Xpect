@@ -54,8 +54,13 @@ public class CommaSeparatedValuesExpectationImpl extends AbstractExpectation imp
 	}
 
 	private final CommaSeparatedValuesExpectation annotation;
-
 	private final ExpectationCollection expectationCollection;
+
+	public CommaSeparatedValuesExpectationImpl(CommaSeparatedValuesExpectationImpl original, CommaSeparatedValuesExpectation config) {
+		super(original.getArgument(), original.getTargetSyntax());
+		this.annotation = config;
+		this.expectationCollection = createExpectationCollection();
+	}
 
 	public CommaSeparatedValuesExpectationImpl(XpectArgument argument, TargetSyntaxSupport syntax) {
 		super(argument, syntax);
