@@ -22,4 +22,6 @@ public @interface StringExpectation {
 	boolean caseSensitive() default true;
 
 	boolean whitespaceSensitive() default false;
+
+	boolean newLineCharacterSensitive() default false;
 }

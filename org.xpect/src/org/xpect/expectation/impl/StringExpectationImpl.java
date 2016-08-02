@@ -33,11 +33,16 @@ public class StringExpectationImpl extends AbstractExpectation implements IStrin
 		String actualWithNL = Joiner.on(nl).join(new Text(actual).splitIntoLines());
 		String escapedActual = getTargetSyntaxLiteral().escape(actualWithNL);
 		String migratedExpectation;
-		if (!annotation.whitespaceSensitive()) {
+		if (annotation.whitespaceSensitive()) {
+			if (annotation.newLineCharacterSensitive()) {
+				migratedExpectation = originalExpectation;
+			} else {
+				migratedExpectation = originalExpectation.replaceAll("\\r?\\n", "\n");
+			}
+		} else {
 			FormattingMigrator migrator = new FormattingMigrator();
 			migratedExpectation = migrator.migrate(escapedActual, originalExpectation);
-		} else
-			migratedExpectation = originalExpectation;
+		}
 		if ((annotation.caseSensitive() && !migratedExpectation.equals(escapedActual)) || (!annotation.caseSensitive() && !migratedExpectation.equalsIgnoreCase(escapedActual))) {
 			String expDoc = replaceInDocument(migratedExpectation);
 			String actDoc = replaceInDocument(escapedActual);
