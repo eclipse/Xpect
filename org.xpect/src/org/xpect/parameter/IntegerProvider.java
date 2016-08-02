@@ -17,10 +17,7 @@ public class IntegerProvider {
 
 	@Creates
 	public int getIntegerValue() {
-		String text = region.getRegionText();
-		if (text != null)
-			return Integer.valueOf(text);
-		return 0;
+		return region.getIntegerValue();
 	}
 
 }
