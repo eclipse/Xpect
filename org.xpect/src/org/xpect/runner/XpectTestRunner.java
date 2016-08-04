@@ -31,7 +31,7 @@ import com.google.common.primitives.Primitives;
 /**
  * Runs a single test by retrieving arguments from parsers and state container. In order to call a test method, the arguments are to be computed. This is done via
  * {@link StateContainer#tryGet(Class, Object...)}.
- * 
+ *
  * @author Moritz Eysholdt - Initial contribution and API
  */
 public class XpectTestRunner extends AbstractTestRunner {
@@ -143,13 +143,19 @@ public class XpectTestRunner extends AbstractTestRunner {
 			contributor.contributeArguments(configurations);
 			ResolvedConfiguration[] resolved = resolveArgumentConfiguration(configurations);
 			StateContainer[] states = createArgumentStateContainers(resolved);
-			Object[] args = createArgumentValues(states);
+			try {
+				Object[] args = createArgumentValues(states);
 
-			getMethod().getJavaMethod().invoke(test, args);
-			// reaching this point implies that no exception was thrown, hence the test passes.
-			if (invocation.isFixme()) {
-				fixmeMessage = true;
-				throw new InvocationTargetException(new AssertionFailedError("Congrats, this FIXME test is suddenly fixed!"));
+				getMethod().getJavaMethod().invoke(test, args);
+				// reaching this point implies that no exception was thrown, hence the test passes.
+				if (invocation.isFixme()) {
+					fixmeMessage = true;
+					throw new InvocationTargetException(new AssertionFailedError("Congrats, this FIXME test is suddenly fixed!"));
+				}
+			} finally {
+				for (StateContainer state : states) {
+					state.invalidate();
+				}
 			}
 		} catch (InvocationTargetException e) {
 			Throwable cause = e.getCause();

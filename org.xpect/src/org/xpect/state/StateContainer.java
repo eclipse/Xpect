@@ -32,11 +32,12 @@ import com.google.common.collect.Sets;
  * these other objects are created as well.
  * <p>
  * The state container is also used to retrieve arguments for a test method call, see {@link #tryGet(Class, Object...)} for details.
- * 
+ *
  */
 public class StateContainer {
 	protected class FactoryInstance {
-		private final List<Instance> dependees = Lists.newArrayList();
+		private final List<Instance> down = Lists.newArrayList();
+		private final List<Instance> up = Lists.newArrayList();
 		private final Factory factory;
 		private final Object instance;
 
@@ -49,7 +50,8 @@ public class StateContainer {
 	}
 
 	protected abstract class Instance implements Managed<Object> {
-		private final List<FactoryInstance> dependees = Lists.newArrayList();
+		private final List<FactoryInstance> down = Lists.newArrayList();
+		private FactoryInstance up = null;
 		private final Value key;
 
 		public Instance(Value key) {
@@ -127,13 +129,13 @@ public class StateContainer {
 	}
 
 	protected void collectDependees(FactoryInstance fact, Set<FactoryInstance> factories, Set<Instance> instances) {
-		for (Instance i : fact.dependees)
+		for (Instance i : fact.down)
 			if (instances.add(i))
 				collectDependees(i, factories, instances);
 	}
 
 	protected void collectDependees(Instance instance, Set<FactoryInstance> factories, Set<Instance> instances) {
-		for (FactoryInstance fi : instance.dependees)
+		for (FactoryInstance fi : instance.down)
 			if (factories.add(fi))
 				collectDependees(fi, factories, instances);
 	}
@@ -151,8 +153,10 @@ public class StateContainer {
 		try {
 			Object instance = constructor.newInstance(paramsObjects);
 			FactoryInstance result = new FactoryInstance(factory, instance);
-			for (Instance inst : paramsInstances)
-				inst.dependees.add(result);
+			for (Instance inst : paramsInstances) {
+				inst.down.add(result);
+				result.up.add(inst);
+			}
 			return result;
 		} catch (InstantiationException e) {
 			throw new RuntimeException(e);
@@ -171,7 +175,8 @@ public class StateContainer {
 		try {
 			Object instance = value.getMethod().invoke(factory.instance);
 			Instance result = createInstance(value, instance);
-			factory.dependees.add(result);
+			factory.down.add(result);
+			result.up = factory;
 			return result;
 		} catch (IllegalAccessException e) {
 			throw new RuntimeException(e);
@@ -319,10 +324,20 @@ public class StateContainer {
 				}
 			}
 		}
-		for (Instance inst : instances)
+		for (Instance inst : instances) {
 			state.value2instance.remove(inst.key);
-		for (FactoryInstance fact : factories)
+			inst.down.clear();
+			if (inst.up != null) {
+				inst.up.down.remove(inst);
+			}
+		}
+		for (FactoryInstance fact : factories) {
 			state.factory2instance.remove(fact.factory);
+			fact.down.clear();
+			for (Instance up : fact.up) {
+				up.down.remove(fact);
+			}
+		}
 	}
 
 	protected class ToString {
