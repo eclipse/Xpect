@@ -11,6 +11,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.codegen;bundle-version="2.6.0",
  org.eclipse.xtext.xbase;bundle-version="2.3.0",
  org.eclipse.xtext.example.domainmodel.xpect.tests;bundle-version="0.1.0",
+ org.eclipse.jdt.launching.macosx;bundle-version="3.2.300",
+ org.eclipse.jdt.launching.ui.macosx;bundle-version="1.0.300",
  org.eclipse.xtend.core;bundle-version="2.6.0",
  org.eclipse.xtend.ide;bundle-version="2.6.0",
  org.eclipse.xtext.example.arithmetics.ui;bundle-version="2.4.0"
