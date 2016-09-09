@@ -18,12 +18,13 @@ import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.TerminalRule;
 import org.eclipse.xtext.UntilToken;
 import org.eclipse.xtext.common.types.TypesPackage;
-import org.eclipse.xtext.xbase.XbasePackage;
 
 import com.google.common.collect.Lists;
 
-@SuppressWarnings("restriction")
 public class GrammarAnalyzer {
+	
+	// copy of org.eclipse.xtext.xbase.XbasePackage.eNS_URI
+	private final String XbasePackageNS_URI = "http://www.eclipse.org/xtext/xbase/Xbase";
 
 	// be aware, that syntactically one TerminalRule can declare multiple
 	// CommentRules.
@@ -182,7 +183,7 @@ public class GrammarAnalyzer {
 		for (Grammar g : grammars)
 			for (AbstractMetamodelDeclaration decl : g.getMetamodelDeclarations())
 				if (decl instanceof ReferencedMetamodel) {
-					if (decl.getEPackage().getNsURI().equals(XbasePackage.eNS_URI))
+					if (decl.getEPackage().getNsURI().equals(XbasePackageNS_URI))
 						xbase = true;
 					else if (decl.getEPackage().getNsURI().equals(TypesPackage.eNS_URI))
 						java = true;

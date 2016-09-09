@@ -18,6 +18,7 @@
 		<module>org.xpect.ui.junit</module>
 		<module>org.xpect.xtext.lib</module>
 		<module>org.xpect.xtext.lib.tests</module>
+		<module>org.xpect.xtext.xbase.lib</module>
 		<module>org.xpect.sdk</module>
 		<module>org.eclipse.xtext.example.arithmetics.xpect.tests</module>
 		<module>org.eclipse.xtext.example.domainmodel.xpect.tests</module>
