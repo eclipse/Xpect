@@ -15,7 +15,7 @@ import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PartInitException;
-import org.xpect.ui.util.TestDataUIUtil.TestElementInfo;
+import org.xpect.ui.junit.TestDataUIUtil.TestElementInfo;
 
 /**
  * @author Moritz Eysholdt - Initial contribution and API

@@ -1,4 +1,4 @@
-package org.xpect.ui.registry;
+package org.xpect.ui.junit.registry;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.core.IJavaProject;

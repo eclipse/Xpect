@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
-package org.xpect.ui.launching;
+package org.xpect.ui.junit.launching;
 
 import static org.xpect.runner.DescriptionFactory.createFileDescription;
 import static org.xpect.runner.DescriptionFactory.createTestDescription;

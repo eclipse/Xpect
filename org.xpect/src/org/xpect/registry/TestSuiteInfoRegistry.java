@@ -26,6 +26,9 @@ public class TestSuiteInfoRegistry implements ITestSuiteInfo.Registry {
 		private ITestSuiteInfo.Registry delegate;
 
 		public ITestSuiteInfo getTestSuite(Resource resource) {
+			if (delegate == null) {
+				delegate = new TestSuiteInfoRegistry();
+			}
 			return delegate.getTestSuite(resource);
 		}
 

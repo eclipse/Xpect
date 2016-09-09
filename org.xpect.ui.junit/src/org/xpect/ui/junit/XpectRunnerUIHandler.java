@@ -8,6 +8,7 @@
 package org.xpect.ui.junit;
 
 import org.eclipse.emf.common.util.URI;
+import org.xpect.ui.XpectPluginActivator;
 import org.eclipse.jdt.junit.model.ITestElement;
 import org.eclipse.jdt.junit.runners.IRunnerUIHandler;
 import org.eclipse.jface.action.IMenuManager;
@@ -15,8 +16,7 @@ import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.xtext.ui.editor.IURIEditorOpener;
-import org.xpect.ui.util.TestDataUIUtil;
-import org.xpect.ui.util.TestDataUIUtil.TestElementInfo;
+import org.xpect.ui.junit.TestDataUIUtil.TestElementInfo;
 
 import com.google.inject.Inject;
 
@@ -24,6 +24,10 @@ import com.google.inject.Inject;
  * @author Moritz Eysholdt - Initial contribution and API
  */
 public class XpectRunnerUIHandler implements IRunnerUIHandler {
+	
+	public XpectRunnerUIHandler() {
+		XpectPluginActivator.getInstance().getInjector(XpectPluginActivator.ORG_XPECT_XPECT).injectMembers(this);
+	}
 
 	@Inject
 	private IURIEditorOpener globalOpener;

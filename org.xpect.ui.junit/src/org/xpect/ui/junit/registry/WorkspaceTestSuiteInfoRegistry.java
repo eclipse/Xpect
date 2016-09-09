@@ -1,4 +1,4 @@
-package org.xpect.ui.registry;
+package org.xpect.ui.junit.registry;
 
 import java.util.Collections;
 import java.util.List;

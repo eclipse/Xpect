@@ -15,6 +15,7 @@
 		<module>org.xpect</module>
 		<module>org.xpect.tests</module>
 		<module>org.xpect.ui</module>
+		<module>org.xpect.ui.junit</module>
 		<module>org.xpect.xtext.lib</module>
 		<module>org.xpect.xtext.lib.tests</module>
 		<module>org.xpect.sdk</module>

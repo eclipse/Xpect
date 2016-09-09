@@ -17,7 +17,6 @@ import org.eclipse.jdt.junit.model.ITestElement;
 import org.eclipse.jdt.junit.model.ITestElement.FailureTrace;
 import org.eclipse.jdt.junit.model.ITestSuiteElement;
 import org.eclipse.jface.action.Action;
-import org.xpect.ui.util.TestDataUIUtil;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;

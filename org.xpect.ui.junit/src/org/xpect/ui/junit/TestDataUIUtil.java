@@ -1,4 +1,4 @@
-package org.xpect.ui.util;
+package org.xpect.ui.junit;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
