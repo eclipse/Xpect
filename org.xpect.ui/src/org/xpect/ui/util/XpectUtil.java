@@ -41,6 +41,9 @@ public class XpectUtil {
 		} else if (javaProject != null && javaProject.exists()) {
 			rs.setClasspathURIContext(javaProject);
 			rs.setClasspathUriResolver(new JdtClasspathUriResolver());
+		} else {
+			rs.setClasspathURIContext(XpectFileAccess.getXpectLibClassLoader());
+			rs.setClasspathUriResolver(new ClassloaderClasspathUriResolver());
 		}
 		URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
 		Resource resource = injector.getInstance(XtextResourceFactory.class).createResource(uri);

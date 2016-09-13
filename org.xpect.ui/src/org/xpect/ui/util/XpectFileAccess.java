@@ -9,6 +9,7 @@ package org.xpect.ui.util;
 
 import java.io.IOException;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
@@ -19,11 +20,13 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceFactory;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.util.StringInputStream;
+import org.osgi.framework.Bundle;
 import org.xpect.XpectConstants;
 import org.xpect.XpectFile;
 import org.xpect.registry.ILanguageInfo;
 import org.xpect.runner.XpectRunner;
 
+import com.google.common.base.Throwables;
 import com.google.inject.Injector;
 
 /**
@@ -38,6 +41,20 @@ public class XpectFileAccess {
 			super();
 			this.resource = resource;
 		}
+	}
+
+	public static ClassLoader getXpectLibClassLoader() {
+		Bundle lib = Platform.getBundle("org.xpect.xtext.lib");
+		if (lib != null) {
+			try {
+				Class<?> cls = lib.loadClass("org.xpect.xtext.lib.tests.XtextTests");
+				ClassLoader loader = cls.getClassLoader();
+				return loader;
+			} catch (ClassNotFoundException e) {
+				Throwables.propagate(e);
+			}
+		}
+		return null;
 	}
 
 	protected static ResourceSet cloneResourceSet(ResourceSet rs) {
@@ -56,7 +73,7 @@ public class XpectFileAccess {
 				result.setClasspathURIContext(context);
 				result.setClasspathUriResolver(xrs.getClasspathUriResolver());
 			} else {
-				result.setClasspathURIContext(XpectFileAccess.class.getClassLoader());
+				result.setClasspathURIContext(getXpectLibClassLoader());
 				result.setClasspathUriResolver(new ClassloaderClasspathUriResolver());
 			}
 		}
