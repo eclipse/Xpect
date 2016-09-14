@@ -14,9 +14,11 @@ import org.eclipse.xtext.parser.antlr.ITokenDefProvider;
 import org.eclipse.xtext.resource.EObjectAtOffsetHelper;
 import org.eclipse.xtext.ui.LexerUIBindings;
 import org.eclipse.xtext.ui.editor.autoedit.MultiLineTerminalsEditStrategy;
+import org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.AbstractAntlrTokenToAttributeIdMapper;
 import org.xpect.ui.highlighting.XpectTokenDefProvider;
 import org.xpect.ui.highlighting.XpectTokenToAttributeMapper;
+import org.xpect.ui.preferences.XpectRootPreferencePage;
 import org.xpect.ui.scoping.ClasspathOrJdtBasedTypeScopeProvider;
 import org.xpect.ui.scoping.ClasspathOrJdtBasedTypeScopeProviderFactory;
 import org.xpect.ui.services.XpectEObjectAtOffsetHelper;
@@ -47,7 +49,7 @@ public class XpectUiModule extends org.xpect.ui.AbstractXpectUiModule {
 	public Class<? extends AbstractTypeScopeProvider> bindAbstractTypeScopeProvider() {
 		return ClasspathOrJdtBasedTypeScopeProvider.class;
 	}
-	
+
 	public Class<? extends IJvmTypeProvider.Factory> bindIJvmTypeProvider$Factory() {
 		return ClasspathOrJdtBasedTypeScopeProviderFactory.class;
 	}
@@ -58,6 +60,10 @@ public class XpectUiModule extends org.xpect.ui.AbstractXpectUiModule {
 
 	public Class<? extends EObjectAtOffsetHelper> bindEObjectAtOffsetHelper() {
 		return XpectEObjectAtOffsetHelper.class;
+	}
+
+	public Class<? extends LanguageRootPreferencePage> bindLanguageRootPreferencePage() {
+		return XpectRootPreferencePage.class;
 	}
 
 }

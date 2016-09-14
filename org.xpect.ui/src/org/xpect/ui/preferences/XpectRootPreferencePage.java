@@ -1,0 +1,28 @@
+package org.xpect.ui.preferences;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.preference.BooleanFieldEditor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.xtext.ui.editor.preferences.IPreferenceStoreAccess;
+import org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage;
+import org.xpect.ui.internal.XpectActivator;
+
+public class XpectRootPreferencePage extends LanguageRootPreferencePage {
+
+	public static final String LIVE_TEST_EXECUTION_PREFERENCE_NAME = "org.xpect.ui.live_test_execution";
+
+	@Override
+	protected void createFieldEditors() {
+		super.createFieldEditors();
+		Composite parent = getFieldEditorParent();
+		addField(new BooleanFieldEditor(LIVE_TEST_EXECUTION_PREFERENCE_NAME, "Run tests live in editor, if possible", SWT.NONE, parent));
+	}
+
+	public static boolean isLiveTestExecutionEnabled(IProject project) {
+		IPreferenceStoreAccess preferenceStore = XpectActivator.getInstance().getInjector(XpectActivator.ORG_XPECT_XPECT).getInstance(IPreferenceStoreAccess.class);
+		boolean enabled = preferenceStore.getContextPreferenceStore(project).getBoolean(XpectRootPreferencePage.LIVE_TEST_EXECUTION_PREFERENCE_NAME);
+		return enabled;
+	}
+
+}

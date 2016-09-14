@@ -14,11 +14,14 @@ import static org.xpect.runner.TestExecutor.createXpectConfiguration;
 import static org.xpect.runner.TestExecutor.runTest;
 
 import java.lang.annotation.Annotation;
+import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.ui.resource.ProjectByResourceProvider;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.validation.CheckMode;
 import org.eclipse.xtext.validation.IResourceValidator;
@@ -31,6 +34,7 @@ import org.xpect.parameter.IStatementRelatedRegion;
 import org.xpect.registry.DefaultBinding;
 import org.xpect.state.Configuration;
 import org.xpect.state.StateContainer;
+import org.xpect.ui.preferences.XpectRootPreferencePage;
 import org.xpect.ui.util.XpectFileAccess;
 import org.xpect.util.EnvironmentUtil;
 
@@ -46,6 +50,9 @@ public class XtResourceValidator implements IResourceValidator {
 	@Inject
 	@DefaultBinding
 	private IResourceValidator delegate;
+
+	@Inject
+	private ProjectByResourceProvider projectByResourceProvider;
 
 	public IResourceValidator getDelegate() {
 		return delegate;
@@ -96,6 +103,10 @@ public class XtResourceValidator implements IResourceValidator {
 	}
 
 	protected List<Issue> validateTests(Resource resource, CheckMode mode, CancelIndicator indicator, Configuration fileConfig) {
+		IProject project = projectByResourceProvider.getProjectContext(resource);
+		if (project == null || !XpectRootPreferencePage.isLiveTestExecutionEnabled(project)) {
+			return Collections.emptyList();
+		}
 		List<Issue> result = Lists.newArrayList();
 		XpectFile xpectFile = XpectFileAccess.getXpectFile(resource);
 		if (xpectFile != null) {
