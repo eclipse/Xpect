@@ -25,6 +25,7 @@ import org.xpect.registry.AbstractDelegatingModule;
 import org.xpect.registry.DefaultBinding;
 import org.xpect.setup.XpectGuiceModule;
 import org.xpect.setup.XpectSetupFactory;
+import org.xpect.state.Configuration;
 import org.xpect.state.Creates;
 import org.xpect.state.XpectStateAnnotation;
 import org.xpect.text.IRegion;
@@ -75,14 +76,14 @@ public class ValidationTestModuleSetup extends AbstractDelegatingModule {
 
 		@Override
 		protected List<Issue> collectIssues() {
-			return Lists.newArrayList(collectIssuesByLine().get(UNMATCHED));
+			return Lists.newArrayList(collectIssuesByLine().get(ValidationTestModuleSetup.UNMATCHED));
 		}
 
 		@Creates(IssuesByLine.class)
 		public Multimap<IRegion, Issue> collectIssuesByLine() {
 			if (issuesByLine == null) {
 				TestingResourceValidator validator = (TestingResourceValidator) getResource().getResourceServiceProvider().getResourceValidator();
-				issuesByLine = validator.validateAndMapByOffset(getResource(), CheckMode.ALL, CancelIndicator.NullImpl);
+				issuesByLine = validator.validateDelegateAndMapByOffset(getResource(), CheckMode.ALL, CancelIndicator.NullImpl, null);
 			}
 			return issuesByLine;
 		}
@@ -107,15 +108,15 @@ public class ValidationTestModuleSetup extends AbstractDelegatingModule {
 		}
 
 		@Override
-		public List<Issue> validate(Resource resource, CheckMode mode, CancelIndicator indicator) {
-			return Lists.newArrayList(validateAndMapByOffset(resource, mode, indicator).get(UNMATCHED));
+		public List<Issue> validateDelegate(Resource resource, CheckMode mode, CancelIndicator indicator, Configuration fileConfig) {
+			return Lists.newArrayList(validateDelegateAndMapByOffset(resource, mode, indicator, fileConfig).get(UNMATCHED));
 		}
 
-		public Multimap<IRegion, Issue> validateAndMapByOffset(Resource resource, CheckMode mode, CancelIndicator indicator) {
+		public Multimap<IRegion, Issue> validateDelegateAndMapByOffset(Resource resource, CheckMode mode, CancelIndicator indicator, Configuration fileConfig) {
 			Multimap<IRegion, Issue> result = LinkedHashMultimap.create();
+			List<Issue> issuesFromDelegate = super.validateDelegate(resource, mode, indicator, fileConfig);
 			if (resource instanceof XtextResource && ((XtextResource) resource).getParseResult() != null) {
 				XtextResource xresource = (XtextResource) resource;
-				List<Issue> issuesFromDelegate = validateDelegate(resource, mode, indicator);
 				if (issuesFromDelegate != null && !issuesFromDelegate.isEmpty()) {
 					XpectFile xpectFile = XpectFileAccess.getXpectFile(resource);
 					ValidationTestConfig config = new ValidationTestConfig(xpectFile.<ValidationTestConfig> createSetupInitializer());
@@ -133,9 +134,12 @@ public class ValidationTestModuleSetup extends AbstractDelegatingModule {
 					issues.removeAll(matched);
 					result.putAll(UNMATCHED, filter(issues, config.getIgnoreFilter()));
 				}
-				result.putAll(UNMATCHED, validateXpect(xresource, mode, indicator));
-			} else
-				result.putAll(UNMATCHED, super.validate(resource, mode, indicator));
+			} else {
+				result.putAll(UNMATCHED, issuesFromDelegate);
+			}
+			if (fileConfig != null) {
+				fileConfig.addValue(IssuesByLine.class, result);
+			}
 			return ImmutableMultimap.copyOf(result);
 		}
 	}

@@ -28,24 +28,17 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
-import org.xpect.XjmContribution;
 import org.xpect.XpectFile;
 import org.xpect.XpectImport;
 import org.xpect.XpectJavaModel;
 import org.xpect.XpectStandaloneSetup;
-import org.xpect.expectation.impl.TargetSyntaxSupport;
 import org.xpect.registry.ITestSuiteInfo;
 import org.xpect.runner.XpectTestFiles.Builder;
 import org.xpect.runner.XpectTestFiles.FileRoot;
-import org.xpect.setup.ISetupInitializer;
-import org.xpect.setup.ThisRootTestClass;
-import org.xpect.setup.ThisTestObject.TestObjectSetup;
-import org.xpect.setup.XpectSetupFactory;
 import org.xpect.state.Configuration;
 import org.xpect.state.ResolvedConfiguration;
 import org.xpect.state.StateContainer;
 import org.xpect.util.AnnotationUtil;
-import org.xpect.util.EnvironmentUtil;
 import org.xpect.util.IssueVisualizer;
 import org.xpect.util.XpectJavaModelManager;
 
@@ -74,7 +67,7 @@ public class XpectRunner extends ParentRunner<Runner> {
 		this.uriProvider = findUriProvider(testClass);
 		this.xpectInjector = findXpectInjector();
 		this.xpectJavaModel = XpectJavaModelManager.createJavaModel(testClass);
-		this.state = createState(createRootConfiguration());
+		this.state = TestExecutor.createState(createRootConfiguration());
 	}
 
 	protected Runner createChild(URI uri) {
@@ -90,10 +83,7 @@ public class XpectRunner extends ParentRunner<Runner> {
 	}
 
 	protected Configuration createChildConfiguration(XpectFile file) {
-		Configuration config = new Configuration(file.eResource().getURI().lastSegment());
-		config.addDefaultValue(XpectFile.class, file);
-		config.addDefaultValue(ISetupInitializer.class, file.createSetupInitializer());
-		return config;
+		return TestExecutor.createFileConfiguration(file);
 	}
 
 	protected List<Runner> createChildren(Class<?> clazz) {
@@ -104,26 +94,13 @@ public class XpectRunner extends ParentRunner<Runner> {
 	}
 
 	protected Configuration createRootConfiguration() {
-		Configuration config = new Configuration("Root");
+		Configuration config = TestExecutor.createRootConfiguration(this.xpectJavaModel);
 		config.addDefaultValue(this);
-		config.addValue(ThisRootTestClass.class, super.getTestClass().getJavaClass());
-		config.addFactory(TestObjectSetup.class);
-		config.addFactory(ValidatingSetup.class);
-		config.addFactory(TargetSyntaxSupport.class);
+		config.addDefaultValue(IXpectURIProvider.class, this.uriProvider);
 		config.addFactory(XpectFileRunner.class);
 		config.addFactory(XpectTestRunner.class);
 		config.addFactory(TestRunner.class);
-		config.addFactory(ArgumentContributor.class);
-		config.addDefaultValue(IXpectURIProvider.class, this.uriProvider);
-		config.addDefaultValue(XpectJavaModel.class, this.xpectJavaModel);
-		Iterable<XjmContribution> contributions = this.xpectJavaModel.getContributions(XpectSetupFactory.class, EnvironmentUtil.ENVIRONMENT);
-		for (XjmContribution contribution : contributions)
-			config.addFactory(contribution.getJavaClass());
 		return config;
-	}
-
-	protected StateContainer createState(Configuration config) {
-		return new StateContainer(new ResolvedConfiguration(config));
 	}
 
 	@Override
@@ -163,7 +140,7 @@ public class XpectRunner extends ParentRunner<Runner> {
 	}
 
 	@Override
-	protected List<Runner> getChildren() {
+	public List<Runner> getChildren() {
 		if (children == null)
 			children = createChildren(getTestClass().getJavaClass());
 		return children;

@@ -56,8 +56,8 @@ public class XpectTestResultTest {
 
 		private final Map<XpectTestRunner, XpectTestRunner> reflectiveToInspected = Maps.newHashMap();
 
-		public ReflectiveXpectFileRunner(StateContainer state, XpectRunner runner, XpectFile file) {
-			super(state, runner, file);
+		public ReflectiveXpectFileRunner(StateContainer state, XpectFile file) {
+			super(state, file);
 		}
 
 		@Override

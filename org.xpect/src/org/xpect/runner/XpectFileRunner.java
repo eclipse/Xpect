@@ -25,14 +25,11 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 import org.xpect.XjmMethod;
 import org.xpect.XjmTestMethod;
-import org.xpect.XjmXpectMethod;
 import org.xpect.XpectFile;
 import org.xpect.XpectInvocation;
 import org.xpect.XpectJavaModel;
-import org.xpect.setup.ThisTestClass;
-import org.xpect.state.Configuration;
+import org.xpect.setup.ThisRootTestClass;
 import org.xpect.state.Creates;
-import org.xpect.state.ResolvedConfiguration;
 import org.xpect.state.StateContainer;
 
 import com.google.common.collect.Lists;
@@ -43,12 +40,10 @@ import com.google.common.collect.Lists;
 public class XpectFileRunner extends Runner implements Filterable, Sortable {
 	private List<Runner> children;
 	private Description description;
-	private final XpectRunner runner;
 	private final StateContainer state;
 	private final XpectFile xpectFile;
 
-	public XpectFileRunner(StateContainer state, XpectRunner runner, XpectFile file) {
-		this.runner = runner;
+	public XpectFileRunner(StateContainer state, XpectFile file) {
 		this.xpectFile = file;
 		this.state = state;
 	}
@@ -77,39 +72,20 @@ public class XpectFileRunner extends Runner implements Filterable, Sortable {
 		return children;
 	}
 
-	protected Configuration createConfiguration(XjmTestMethod method) {
-		Configuration config = new Configuration(method.getName() + "()");
-		config.addValue(ThisTestClass.class, Class.class, method.getTest().getJavaClass());
-		config.addDefaultValue(XjmTestMethod.class, method);
-		return config;
-	}
-
-	protected Configuration createConfiguration(XpectInvocation invocation) {
-		Configuration config = new Configuration(invocation.getMethodName() + "(...)");
-		config.addValue(ThisTestClass.class, Class.class, invocation.getMethod().getTest().getJavaClass());
-		config.addDefaultValue(XpectInvocation.class, invocation);
-		config.addDefaultValue(XjmXpectMethod.class, invocation.getMethod());
-		return config;
-	}
-
 	protected Description createDescription() {
-		Description result = createFileDescription(runner.getTestClass().getJavaClass(), runner.getUriProvider(), getUri());
+		Description result = createFileDescription(getJavaTestClass(), getURIProvider(), getUri());
 		for (Runner child : getChildren())
 			result.addChild(child.getDescription());
 		return result;
 	}
 
-	protected StateContainer createState(Configuration config) {
-		return new StateContainer(state, new ResolvedConfiguration(state.getConfiguration(), config));
-	}
-
 	protected Runner createTestRunner(XjmTestMethod method) {
-		StateContainer childState = createState(createConfiguration(method));
+		StateContainer childState = TestExecutor.createState(state, TestExecutor.createTestConfiguration(method));
 		return childState.get(TestRunner.class).get();
 	}
 
 	protected Runner createTestRunner(XpectInvocation invocation) {
-		StateContainer childState = createState(createConfiguration(invocation));
+		StateContainer childState = TestExecutor.createState(state, TestExecutor.createXpectConfiguration(invocation));
 		return childState.get(XpectTestRunner.class).get();
 	}
 
@@ -134,8 +110,12 @@ public class XpectFileRunner extends Runner implements Filterable, Sortable {
 		return description;
 	}
 
-	public XpectRunner getRunner() {
-		return runner;
+	public Class<?> getJavaTestClass() {
+		return state.get(Class.class, ThisRootTestClass.class).get();
+	}
+
+	public IXpectURIProvider getURIProvider() {
+		return state.get(IXpectURIProvider.class).get();
 	}
 
 	public StateContainer getState() {
