@@ -19,10 +19,14 @@ public class RegionToString {
 		CharSequence document = region.getDocument();
 		int offset = region.getOffset();
 		int end = offset + region.getLength();
-		CharSequence prefix = CharSequences.getPrefix(document, offset, vicinityChars);
-		CharSequence infix = document.subSequence(offset, end);
-		CharSequence postfix = CharSequences.getPostfix(document, end, vicinityChars);
-		String result = prefix + ">>>" + infix + "<<<" + postfix;
-		return result.replace("\n", "\\n");
+		if (offset >= 0 && end <= document.length()) {
+			CharSequence prefix = CharSequences.getPrefix(document, offset, vicinityChars);
+			CharSequence infix = document.subSequence(offset, end);
+			CharSequence postfix = CharSequences.getPostfix(document, end, vicinityChars);
+			String result = prefix + ">>>" + infix + "<<<" + postfix;
+			return result.replace("\n", "\\n");
+		} else {
+			return "Invalid Region! offset:" + offset + " end: " + end + " Document:" + document;
+		}
 	}
 }
