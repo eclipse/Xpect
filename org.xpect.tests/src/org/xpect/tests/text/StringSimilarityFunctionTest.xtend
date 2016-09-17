@@ -4,6 +4,7 @@ import org.junit.Test
 import static org.junit.Assert.*
 import org.xpect.util.IDifferencer.ISimilarityFunction
 import org.xpect.text.StringEndsSimilarityFunction
+import java.util.Locale
 
 class StringSimilarityFunctionTest {
 	@Test def void testEqual() {
@@ -109,10 +110,18 @@ class StringSimilarityFunctionTest {
 	}
 
 	def String similarityStr(Pair<String, String> ... pairs) {
-		pairs.map['''«key» <> «value» --> «String.format("%.2f", similarity(key, value))»'''].join("\n")
+		pairs.map['''«key» <> «value» --> «format(similarity(key, value))»'''].join("\n")
 	}
 
 	def float similarity(String s1, String s2) {
 		new StringEndsSimilarityFunction().similarity(s1, s2)
+	}
+	
+	/**
+	 * Defines a reproducible float output format for the test, using US locale.
+	 */
+	def String format(float value)
+	{
+		String.format(Locale.US,"%.2f", value)
 	}
 }

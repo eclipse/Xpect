@@ -34,6 +34,8 @@ import org.xpect.xtext.lib.util.IssueFormatter;
 import org.xpect.xtext.lib.util.NextLine;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
@@ -57,11 +59,28 @@ public class ValidationTest {
 
 	protected List<String> getActualIssues(Multimap<IRegion, Issue> line2issue, IRegion line, ValidationTestConfig cfg, Severity severity) {
 		Collection<Issue> issuesInLine = line2issue.get(line);
-		List<Issue> filteredIssues = Lists.newArrayList(filter(issuesInLine, cfg.getIgnoreFilter()));
+		List<Issue> filteredBySeverity = Lists.newArrayList(filter(issuesInLine,  severityFilter(severity)));
+		List<Issue> filteredIssues = Lists.newArrayList(filter(filteredBySeverity, cfg.getIgnoreFilter()));
 		List<String> formattedIssues = newArrayList(transform(filteredIssues, createIssueFormatter(line.getDocument(), severity)));
 		if (formattedIssues.isEmpty())
 			Assert.fail("No issues found in line " + line);
 		return formattedIssues;
+	}
+
+	private Predicate<Issue> severityFilter(final Severity severity) {
+		if (severity == null) 
+		{
+			return Predicates.alwaysTrue();
+		}
+		else 
+		{
+			return new Predicate<Issue>() {
+				@Override
+				public boolean apply(Issue input) {
+					return input.getSeverity() == severity;
+				}
+			};
+		}
 	}
 
 	@Xpect
