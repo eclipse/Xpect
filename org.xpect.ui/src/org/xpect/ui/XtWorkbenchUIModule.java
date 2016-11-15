@@ -12,16 +12,20 @@ import org.eclipse.xtext.ui.editor.IURIEditorOpener;
 import org.eclipse.xtext.ui.editor.autoedit.MultiLineTerminalsEditStrategy;
 import org.eclipse.xtext.ui.editor.contentassist.IContentProposalProvider;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
+import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionProvider;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.ISemanticHighlightingCalculator;
+import org.eclipse.xtext.ui.validation.MarkerTypeProvider;
 import org.eclipse.xtext.validation.IResourceValidator;
 import org.xpect.registry.AbstractDelegatingModule;
 import org.xpect.ui.contentassist.XtProposalProvider;
 import org.xpect.ui.highlighting.XtHighlightingCalculator;
 import org.xpect.ui.highlighting.XtHighlightingConfiguration;
+import org.xpect.ui.quickfix.XtIssueResolutionProvider;
 import org.xpect.ui.services.XpectMultiLineTerminalsEditStrategyFactory;
 import org.xpect.ui.services.XtHyperlinkHelper;
 import org.xpect.ui.services.XtLanguageSpecificURIEditorOpener;
+import org.xpect.ui.services.XtMarkerTypeProvider;
 import org.xpect.ui.services.XtResourceValidator;
 
 import com.google.inject.Binder;
@@ -39,6 +43,8 @@ public class XtWorkbenchUIModule extends AbstractDelegatingModule {
 		overrideAndBackup(binder, IContentProposalProvider.class, XtProposalProvider.class);
 		overrideAndBackup(binder, MultiLineTerminalsEditStrategy.Factory.class, XpectMultiLineTerminalsEditStrategyFactory.class);
 		overrideAndBackup(binder, IHyperlinkHelper.class, XtHyperlinkHelper.class);
+		overrideAndBackup(binder, MarkerTypeProvider.class, XtMarkerTypeProvider.class);
+		overrideAndBackup(binder, IssueResolutionProvider.class, XtIssueResolutionProvider.class);
 	}
 
 }

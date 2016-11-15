@@ -405,5 +405,104 @@
       </fileExtension>
    </extension>
    
+   <extension
+            id="live_test_execution_success"
+            name="Xpect Test Passed Successfully"
+            point="org.eclipse.core.resources.markers">
+        <persistent value="true"/>
+        <super
+              type="org.xpect.ui.xpect.check.fast">
+        </super>
+    </extension>
+    <extension
+            id="live_test_execution_failed"
+            name="Xpect Test Failed"
+            point="org.eclipse.core.resources.markers">
+        <super type="org.xpect.ui.xpect.check.fast"/>
+        <persistent value="true"/>
+    </extension>
+    <extension
+            id="live_test_execution_error"
+            name="Xpect Test Failed"
+            point="org.eclipse.core.resources.markers">
+        <super type="org.xpect.ui.xpect.check.fast"/>
+        <persistent value="true"/>
+    </extension>
+    <extension
+            id="live_test_execution_ignored"
+            name="Xpect Test Ignored"
+            point="org.eclipse.core.resources.markers">
+        <super type="org.xpect.ui.xpect.check.fast"/>
+        <persistent value="true"/>
+    </extension>
+    <extension
+        point="org.eclipse.ui.editors.annotationTypes">
+     <type
+           markerType="org.xpect.ui.live_test_execution_success"
+           name="org.xpect.ui.live_test_execution_success_annotation"
+           super="org.eclipse.ui.workbench.texteditor.info">
+     </type>
+  </extension>
+  <extension
+        point="org.eclipse.ui.editors.markerAnnotationSpecification">
+     <specification
+           annotationImageProvider="org.xpect.ui.services.XpectAnnotationImageProvider"
+           annotationType="org.xpect.ui.live_test_execution_success_annotation"
+           includeOnPreferencePage="true"
+           symbolicIcon="info">
+     </specification>
+  </extension>
+  <extension
+        point="org.eclipse.ui.ide.markerSupport">
+     <problemFilter
+           enabled="false"
+           id="org.xpect.ui.problemFilter1"
+           name="org.xpect.ui.problemFilter1">
+        <selectedType
+              markerId="org.xpect.ui.live_test_execution_success">
+        </selectedType>
+     </problemFilter>
+     <markerContentGenerator
+           id="org.xpect.ui.markerContentGenerator1"
+           name="name">
+        <markerFieldReference
+              id="org.xpect.ui.markerFieldReference1">
+        </markerFieldReference>
+        <markerTypeReference
+              id="org.xpect.ui.markerTypeReference2">
+        </markerTypeReference>
+     </markerContentGenerator>
+     <markerContentGeneratorExtension
+           generatorId="org.xpect.ui.markerContentGeneratorExtension1"
+           id="org.xpect.ui.markerContentGeneratorExtension1">
+     </markerContentGeneratorExtension>
+     <markerField
+           class="org.xpect.ui.MarkerField:1"
+           id="org.xpect.ui.markerField1"
+           name="org.xpect.ui.markerField1">
+     </markerField>
+  </extension>
+    
+  <!--  <extension
+          point="org.eclipse.ui.ide.markerImageProviders">
+       <imageprovider
+             id="live_test_execution_successImageProvider"
+             icon="org.xpect.ui.imageprovider2"
+             markertype="org.xpect.ui.live_test_execution_success">
+       </imageprovider>
+       <imageprovider
+             id="live_test_execution_failedImageProvider"
+             markertype="org.xpect.ui.live_test_execution_failed">
+       </imageprovider>
+       <imageprovider
+             id="live_test_execution_errorImageProvider"
+             markertype="org.xpect.ui.live_test_execution_error">
+       </imageprovider>
+       <imageprovider
+             id="live_test_execution_ignoredImageProvider"
+             markertype="org.xpect.ui.live_test_execution_ignored">
+       </imageprovider>
+    </extension> -->
+   
 
 </plugin>

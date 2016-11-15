@@ -8,37 +8,22 @@
 package org.xpect.ui.services;
 
 import static org.xpect.runner.TestExecutor.createFileConfiguration;
-import static org.xpect.runner.TestExecutor.createRootConfiguration;
-import static org.xpect.runner.TestExecutor.createState;
-import static org.xpect.runner.TestExecutor.createXpectConfiguration;
-import static org.xpect.runner.TestExecutor.runTest;
 
-import java.lang.annotation.Annotation;
-import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.XtextResource;
-import org.eclipse.xtext.ui.resource.ProjectByResourceProvider;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.validation.CheckMode;
 import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.validation.Issue;
 import org.xpect.Environment;
 import org.xpect.XpectFile;
-import org.xpect.XpectInvocation;
-import org.xpect.XpectJavaModel;
-import org.xpect.parameter.IStatementRelatedRegion;
 import org.xpect.registry.DefaultBinding;
 import org.xpect.state.Configuration;
-import org.xpect.state.StateContainer;
-import org.xpect.ui.preferences.XpectRootPreferencePage;
 import org.xpect.ui.util.XpectFileAccess;
 import org.xpect.util.EnvironmentUtil;
 
-import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
@@ -52,7 +37,7 @@ public class XtResourceValidator implements IResourceValidator {
 	private IResourceValidator delegate;
 
 	@Inject
-	private ProjectByResourceProvider projectByResourceProvider;
+	private LiveTestRunner liveRunner;
 
 	public IResourceValidator getDelegate() {
 		return delegate;
@@ -71,7 +56,7 @@ public class XtResourceValidator implements IResourceValidator {
 			issues.addAll(xpectIssues);
 		}
 		if (EnvironmentUtil.ENVIRONMENT == Environment.WORKBENCH) {
-			List<Issue> testResultIssues = validateTests(resource, mode, indicator, fileConfig);
+			List<Issue> testResultIssues = liveRunner.validateTests(resource, mode, indicator, fileConfig);
 			issues.addAll(testResultIssues);
 		}
 		return issues;
@@ -92,46 +77,4 @@ public class XtResourceValidator implements IResourceValidator {
 		return validator.validate(xpectResource, mode, indicator);
 	}
 
-	protected void configureTests(Resource resource, CheckMode mode, CancelIndicator indicator, Configuration fileConfig) {
-		try {
-			@SuppressWarnings("unchecked")
-			Class<? extends Annotation> thisResource = (Class<? extends Annotation>) Platform.getBundle("org.xpect.xtext.lib").loadClass("org.xpect.xtext.lib.setup.ThisResource");
-			fileConfig.addValue(thisResource, XtextResource.class, (XtextResource) resource);
-		} catch (ClassNotFoundException e1) {
-			Throwables.propagate(e1);
-		}
-	}
-
-	protected List<Issue> validateTests(Resource resource, CheckMode mode, CancelIndicator indicator, Configuration fileConfig) {
-		IProject project = projectByResourceProvider.getProjectContext(resource);
-		if (project == null || !XpectRootPreferencePage.isLiveTestExecutionEnabled(project)) {
-			return Collections.emptyList();
-		}
-		List<Issue> result = Lists.newArrayList();
-		XpectFile xpectFile = XpectFileAccess.getXpectFile(resource);
-		if (xpectFile != null) {
-			XpectJavaModel javaModel = xpectFile.getJavaModel();
-			if (javaModel != null && javaModel.getTestOrSuite() != null && javaModel.getTestOrSuite().getJavaClass() != null) {
-				configureTests(resource, mode, indicator, fileConfig);
-				StateContainer rootState = createState(createRootConfiguration(javaModel));
-				StateContainer fileState = createState(rootState, fileConfig);
-				for (XpectInvocation inv : xpectFile.getInvocations()) {
-					StateContainer invState = createState(fileState, createXpectConfiguration(inv));
-					try {
-						runTest(invState, inv);
-					} catch (Throwable e) {
-						Issue.IssueImpl issue = new Issue.IssueImpl();
-						issue.setMessage(e.getMessage());
-						IStatementRelatedRegion region = inv.getExtendedRegion();
-						issue.setOffset(region.getOffset());
-						issue.setLength(region.getLength());
-						result.add(issue);
-					} finally {
-						invState.invalidate();
-					}
-				}
-			}
-		}
-		return result;
-	}
 }
