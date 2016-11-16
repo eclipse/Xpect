@@ -19,11 +19,11 @@ class LexerTest {
 			RULE_ANY_OTHER '/'
 			RULE_ANY_OTHER '/'
 			RULE_ANY_OTHER ' '
-			KEYWORD 'XPECT_SETUP'
+			XPECT_SETUP 'XPECT_SETUP'
 			RULE_WS ' '
 			RULE_ID 'foo'
 			RULE_WS ' '
-			KEYWORD 'END_SETUP'
+			END_SETUP 'END_SETUP'
 		'''
 		assertEquals(expected, actual)
 	}
@@ -69,7 +69,7 @@ class LexerTest {
 	@Test def testXPECT() {
 		val actual = lex('''XPECT''')
 		val expected = '''
-			KEYWORD 'XPECT'
+			XPECT 'XPECT'
 		'''
 		assertEquals(expected, actual)
 	}

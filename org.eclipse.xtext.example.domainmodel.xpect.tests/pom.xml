@@ -50,7 +50,7 @@
 					<target>
 						<artifact>
 							<groupId>org.xpect</groupId>
-							<artifactId>org.xpect.target.eclipse_3_8_2-xtext_2_4_0</artifactId>
+							<artifactId>org.xpect.target.eclipse_4_5_0-xtext_2_8_3</artifactId>
 							<version>0.1.0-SNAPSHOT</version>
 						</artifact>
 					</target>
@@ -71,11 +71,6 @@
 							<arch>x86</arch>
 						</environment>
 						<environment>
-							<os>macosx</os>
-							<ws>cocoa</ws>
-							<arch>x86</arch>
-						</environment>
-						<environment>
 							<os>win32</os>
 							<ws>win32</ws>
 							<arch>x86_64</arch>
@@ -93,7 +88,7 @@
 			<plugin>
 				<groupId>org.eclipse.xtend</groupId>
 				<artifactId>xtend-maven-plugin</artifactId>
-				<version>2.4.3</version>
+				<version>2.8.3</version>
 				<executions>
 					<execution>
 						<goals>

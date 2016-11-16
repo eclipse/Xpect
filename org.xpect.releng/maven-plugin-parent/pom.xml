@@ -37,7 +37,7 @@
 					<target>
 						<artifact>
 							<groupId>org.xpect</groupId>
-							<artifactId>org.xpect.target.eclipse_3_8_2-xtext_2_4_0</artifactId>
+							<artifactId>org.xpect.target.eclipse_4_5_0-xtext_2_8_3</artifactId>
 							<version>0.1.0-SNAPSHOT</version>
 						</artifact>
 					</target>
