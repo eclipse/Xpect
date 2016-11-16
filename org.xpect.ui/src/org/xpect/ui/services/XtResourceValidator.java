@@ -26,6 +26,7 @@ import org.xpect.util.EnvironmentUtil;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 
 /**
  * @author Moritz Eysholdt - Initial contribution and API
@@ -37,7 +38,7 @@ public class XtResourceValidator implements IResourceValidator {
 	private IResourceValidator delegate;
 
 	@Inject
-	private LiveTestRunner liveRunner;
+	private Injector injector;
 
 	public IResourceValidator getDelegate() {
 		return delegate;
@@ -56,7 +57,8 @@ public class XtResourceValidator implements IResourceValidator {
 			issues.addAll(xpectIssues);
 		}
 		if (EnvironmentUtil.ENVIRONMENT == Environment.WORKBENCH) {
-			List<Issue> testResultIssues = liveRunner.validateTests(resource, mode, indicator, fileConfig);
+			LiveTestRunner runner = injector.getInstance(LiveTestRunner.class);
+			List<Issue> testResultIssues = runner.validateTests(resource, mode, indicator, fileConfig);
 			issues.addAll(testResultIssues);
 		}
 		return issues;
