@@ -13,6 +13,7 @@ import static org.xpect.runner.TestExecutor.createXpectConfiguration;
 import static org.xpect.runner.TestExecutor.runTest;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,10 +25,13 @@ import org.eclipse.xtext.ui.resource.ProjectByResourceProvider;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.util.CollectionBasedAcceptor;
 import org.eclipse.xtext.validation.CheckMode;
+import org.eclipse.xtext.validation.CheckType;
 import org.eclipse.xtext.validation.Issue;
+import org.xpect.XjmXpectMethod;
 import org.xpect.XpectFile;
 import org.xpect.XpectInvocation;
 import org.xpect.XpectJavaModel;
+import org.xpect.runner.Xpect;
 import org.xpect.state.Configuration;
 import org.xpect.state.StateContainer;
 import org.xpect.ui.preferences.XpectRootPreferencePage;
@@ -56,31 +60,48 @@ public class LiveTestRunner {
 	}
 
 	public List<Issue> validateTests(Resource resource, CheckMode mode, CancelIndicator indicator, Configuration fileConfig) {
-//		if (!mode.shouldCheck(CheckType.NORMAL)) {
-//			return Collections.emptyList();
-//		}
 		IProject project = projectByResourceProvider.getProjectContext(resource);
 		if (project == null || !XpectRootPreferencePage.isLiveTestExecutionEnabled(project)) {
 			return Collections.emptyList();
 		}
-		List<Issue> result = Lists.newArrayList();
 		XpectFile xpectFile = XpectFileAccess.getXpectFile(resource);
-		if (xpectFile != null) { // TODO: handle ignored
-			XpectJavaModel javaModel = xpectFile.getJavaModel();
-			if (javaModel != null && javaModel.getTestOrSuite() != null && javaModel.getTestOrSuite().getJavaClass() != null) {
-				configureTests(resource, mode, indicator, fileConfig);
-				StateContainer rootState = createState(createRootConfiguration(javaModel));
-				StateContainer fileState = createState(rootState, fileConfig);
-				for (XpectInvocation inv : xpectFile.getInvocations()) {
-					StateContainer invState = createState(fileState, createXpectConfiguration(inv));
-					try {
-						runTest(invState, inv);
-						result.add(issueFactory.createSuccessIssue(inv));
-					} catch (Throwable e) {
-						issueFactory.exceptionToIssues(inv, e, CollectionBasedAcceptor.of(result));
-					} finally {
-						invState.invalidate();
+		if (xpectFile == null || xpectFile.isIgnore()) {
+			return Collections.emptyList();
+		}
+		List<XpectInvocation> invocations = Lists.newArrayList();
+		for (XpectInvocation inv : xpectFile.getInvocations()) {
+			if (!inv.isIgnore()) {
+				XjmXpectMethod method = inv.getMethod();
+				if (method != null && !method.eIsProxy()) {
+					Method javaMethod = method.getJavaMethod();
+					if (javaMethod != null) {
+						Xpect annotation = javaMethod.getAnnotation(Xpect.class);
+						CheckType checkType = annotation.liveExecution().toCheckType();
+						if (annotation != null && checkType != null && mode.shouldCheck(checkType)) {
+							invocations.add(inv);
+						}
 					}
+				}
+			}
+		}
+		if (invocations.isEmpty()) {
+			return Collections.emptyList();
+		}
+		List<Issue> result = Lists.newArrayList();
+		XpectJavaModel javaModel = xpectFile.getJavaModel();
+		if (javaModel != null && javaModel.getTestOrSuite() != null && javaModel.getTestOrSuite().getJavaClass() != null) {
+			configureTests(resource, mode, indicator, fileConfig);
+			StateContainer rootState = createState(createRootConfiguration(javaModel));
+			StateContainer fileState = createState(rootState, fileConfig);
+			for (XpectInvocation inv : invocations) {
+				StateContainer invState = createState(fileState, createXpectConfiguration(inv));
+				try {
+					runTest(invState, inv);
+					result.add(issueFactory.createSuccessIssue(inv));
+				} catch (Throwable e) {
+					issueFactory.exceptionToIssues(inv, e, CollectionBasedAcceptor.of(result));
+				} finally {
+					invState.invalidate();
 				}
 			}
 		}

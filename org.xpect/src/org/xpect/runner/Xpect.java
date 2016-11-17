@@ -20,5 +20,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Inherited
 public @interface Xpect {
-
+	LiveExecutionType liveExecution() default LiveExecutionType.DISABLED;
 }

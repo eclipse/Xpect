@@ -19,6 +19,7 @@ import org.xpect.XpectImport;
 import org.xpect.expectation.CommaSeparatedValuesExpectation;
 import org.xpect.expectation.ICommaSeparatedValuesExpectation;
 import org.xpect.parameter.ParameterParser;
+import org.xpect.runner.LiveExecutionType;
 import org.xpect.runner.Xpect;
 import org.xpect.runner.XpectRunner;
 import org.xpect.xtext.lib.setup.ThisOffset;
@@ -89,7 +90,7 @@ public class ScopingTest {
 		return scopeProvider;
 	}
 
-	@Xpect
+	@Xpect(liveExecution = LiveExecutionType.FAST)
 	@ParameterParser(syntax = "('at' arg1=OFFSET)?")
 	public void scope( //
 			@CommaSeparatedValuesExpectation ICommaSeparatedValuesExpectation expectation, //

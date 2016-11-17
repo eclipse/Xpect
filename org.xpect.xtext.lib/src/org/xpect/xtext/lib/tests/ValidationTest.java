@@ -21,6 +21,7 @@ import org.junit.ComparisonFailure;
 import org.junit.runner.RunWith;
 import org.xpect.XpectImport;
 import org.xpect.expectation.ILinesExpectation;
+import org.xpect.runner.LiveExecutionType;
 import org.xpect.runner.Xpect;
 import org.xpect.runner.XpectRunner;
 import org.xpect.text.IRegion;
@@ -48,7 +49,7 @@ public class ValidationTest {
 		return new IssueFormatter(document, false);
 	}
 
-	@Xpect
+	@Xpect(liveExecution = LiveExecutionType.FAST)
 	@ConsumedIssues(Severity.ERROR)
 	public void errors(ILinesExpectation expectation, @IssuesByLine Multimap<IRegion, Issue> line2issue, @NextLine IRegion line, ValidationTestConfig cfg) {
 		List<String> issues = getActualIssues(line2issue, line, cfg, Severity.ERROR);
@@ -64,40 +65,39 @@ public class ValidationTest {
 		return formattedIssues;
 	}
 
-	@Xpect
+	@Xpect(liveExecution = LiveExecutionType.FAST)
 	@ConsumedIssues(Severity.INFO)
 	public void infos(ILinesExpectation expectation, @IssuesByLine Multimap<IRegion, Issue> line2issue, @NextLine IRegion line, ValidationTestConfig cfg) {
 		List<String> issues = getActualIssues(line2issue, line, cfg, Severity.INFO);
 		expectation.assertEquals(issues);
 	}
 
-	@Xpect
+	@Xpect(liveExecution = LiveExecutionType.FAST)
 	@ConsumedIssues({ Severity.INFO, Severity.ERROR, Severity.WARNING })
 	public void issues(ILinesExpectation expectation, @IssuesByLine Multimap<IRegion, Issue> line2issue, @NextLine IRegion line, ValidationTestConfig cfg) {
 		List<String> issues = getActualIssues(line2issue, line, cfg, null);
 		expectation.assertEquals(issues);
 	}
 
-	@Xpect
+	@Xpect(liveExecution = LiveExecutionType.FAST)
 	@ConsumedIssues({ Severity.INFO, Severity.ERROR, Severity.WARNING })
 	public void noIssues(@IssuesByLine Multimap<IRegion, Issue> line2issue, @NextLine IRegion line) {
 		assertNoIssuesInLine(line2issue, line);
 	}
 
-	@Xpect
+	@Xpect(liveExecution = LiveExecutionType.FAST)
 	@ConsumedIssues({ Severity.ERROR })
 	public void noErrors(@IssuesByLine Multimap<IRegion, Issue> line2issue, @NextLine IRegion line) {
 		assertNoIssuesInLine(line2issue, line);
 	}
 
-	@Xpect
 	@Deprecated
 	@ConsumedIssues({ Severity.ERROR })
 	public void noerrors(@IssuesByLine Multimap<IRegion, Issue> line2issue, @NextLine IRegion line) {
 		assertNoIssuesInLine(line2issue, line);
 	}
 
-	@Xpect
+	@Xpect(liveExecution = LiveExecutionType.FAST)
 	@ConsumedIssues({ Severity.WARNING })
 	public void noWarnings(@IssuesByLine Multimap<IRegion, Issue> line2issue, @NextLine IRegion line) {
 		assertNoIssuesInLine(line2issue, line);
@@ -119,7 +119,7 @@ public class ValidationTest {
 		}
 	}
 
-	@Xpect
+	@Xpect(liveExecution = LiveExecutionType.FAST)
 	@ConsumedIssues({ Severity.INFO, Severity.ERROR, Severity.WARNING })
 	public void warnings(ILinesExpectation expectation, @IssuesByLine Multimap<IRegion, Issue> line2issue, @NextLine IRegion line, ValidationTestConfig cfg) {
 		List<String> issues = getActualIssues(line2issue, line, cfg, Severity.WARNING);

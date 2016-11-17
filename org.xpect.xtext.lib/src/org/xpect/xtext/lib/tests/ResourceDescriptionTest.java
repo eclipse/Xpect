@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 import org.xpect.XpectImport;
 import org.xpect.expectation.ILinesExpectation;
 import org.xpect.expectation.LinesExpectation;
+import org.xpect.runner.LiveExecutionType;
 import org.xpect.runner.Xpect;
 import org.xpect.runner.XpectRunner;
 import org.xpect.xtext.lib.setup.ThisResource;
@@ -88,21 +89,21 @@ public class ResourceDescriptionTest {
 	@Inject
 	private IResourceDescription.Manager manager;
 
-	@Xpect
+	@Xpect(liveExecution = LiveExecutionType.FAST)
 	public void exportedObjects(@LinesExpectation ILinesExpectation expectation, @ThisResource XtextResource resource) {
 		IResourceDescription resourceDescription = manager.getResourceDescription(resource);
 		Iterable<IEObjectDescription> exportedObjects = resourceDescription.getExportedObjects();
 		expectation.assertEquals(Iterables.transform(exportedObjects, new EObjectDescriptionToStringMapper()));
 	}
 
-	@Xpect
+	@Xpect(liveExecution = LiveExecutionType.FAST)
 	public void importedNames(@LinesExpectation ILinesExpectation expectation, @ThisResource XtextResource resource) {
 		IResourceDescription resourceDescription = manager.getResourceDescription(resource);
 		Iterable<QualifiedName> importedNames = resourceDescription.getImportedNames();
 		expectation.assertEquals(importedNames);
 	}
 
-	@Xpect
+	@Xpect(liveExecution = LiveExecutionType.FAST)
 	public void referenceDescriptions(@LinesExpectation ILinesExpectation expectation, @ThisResource XtextResource resource) {
 		IResourceDescription resourceDescription = manager.getResourceDescription(resource);
 		Iterable<IReferenceDescription> referenceDescriptions = resourceDescription.getReferenceDescriptions();

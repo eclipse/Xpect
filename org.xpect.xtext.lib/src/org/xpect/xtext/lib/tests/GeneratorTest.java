@@ -15,6 +15,7 @@ import org.xpect.XpectImport;
 import org.xpect.expectation.IStringExpectation;
 import org.xpect.expectation.StringExpectation;
 import org.xpect.parameter.ParameterParser;
+import org.xpect.runner.LiveExecutionType;
 import org.xpect.runner.Xpect;
 import org.xpect.runner.XpectRunner;
 import org.xpect.xtext.lib.setup.ThisResource;
@@ -42,7 +43,7 @@ public class GeneratorTest {
 		return generator;
 	}
 
-	@Xpect
+	@Xpect(liveExecution = LiveExecutionType.FAST)
 	@ParameterParser(syntax = "('file' arg2=TEXT)?")
 	public void generated(@StringExpectation IStringExpectation expectation, @ThisResource XtextResource resource, String arg2) {
 		InMemoryFileSystemAccess fsa = new InMemoryFileSystemAccess();

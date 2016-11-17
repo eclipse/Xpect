@@ -22,6 +22,7 @@ import org.xpect.XpectImport;
 import org.xpect.expectation.IStringExpectation;
 import org.xpect.expectation.StringExpectation;
 import org.xpect.parameter.ParameterParser;
+import org.xpect.runner.LiveExecutionType;
 import org.xpect.runner.Xpect;
 import org.xpect.runner.XpectRunner;
 import org.xpect.xtext.lib.setup.ThisOffset;
@@ -43,7 +44,7 @@ public class LinkingTest {
 		return uri.deresolve(base).toString();
 	}
 
-	@Xpect
+	@Xpect(liveExecution = LiveExecutionType.FAST)
 	@ParameterParser(syntax = "('at' arg1=OFFSET)?")
 	public void linkedFragment(@StringExpectation IStringExpectation expectation, @ThisOffset ICrossEReferenceAndEObject arg1) {
 		EObject targetObject = (EObject) arg1.getEObject().eGet(arg1.getCrossEReference());
@@ -60,7 +61,7 @@ public class LinkingTest {
 		expectation.assertEquals(actual);
 	}
 
-	@Xpect
+	@Xpect(liveExecution = LiveExecutionType.FAST)
 	@ParameterParser(syntax = "('at' arg1=OFFSET)?")
 	public void linkedName(@StringExpectation IStringExpectation expectation, @ThisOffset ICrossEReferenceAndEObject arg1) {
 		EObject targetObject = (EObject) arg1.getEObject().eGet(arg1.getCrossEReference());
