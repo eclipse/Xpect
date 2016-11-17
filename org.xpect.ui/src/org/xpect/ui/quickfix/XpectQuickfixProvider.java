@@ -58,8 +58,8 @@ public class XpectQuickfixProvider extends DefaultQuickfixProvider {
 
 	private String quote(final String newText) {
 		String label = newText;
-		if (newText.length() > 10) {
-			label = newText.substring(0, 10) + "...";
+		if (newText.length() > 20) {
+			label = newText.substring(0, 20) + "...";
 		}
 		label = "'" + label.replace("\n", "\\n").replace("\r", "\\r") + "'";
 		return label;
