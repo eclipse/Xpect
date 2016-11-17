@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.xpect</groupId>
 	<artifactId>org.xpect.test.parent</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.2.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -49,7 +49,7 @@
 						<artifact>
 							<groupId>org.xpect</groupId>
 							<artifactId>${target-platform-artifactId}</artifactId>
-							<version>0.1.0-SNAPSHOT</version>
+							<version>0.2.0-SNAPSHOT</version>
 						</artifact>
 					</target>
 				</configuration>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-	<feature url="features/org.xpect.sdk_0.1.0.qualifier.jar" id="org.xpect.sdk"
-		version="0.1.0.qualifier">
-		<category name="Xpect 0.1.0" />
+	<feature url="features/org.xpect.sdk_0.2.0.qualifier.jar" id="org.xpect.sdk"
+		version="0.2.0.qualifier">
+		<category name="Xpect 0.2.0" />
 	</feature>
-	<category-def name="Xpect 0.1.0" label="Xpect 0.1.0">
+	<category-def name="Xpect 0.2.0" label="Xpect 0.2.0">
 		<description>
 			Tests for Xtext Languages
 		</description>

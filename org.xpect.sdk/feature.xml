@@ -2,12 +2,12 @@
 <feature
       id="org.xpect.sdk"
       label="Xpect SDK Feature "
-      version="0.1.0.qualifier">
+      version="0.2.0.qualifier">
 
    <requires>
       <import feature="org.eclipse.xtext.runtime" version="2.3.1.v201208210947" match="greaterOrEqual"/>
       <import feature="org.eclipse.xtext.xbase" version="2.3.1.v201208210947" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.jdt.junit.runners" version="0.1.0"/>
+      <import plugin="org.eclipse.jdt.junit.runners" version="0.2.0"/>
    </requires>
 
    <plugin

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Junit
 Bundle-SymbolicName: org.xpect.ui.junit;singleton:=true
-Bundle-Version: 0.1.0.qualifier
+Bundle-Version: 0.2.0.qualifier
 Bundle-Activator: org.xpect.ui.junit.Activator
 Require-Bundle: org.xpect,
  org.xpect.ui,

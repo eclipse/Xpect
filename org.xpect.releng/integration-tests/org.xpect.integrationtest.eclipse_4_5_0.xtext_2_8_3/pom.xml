@@ -3,13 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.xtext.example.domainmodel</groupId>
 	<artifactId>org.xpect.integrationtest.eclipse_4_5_0.xtext_2_8_3</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.2.0-SNAPSHOT</version>
 	<packaging>eclipse-test-plugin</packaging>
 
 	<parent>
 		<groupId>org.xpect</groupId>
 		<artifactId>org.xpect.test.parent</artifactId>
-		<version>0.1.0-SNAPSHOT</version>
+		<version>0.2.0-SNAPSHOT</version>
 		<relativePath>../../maven-test-parent</relativePath>
 	</parent>
 
@@ -22,7 +22,7 @@
 			<!-- we need to include this explicitly because it's a fragment -->
 			<artifactId>org.eclipse.xtext.example.arithmetics.xpect.tests</artifactId>
 			<groupId>org.eclipse.xtext.example.arithmetics</groupId>
-			<version>0.1.0-SNAPSHOT</version>
+			<version>0.2.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
