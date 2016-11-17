@@ -61,24 +61,23 @@ public class LiveTestIssueFactory {
 
 	protected void exceptionToIssues(XpectInvocation inv, ComparisonFailure exception, IAcceptor<Issue> result) {
 		ComparisonFailure cf = (ComparisonFailure) exception;
-		String actual = cf.getActual();
-		String document = inv.getFile().getDocument();
-		int fromStart = 0, fromEnd = 1, length = Math.min(actual.length(), document.length());
-		while (fromStart < length && actual.charAt(fromStart) == document.charAt(fromStart)) {
+		String actualDoc = cf.getActual();
+		String expectedDoc = inv.getFile().getDocument();
+		int fromStart = 0, fromEnd = 1, length = Math.min(actualDoc.length(), expectedDoc.length());
+		while (fromStart < length && actualDoc.charAt(fromStart) == expectedDoc.charAt(fromStart)) {
 			fromStart++;
 		}
-		while (fromEnd < length && actual.charAt(actual.length() - fromEnd) == document.charAt(document.length() - fromEnd)) {
+		while (fromEnd < length && actualDoc.charAt(actualDoc.length() - fromEnd) == expectedDoc.charAt(expectedDoc.length() - fromEnd)) {
 			fromEnd++;
 		}
-		while (fromStart > 0 && !Character.isWhitespace(document.charAt(fromStart))) {
+		while (fromStart > 0 && (!Character.isWhitespace(expectedDoc.charAt(fromStart)) || expectedDoc.charAt(fromStart) == '\n' || expectedDoc.charAt(fromStart) == '\r')) {
 			fromStart--;
 		}
-		while (fromEnd > 0 && !Character.isWhitespace(document.charAt(document.length() - fromEnd))) {
+		while (fromEnd > 0 && !Character.isWhitespace(expectedDoc.charAt(expectedDoc.length() - fromEnd))) {
 			fromEnd--;
 		}
-		fromStart++;
-		if (fromStart + fromEnd >= document.length()) {
-			String text = actual.substring(fromStart, actual.length() - fromEnd);
+		if (fromStart + fromEnd >= expectedDoc.length()) {
+			String text = actualDoc.substring(fromStart, actualDoc.length() - fromEnd + 1);
 			Issue.IssueImpl issue = createIssue(inv);
 			issue.setMessage("Xpect test failed because the actual test result has '" + text + "' here.");
 			issue.setOffset(fromStart);
@@ -87,20 +86,21 @@ public class LiveTestIssueFactory {
 			issue.setData(new String[] { text });
 			result.accept(issue);
 		} else {
-			int endIndex = actual.length() - fromEnd;
+			fromStart++;
+			int endIndex = actualDoc.length() - fromEnd;
 			if (endIndex <= fromStart) {
 				Issue.IssueImpl issue = createIssue(inv);
 				issue.setMessage("Xpect test failed because this text is not part of the actual test result.");
 				issue.setOffset(fromStart);
-				issue.setLength(document.length() - fromStart - fromEnd);
+				issue.setLength(expectedDoc.length() - fromStart - fromEnd);
 				issue.setCode(ISSUE_CODE_TEST_EXP_DELETE);
 				result.accept(issue);
 			} else {
-				String text = actual.substring(fromStart, endIndex);
+				String text = actualDoc.substring(fromStart, endIndex);
 				Issue.IssueImpl issue = createIssue(inv);
 				issue.setMessage("Xpect test failed because in the actual test result this text is: " + text);
 				issue.setOffset(fromStart);
-				issue.setLength(document.length() - fromStart - fromEnd);
+				issue.setLength(expectedDoc.length() - fromStart - fromEnd);
 				issue.setCode(ISSUE_CODE_TEST_EXP_CHANGE);
 				issue.setData(new String[] { text });
 				result.accept(issue);
