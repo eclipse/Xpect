@@ -109,13 +109,13 @@ public class ResolvedConfiguration {
 
 	public static class Factory {
 		private final Constructor<?> constructor;
-		private final List<Value> in;
+		private final Value[] in;
 		private final Collection<DerivedValue> out;
 
-		public Factory(Constructor<?> constructor, List<Value> in, Collection<DerivedValue> out) {
+		public Factory(Constructor<?> constructor, Value[] in, Collection<DerivedValue> out) {
 			super();
 			this.constructor = constructor;
-			this.in = in == null ? null : Collections.unmodifiableList(in);
+			this.in = in;
 			this.out = Collections.unmodifiableCollection(out);
 		}
 
@@ -123,7 +123,7 @@ public class ResolvedConfiguration {
 			return constructor;
 		}
 
-		public List<Value> getIn() {
+		public Value[] getIn() {
 			return in;
 		}
 
@@ -136,17 +136,22 @@ public class ResolvedConfiguration {
 		}
 
 		public boolean isResolved() {
-			return in != null;
+			for (Value i : in)
+				if (i == null)
+					return false;
+			return true;
 		}
 
 		@Override
 		public String toString() {
 			List<String> f = Lists.newArrayList();
-			if (isResolved())
-				for (Value in : getIn())
+			for (int i = 0; i < in.length; i++) {
+				if (in == null) {
+					f.add("unresolved " + constructor.getParameterTypes()[i]);
+				} else {
 					f.add("  in " + in);
-			else
-				f.add("unresolved!");
+				}
+			}
 			for (Value out : getOut())
 				f.add("  out " + out);
 			Collections.sort(f);
@@ -246,11 +251,15 @@ public class ResolvedConfiguration {
 			List<Constructor<?>> constructors = Lists.newArrayList(factory.getConstructors());
 			Collections.sort(constructors, comparator);
 			for (Constructor<?> constructor : constructors) {
-				List<Value> in = findParams(all, constructor);
+				Value[] in = findParams(all, constructor);
 				Collection<DerivedValue> out = derived.get(factory);
 				Factory fact = new Factory(constructor, in, out);
 				result.add(fact);
-				if (in != null) {
+				boolean resolved = true;
+				for (Value i : in) {
+					resolved &= i != null;
+				}
+				if (resolved) {
 					for (DerivedValue m : out)
 						m.factory = fact;
 					continue NEXT;
@@ -358,20 +367,18 @@ public class ResolvedConfiguration {
 		return result;
 	}
 
-	protected List<Value> findParams(Multimap<Class<? extends Annotation>, Value> annotation2values, Constructor<?> constructor) {
-		List<Value> result = Lists.newArrayList();
+	protected Value[] findParams(Multimap<Class<? extends Annotation>, Value> annotation2values, Constructor<?> constructor) {
 		Class<?>[] parameterTypes = constructor.getParameterTypes();
+		Value[] result = new Value[parameterTypes.length];
 		Annotation[][] parameterAnnotations = constructor.getParameterAnnotations();
 		for (int i = 0; i < parameterTypes.length; i++) {
 			Collection<Value> vals = findValues(annotation2values, parameterAnnotations[i]);
-			if (vals == null)
-				return null;
-			Value value = findValue(vals, parameterTypes[i]);
-			if (value == null && parent != null) // FIXME: cleanup
-				value = parent.getValue(parameterAnnotations[i].length > 0 ? parameterAnnotations[i][0].annotationType() : Default.class, parameterTypes[i]);
-			if (value == null)
-				return null;
-			result.add(value);
+			if (vals != null) {
+				Value value = findValue(vals, parameterTypes[i]);
+				if (value == null && parent != null) // FIXME: cleanup
+					value = parent.getValue(parameterAnnotations[i].length > 0 ? parameterAnnotations[i][0].annotationType() : Default.class, parameterTypes[i]);
+				result[i] = value;
+			}
 		}
 		return result;
 	}
@@ -494,7 +501,7 @@ public class ResolvedConfiguration {
 		if (result != null)
 			return result;
 		for (Value in : fact.getIn())
-			if (in instanceof DerivedValue && !isResolved(((DerivedValue) in).getFactory(), cache)) {
+			if (in == null || (in instanceof DerivedValue && !isResolved(((DerivedValue) in).getFactory(), cache))) {
 				cache.put(fact, false);
 				return false;
 			}
@@ -528,10 +535,14 @@ public class ResolvedConfiguration {
 		for (Factory fact : Iterables.concat(resolvedFactories, unresolvedFactories)) {
 			result.add("    " + (fact.isResolved() ? "" : "UNRESOLVED ") + fact.getConstructor().getName() + " {");
 			List<String> f = Lists.newArrayList();
-			List<Value> ins = fact.getIn();
-			if (ins != null)
-				for (Value in : ins)
-					f.add("        in " + in);
+			Value[] in2 = fact.getIn();
+			for (int i = 0; i < in2.length; i++) {
+				if (in2[i] == null) {
+					f.add("        in (unresolved " + fact.getConstructor().getParameterTypes()[i] + ")");
+				} else {
+					f.add("        in " + in2[i]);
+				}
+			}
 			for (Value out : fact.getOut())
 				f.add("        out " + out);
 			Collections.sort(f);
