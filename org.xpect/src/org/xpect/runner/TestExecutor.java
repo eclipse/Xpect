@@ -112,8 +112,11 @@ public class TestExecutor {
 		config.addFactory(ArgumentContributor.class);
 		config.addDefaultValue(XpectJavaModel.class, model);
 		Iterable<XjmContribution> contributions = model.getContributions(XpectSetupFactory.class, EnvironmentUtil.ENVIRONMENT);
-		for (XjmContribution contribution : contributions)
-			config.addFactory(contribution.getJavaClass());
+		for (XjmContribution contribution : contributions) {
+			if (contribution.isActive()) {
+				config.addFactory(contribution.getJavaClass());
+			}
+		}
 		return config;
 	}
 
