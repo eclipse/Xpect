@@ -17,7 +17,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.xtext.ui.guice.AbstractGuiceAwareExecutableExtensionFactory;
-import org.eclipse.xtext.ui.shared.Access;
 import org.osgi.framework.Bundle;
 import org.xpect.XpectJavaModel;
 import org.xpect.registry.ILanguageInfo;
@@ -49,7 +48,7 @@ public class XtEditorExecutableExtensionFactory extends AbstractGuiceAwareExecut
 		if (info == null)
 			throw new RuntimeException("There is no Xtext-language installed for file extension '" + ext + "'.");
 		XpectJavaModel javaModel = XpectUtil.loadJavaModel(file);
-		URI uri = Access.getIStorage2UriMapper().get().getUri(file);
+		URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
 		if (uri == null)
 			throw new RuntimeException("Could not determine URI for IFile " + file.getFullPath().toString());
 		return IXtInjectorProvider.INSTANCE.getInjector(javaModel, uri);
