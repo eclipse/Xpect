@@ -6,8 +6,8 @@ Bundle-Version: 0.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.7.0";visibility:=reexport,
  org.eclipse.core.resources;bundle-version="3.7.0";visibility:=reexport,
- org.xpect;bundle-version="0.2.0";visibility:=reexport,
- org.xpect.ui;bundle-version="0.2.0";visibility:=reexport,
+ org.xpect;bundle-version="[0.2.0,0.2.1)";visibility:=reexport,
+ org.xpect.ui;bundle-version="[0.2.0,0.2.1)";visibility:=reexport,
  org.eclipse.xtext.ui;bundle-version="2.8.3";visibility:=reexport,
  org.eclipse.jdt.core;bundle-version="3.7.0";visibility:=reexport,
  org.eclipse.ui.ide;bundle-version="3.7.0";visibility:=reexport
