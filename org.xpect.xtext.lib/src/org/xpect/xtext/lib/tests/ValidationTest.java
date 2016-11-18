@@ -91,6 +91,7 @@ public class ValidationTest {
 		assertNoIssuesInLine(line2issue, line);
 	}
 
+	@Xpect
 	@Deprecated
 	@ConsumedIssues({ Severity.ERROR })
 	public void noerrors(@IssuesByLine Multimap<IRegion, Issue> line2issue, @NextLine IRegion line) {
