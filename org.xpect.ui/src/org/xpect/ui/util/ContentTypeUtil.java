@@ -21,13 +21,16 @@ import org.xpect.XpectConstants;
  */
 public class ContentTypeUtil {
 
-	private static Logger LOG = Logger.getLogger(ContentTypeUtil.class);
-
-	private static final String XPECT_SETUP = "XPECT_SETUP";
-
 	public enum XpectContentType {
 		BINARY, TEXT, XPECT
 	}
+
+	private static Logger LOG = Logger.getLogger(ContentTypeUtil.class);
+
+	private static final String XPECT = "XPECT";
+	private static final String IGNORE_TAIL = "_IGNORE";
+
+	public static final String XPECT_CONTENT_TYPE_NAME = "text/x-xpect-xt";
 
 	public XpectContentType getContentType(IFile file) {
 		if (file == null || !file.exists())
@@ -37,20 +40,7 @@ public class ContentTypeUtil {
 		Reader contents = null;
 		try {
 			contents = new InputStreamReader(file.getContents(), file.getCharset());
-			char[] buf = new char[1024];
-			int len = contents.read(buf);
-			for (int i = 0; i < len; i++) {
-				char c = buf[i];
-				if (c < ' ' && c != '\n' && c != '\r' && c != '\t')
-					return XpectContentType.BINARY;
-			}
-			String stringBuf = new String(buf);
-			int index = stringBuf.indexOf(XPECT_SETUP);
-			if (index >= 0 && index < stringBuf.length() + XPECT_SETUP.length()) {
-				if (Character.isWhitespace(stringBuf.charAt(index + XPECT_SETUP.length())))
-					return XpectContentType.XPECT;
-			}
-			return XpectContentType.TEXT;
+			return getContentType(contents);
 		} catch (CoreException e) {
 			LOG.error(e.getMessage(), e);
 			return XpectContentType.BINARY;
@@ -64,6 +54,41 @@ public class ContentTypeUtil {
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 				}
+		}
+
+	}
+
+	public XpectContentType getContentType(Reader contents) throws IOException {
+		char[] buf = new char[2048];
+		int len = contents.read(buf);
+		for (int i = 0; i < len; i++) {
+			char c = buf[i];
+			if (c < ' ' && c != '\n' && c != '\r' && c != '\t')
+				return XpectContentType.BINARY;
+		}
+		String stringBuf = new String(buf);
+		int index = -1;
+		while (true) {
+			index = stringBuf.indexOf(XPECT, index + 1);
+			if (index >= 0) {
+				int before = index - 1;
+				if (before >= 0 && Character.isAlphabetic(stringBuf.charAt(before))) {
+					continue;
+				}
+				int after = index + XPECT.length();
+				if (after < stringBuf.length() && Character.isAlphabetic(stringBuf.charAt(after))) {
+					continue;
+				}
+				if (after + IGNORE_TAIL.length() < stringBuf.length()) {
+					String tail = stringBuf.substring(after, after + IGNORE_TAIL.length());
+					if (IGNORE_TAIL.equals(tail)) {
+						return XpectContentType.TEXT;
+					}
+				}
+				return XpectContentType.XPECT;
+			} else {
+				return XpectContentType.TEXT;
+			}
 		}
 
 	}
