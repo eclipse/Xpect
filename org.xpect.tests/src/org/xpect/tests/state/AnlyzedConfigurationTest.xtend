@@ -149,9 +149,11 @@ class AnlyzedConfigurationTest {
 			        out DerivedValue[Object MultiConstructor.get()]
 			    }
 			    UNRESOLVED org.xpect.tests.state.MultiConstructor {
+			        in (unresolved class java.lang.String)
 			        out DerivedValue[Object MultiConstructor.get()]
 			    }
 			    UNRESOLVED org.xpect.tests.state.MultiConstructor {
+			        in (unresolved interface java.lang.CharSequence)
 			        out DerivedValue[Object MultiConstructor.get()]
 			    }
 			}
@@ -185,9 +187,11 @@ class AnlyzedConfigurationTest {
 			        out DerivedValue[Object MultiConstructor.get()]
 			    }
 			    UNRESOLVED org.xpect.tests.state.MultiConstructor {
+			        in (unresolved class java.lang.String)
 			        out DerivedValue[Object MultiConstructor.get()]
 			    }
 			    UNRESOLVED org.xpect.tests.state.MultiConstructor {
+			        in (unresolved interface java.lang.CharSequence)
 			        out DerivedValue[Object MultiConstructor.get()]
 			    }
 			}
@@ -213,6 +217,7 @@ class AnlyzedConfigurationTest {
 			        out DerivedValue[Object MultiConstructor.get()]
 			    }
 			    UNRESOLVED org.xpect.tests.state.MultiConstructor {
+			        in (unresolved class java.lang.String)
 			        out DerivedValue[Object MultiConstructor.get()]
 			    }
 			}
@@ -224,9 +229,11 @@ class AnlyzedConfigurationTest {
 			        out DerivedValue[Object MultiConstructor.get()]
 			    }
 			    UNRESOLVED org.xpect.tests.state.MultiConstructor {
+			        in (unresolved class java.lang.String)
 			        out DerivedValue[Object MultiConstructor.get()]
 			    }
 			    UNRESOLVED org.xpect.tests.state.MultiConstructor {
+			        in (unresolved interface java.lang.CharSequence)
 			        out DerivedValue[Object MultiConstructor.get()]
 			    }
 			}
@@ -264,6 +271,7 @@ class AnlyzedConfigurationTest {
 			}
 			Derived Values {
 			    UNRESOLVED org.xpect.tests.state.TypeParam {
+			        in (unresolved class java.lang.Class)
 			        out DerivedValue[(unresolved) TypeParam.get()]
 			    }
 			}
