@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.xpect.xtext.xbase.lib.feature"
+      label="Xpect Xbase Test Library Feature"
+      version="0.2.0.qualifier">
+
+   <includes
+         id="org.xpect.xtext.lib.feature"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.xpect.xtext.xbase.lib"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.xpect.xtext.xbase.lib.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

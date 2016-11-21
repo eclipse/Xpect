@@ -4,40 +4,20 @@
       label="Xpect SDK Feature "
       version="0.2.0.qualifier">
 
+   <includes
+         id="org.xpect.xtext.lib.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.xpect.xtext.xbase.lib.feature"
+         version="0.0.0"/>
+
    <requires>
       <import feature="org.eclipse.xtext.runtime" version="2.3.1.v201208210947" match="greaterOrEqual"/>
       <import feature="org.eclipse.xtext.xbase" version="2.3.1.v201208210947" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jdt.junit.runners" version="0.2.0"/>
    </requires>
 
-   <plugin
-         id="org.xpect"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.xpect.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.xpect.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.xpect.ui.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-         
    <plugin
          id="org.xpect.ui.junit"
          download-size="0"
@@ -47,48 +27,6 @@
 
    <plugin
          id="org.xpect.ui.junit.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.xpect.xtext.lib"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.xpect.xtext.lib.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.junit"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.junit.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.hamcrest.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.hamcrest.core.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
