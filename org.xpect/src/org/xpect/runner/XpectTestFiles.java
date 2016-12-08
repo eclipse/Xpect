@@ -104,7 +104,7 @@ public @interface XpectTestFiles {
 		}
 
 		public URI deresolveToProject(URI uri) {
-			return uri.deresolve(getProject().getRootURI());
+			return uri.deresolve(getBundle().getRootURI());
 		}
 
 		public Collection<URI> getAllURIs() {
@@ -127,7 +127,7 @@ public @interface XpectTestFiles {
 		protected IBundleInfo getBundle() {
 			Registry registry = IBundleInfo.Registry.INSTANCE;
 			if (ctx.relativeTo() == FileRoot.CURRENT)
-				return registry.getBundle(URI.createFileURI(new File(".").getAbsolutePath()));
+				return registry.getBundle(URI.createFileURI(new File(".").getAbsoluteFile().getParent()));
 			return getProject();
 		}
 
@@ -200,9 +200,9 @@ public @interface XpectTestFiles {
 
 	String baseDir() default "";
 
-	String[] fileExtensions() default { "xt", "xpect" };
+	String[]fileExtensions() default { "xt", "xpect" };
 
-	String[] files() default {};
+	String[]files() default {};
 
 	FileRoot relativeTo() default FileRoot.CLASS;
 
