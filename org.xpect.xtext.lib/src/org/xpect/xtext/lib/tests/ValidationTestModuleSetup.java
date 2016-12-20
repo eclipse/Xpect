@@ -39,6 +39,7 @@ import org.xpect.xtext.lib.tests.ValidationTestModuleSetup.IssuesByLineProvider;
 import org.xpect.xtext.lib.util.IssueOverlapsRangePredicate;
 import org.xpect.xtext.lib.util.NextLine.NextLineProvider;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
@@ -86,6 +87,26 @@ public class ValidationTestModuleSetup extends AbstractDelegatingModule {
 				issuesByLine = validator.validateDelegateAndMapByOffset(getResource(), CheckMode.ALL, CancelIndicator.NullImpl, null);
 			}
 			return issuesByLine;
+		}
+	}
+
+	public static class SeverityPredicate implements Predicate<Issue> {
+
+		private Severity[] severities;
+
+		public SeverityPredicate(Severity... severity) {
+			super();
+			this.severities = severity;
+		}
+
+		@Override
+		public boolean apply(Issue input) {
+			Severity e = input.getSeverity();
+			for (Severity s : severities) {
+				if (s == e)
+					return true;
+			}
+			return false;
 		}
 	}
 
