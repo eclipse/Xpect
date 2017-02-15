@@ -7,6 +7,9 @@
  *******************************************************************************/
 package org.xpect.xtext.lib.tests;
 
+import java.util.List;
+
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -44,21 +47,38 @@ public class LinkingTest {
 		return uri.deresolve(base).toString();
 	}
 
-	@Xpect(liveExecution = LiveExecutionType.FAST)
-	@ParameterParser(syntax = "('at' arg1=OFFSET)?")
-	public void linkedFragment(@StringExpectation IStringExpectation expectation, @ThisOffset ICrossEReferenceAndEObject arg1) {
-		EObject targetObject = (EObject) arg1.getEObject().eGet(arg1.getCrossEReference());
-		if (targetObject == null)
-			Assert.fail("Reference is null");
+	protected String getLinkedFragment(EObject targetObject, URI baseUri) {
 		if (targetObject.eIsProxy())
 			Assert.fail("Reference is a Proxy: " + ((InternalEObject) targetObject).eProxyURI());
 		Resource targetResource = targetObject.eResource();
 		if (targetResource == null)
 			Assert.fail("Referenced EObject is not in a resource.");
 		URI target = EcoreUtil.getURI(targetObject);
-		URI base = arg1.getEObject().eResource().getURI();
-		String actual = deresolve(base, target);
-		expectation.assertEquals(actual);
+		return deresolve(baseUri, target);
+	}
+	
+	@Xpect(liveExecution = LiveExecutionType.FAST)
+	@ParameterParser(syntax = "('at' arg1=OFFSET)?")
+	public void linkedFragment(@StringExpectation IStringExpectation expectation, @ThisOffset ICrossEReferenceAndEObject arg1) {
+		Object targetObject = arg1.getEObject().eGet(arg1.getCrossEReference());
+		if (targetObject == null)
+			Assert.fail("Reference is null");
+		else if (targetObject instanceof EObject) {
+			String actual = getLinkedFragment((EObject) targetObject, arg1.getEObject().eResource().getURI());
+			expectation.assertEquals(actual);
+		} else if (targetObject instanceof EList<?>) {
+			StringBuilder actual = new StringBuilder();
+			@SuppressWarnings("unchecked")
+			List<EObject> referenceList = (List<EObject>) targetObject;
+			URI baseUri = arg1.getEObject().eResource().getURI();
+			for (int i = 0; i < referenceList.size(); i++) {
+				if (i > 0) {
+					actual.append(", ");
+				}
+				actual.append(getLinkedFragment(referenceList.get(i), baseUri));
+			}
+			expectation.assertEquals(actual.toString());
+		}
 	}
 
 	@Xpect(liveExecution = LiveExecutionType.FAST)
