@@ -20,8 +20,8 @@ package pkg1 {
 		Prop1:String Prop2:int
 		
 		// XPECT warnings --> "Name should start with a lowercase" at "Prop3"
-		// XPECT errors --> "Couldn't resolve reference to JvmType 'Stringggg'." at "Stringggg"
-		Prop3:Stringggg
+		// XPECT errors --> "extraneous input ';' expecting '}'" at ";"
+		Prop3:String;
 	}
 }
 
