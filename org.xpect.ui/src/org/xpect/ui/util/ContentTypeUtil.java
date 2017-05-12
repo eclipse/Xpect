@@ -42,10 +42,8 @@ public class ContentTypeUtil {
 			contents = new InputStreamReader(file.getContents(), file.getCharset());
 			return getContentType(contents);
 		} catch (CoreException e) {
-			LOG.error(e.getMessage(), e);
 			return XpectContentType.BINARY;
 		} catch (IOException e) {
-			LOG.error(e.getMessage(), e);
 			return XpectContentType.BINARY;
 		} finally {
 			if (contents != null)
