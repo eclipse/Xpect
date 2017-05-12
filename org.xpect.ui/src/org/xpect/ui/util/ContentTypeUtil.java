@@ -52,10 +52,8 @@ public class ContentTypeUtil {
 			}
 			return XpectContentType.TEXT;
 		} catch (CoreException e) {
-			LOG.error(e.getMessage(), e);
 			return XpectContentType.BINARY;
 		} catch (IOException e) {
-			LOG.error(e.getMessage(), e);
 			return XpectContentType.BINARY;
 		} finally {
 			if (contents != null)
