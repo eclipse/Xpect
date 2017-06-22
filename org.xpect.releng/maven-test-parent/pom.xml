@@ -132,6 +132,9 @@
               <groupId>org.eclipse.tycho</groupId>
               <artifactId>target-platform-configuration</artifactId>
               <configuration>
+                <dependency-resolution>
+                  <optionalDependencies>ignore</optionalDependencies>
+                </dependency-resolution>
                 <environments>
                   <environment>
                     <os>linux</os>
