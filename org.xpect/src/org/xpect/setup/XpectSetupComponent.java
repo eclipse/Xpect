@@ -9,8 +9,10 @@ import java.lang.annotation.Target;
 import org.xpect.XpectContributionRole;
 
 /**
- * Marks a class as a component in the XPECT_SETUP section. For this to work, the test must import a {@link XpectSetupRoot} with an add(Foo) method, where Foo is your
- * XpectSetupComponent class. The {@link XpectSetupRoot} class should have an @XpectImport for your component class.
+ * Marks a class as a component in the XPECT_SETUP section.
+ * 
+ * For this to work, the test must import a {@link XpectSetupRoot} with an add(Foo) method, where Foo is your XpectSetupComponent class. The {@link XpectSetupRoot} class should
+ * have an @XpectImport for your component class.
  */
 @Inherited
 @XpectContributionRole
