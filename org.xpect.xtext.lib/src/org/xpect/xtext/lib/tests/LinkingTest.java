@@ -7,6 +7,7 @@
  *******************************************************************************/
 package org.xpect.xtext.lib.tests;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
@@ -22,6 +23,8 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.xpect.XpectImport;
+import org.xpect.expectation.CommaSeparatedValuesExpectation;
+import org.xpect.expectation.ICommaSeparatedValuesExpectation;
 import org.xpect.expectation.IStringExpectation;
 import org.xpect.expectation.StringExpectation;
 import org.xpect.parameter.ParameterParser;
@@ -32,6 +35,8 @@ import org.xpect.xtext.lib.setup.ThisOffset;
 import org.xpect.xtext.lib.setup.XtextStandaloneSetup;
 import org.xpect.xtext.lib.setup.XtextWorkspaceSetup;
 import org.xpect.xtext.lib.util.XtextOffsetAdapter.ICrossEReferenceAndEObject;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author Moritz Eysholdt - Initial contribution and API
@@ -57,27 +62,24 @@ public class LinkingTest {
 		return deresolve(baseUri, target);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Xpect(liveExecution = LiveExecutionType.FAST)
 	@ParameterParser(syntax = "('at' arg1=OFFSET)?")
-	public void linkedFragment(@StringExpectation IStringExpectation expectation, @ThisOffset ICrossEReferenceAndEObject arg1) {
+	public void linkedFragment(@CommaSeparatedValuesExpectation(ordered = true) ICommaSeparatedValuesExpectation expectation, @ThisOffset ICrossEReferenceAndEObject arg1) {
+		URI baseUri = arg1.getEObject().eResource().getURI();
 		Object targetObject = arg1.getEObject().eGet(arg1.getCrossEReference());
-		if (targetObject == null)
+		if (targetObject == null) {
 			Assert.fail("Reference is null");
-		else if (targetObject instanceof EObject) {
-			String actual = getLinkedFragment((EObject) targetObject, arg1.getEObject().eResource().getURI());
-			expectation.assertEquals(actual);
+		} else if (targetObject instanceof EObject) {
+			String actual = getLinkedFragment((EObject) targetObject, baseUri);
+			expectation.assertEquals(Collections.singletonList(actual));
 		} else if (targetObject instanceof EList<?>) {
-			StringBuilder actual = new StringBuilder();
-			@SuppressWarnings("unchecked")
-			List<EObject> referenceList = (List<EObject>) targetObject;
-			URI baseUri = arg1.getEObject().eResource().getURI();
-			for (int i = 0; i < referenceList.size(); i++) {
-				if (i > 0) {
-					actual.append(", ");
-				}
-				actual.append(getLinkedFragment(referenceList.get(i), baseUri));
+			List<String> result = Lists.newArrayList();
+			for(EObject target:(List<EObject>) targetObject) {
+				String fragment = getLinkedFragment(target, baseUri);
+				result.add(fragment);
 			}
-			expectation.assertEquals(actual.toString());
+			expectation.assertEquals(result);
 		}
 	}
 
