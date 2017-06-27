@@ -4,6 +4,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.xpect.registry.ITestSuiteInfo;
 import org.xpect.registry.TestSuiteInfoRegistry;
+import org.xpect.ui.XpectPluginActivator;
 import org.xpect.ui.junit.registry.UITestSuiteInfoRegistry;
 
 public class Activator extends AbstractUIPlugin {
@@ -17,6 +18,7 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		XpectPluginActivator.class.getName(); // activate bundle org.xpect.ui
 		((TestSuiteInfoRegistry.Delegate) ITestSuiteInfo.Registry.INSTANCE).setDelegate(new UITestSuiteInfoRegistry());
 	}
 
