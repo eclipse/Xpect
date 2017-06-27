@@ -161,7 +161,7 @@ public class StandaloneExtensionRegistry implements IExtensionInfo.Registry {
 				} catch (Throwable e) {
 					LOG.error("Error parsing " + url, e);
 				} finally {
-					Closeables.closeQuietly(openStream);
+					Closeables.close(openStream, true);
 				}
 			}
 		} catch (Throwable e) {

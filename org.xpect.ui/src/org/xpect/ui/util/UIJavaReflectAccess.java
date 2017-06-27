@@ -31,6 +31,7 @@ import org.xpect.util.ClasspathUtil;
 import org.xpect.util.IJavaReflectAccess;
 
 import com.google.common.collect.Lists;
+import com.google.common.io.Closeables;
 
 @SuppressWarnings("restriction")
 public class UIJavaReflectAccess implements IJavaReflectAccess {
@@ -79,10 +80,19 @@ public class UIJavaReflectAccess implements IJavaReflectAccess {
 	}
 
 	private String getBundleNameFromJar(File file) {
+		JarFile jarFile;
 		try {
-			return ClasspathUtil.getSymbolicName(new JarFile(file).getManifest());
-		} catch (IOException e) {
-			LOG.error("Can't get symbolic name from " + file, e);
+			jarFile = new JarFile(file);
+			try {
+				return ClasspathUtil.getSymbolicName(jarFile.getManifest());
+			} catch (IOException e) {
+				LOG.error("Can't get symbolic name from " + file, e);
+				return null;
+			} finally {
+				Closeables.close(jarFile, true);
+			}
+		} catch (IOException e1) {
+			LOG.error("Can't get symbolic name from " + file, e1);
 			return null;
 		}
 	}

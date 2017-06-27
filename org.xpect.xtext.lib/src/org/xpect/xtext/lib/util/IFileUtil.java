@@ -1,5 +1,6 @@
 package org.xpect.xtext.lib.util;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.core.resources.IContainer;
@@ -25,7 +26,11 @@ public class IFileUtil {
 		} catch (CoreException e) {
 			throw new RuntimeException(e);
 		} finally {
-			Closeables.closeQuietly(inputStream);
+			try {
+				Closeables.close(inputStream, true);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 		return file;
 	}

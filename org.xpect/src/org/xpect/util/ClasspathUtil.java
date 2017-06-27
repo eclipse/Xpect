@@ -112,7 +112,11 @@ public class ClasspathUtil {
 		} catch (IOException e) {
 			LOG.error("error parsing manifest", e);
 		} finally {
-			Closeables.closeQuietly(manifestInputStream);
+			try {
+				Closeables.close(manifestInputStream, true);
+			} catch (IOException e) {
+				LOG.error("error parsing manifest", e);
+			}
 		}
 		return null;
 	}
