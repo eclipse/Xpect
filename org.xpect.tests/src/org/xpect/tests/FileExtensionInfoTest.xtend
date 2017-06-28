@@ -205,12 +205,12 @@ class FileExtensionInfoTest {
 				<?xml version="1.0" encoding="UTF-8"?>
 				<?eclipse version="3.0"?>
 				<plugin>
-					«pluginXmlContent»
+					Â«pluginXmlContentÂ»
 				</plugin>
 			'''.toString.getBytes("UTF-8")
 		)
 		val extensionInfo = new StandaloneExtensionRegistry(new URL("file:/plugin.xml"), in)
-		Closeables.closeQuietly(in)
+		Closeables.close(in, true)
 		val fileExtensionInfo = new FileExtensionInfoRegistry(extensionInfo)
 		fileExtensionInfo.toString
 	}

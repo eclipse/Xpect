@@ -110,7 +110,7 @@ class StringSimilarityFunctionTest {
 	}
 
 	def String similarityStr(Pair<String, String> ... pairs) {
-		pairs.map['''«key» <> «value» --> «format(similarity(key, value))»'''].join("\n")
+		pairs.map['''Â«keyÂ» <> Â«valueÂ» --> Â«format(similarity(key, value))Â»'''].join("\n")
 	}
 
 	def float similarity(String s1, String s2) {
