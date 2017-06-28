@@ -18,6 +18,10 @@
 	</properties>
 
 	<build>
+		<!-- make sure surefire finds our test classes even though they are in 
+			the "src" folder -->
+		<testOutputDirectory>target/classes</testOutputDirectory>
+
 		<pluginManagement>
 			<plugins>
 				<plugin>
