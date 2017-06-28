@@ -4,7 +4,7 @@
 	<groupId>org.eclipse.xtext.example.domainmodel</groupId>
 	<artifactId>org.eclipse.xtext.example.domainmodel.tests</artifactId>
 	<version>2.9.2-SNAPSHOT</version>
-	<packaging>eclipse-plugin</packaging>
+	<packaging>eclipse-test-plugin</packaging>
 	<parent>
 		<groupId>org.xpect</groupId>
 		<artifactId>org.xpect.test.parent</artifactId>
