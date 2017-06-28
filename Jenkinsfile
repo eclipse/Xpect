@@ -1,30 +1,31 @@
 // tell Jenkins how to build projects from this repository
 node {
-	try {
-		def mvnHome = tool 'M3'
-		def mvnParams = '--batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false clean install'
+	
+	def mvnHome = tool 'M3'
+	def mvnParams = '--batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false'
 
-		stage 'Compile - Xtext 2.9.2'
-		checkout scm
-		sh "${mvnHome}/bin/mvn -P!tests -Dtarget-platform=eclipse_4_5_0-xtext_2_9_2 ${mvnParams}"
-		archive 'build/**/*.*'
+	stage 'Compile Xtext-2.9.2'
+	checkout scm
+	sh "${mvnHome}/bin/mvn -P!tests -Dtarget-platform=eclipse_4_5_0-xtext_2_9_2 ${mvnParams} clean install"
+	archive 'build/**/*.*'
+	
+	wrap([$class:'Xvnc', useXauthority: true]) {
 		
-		wrap([$class:'Xvnc', useXauthority: true]) {
-		
-			stage 'Test - Xtext 2.9.2'
-			sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_2_9_2 ${mvnParams}"
-			
-			stage 'Test - Xtext Nightly'
-			sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_nightly ${mvnParams}"
+		stage 'Test Xtext-2.9.2'
+		try {
+			sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_2_9_2 ${mvnParams} clean test"
+		} finally {
+			step([$class: 'JUnitResultArchiver', testResults: '**/target/surfire-reports-standalone/*.xml'])
+			step([$class: 'JUnitResultArchiver', testResults: '**/target/surfire-reports-plugin/*.xml'])
 		}
-				
-		// slackSend "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+			
+		stage 'Test Xtext-Nightly'
+		try {
+			sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_nightly ${mvnParams} clean test"
+		} finally {
+			step([$class: 'JUnitResultArchiver', testResults: '**/target/surfire-reports-standalone/*.xml'])
+			step([$class: 'JUnitResultArchiver', testResults: '**/target/surfire-reports-plugin/*.xml'])
+		}
 		
-	} catch (e) {
-		// slackSend color: 'danger', message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-		throw e
-	} finally {
-		step([$class: 'JUnitResultArchiver', testResults: '**/target/surfire-reports-standalone/*.xml'])
-		step([$class: 'JUnitResultArchiver', testResults: '**/target/surfire-reports-plugin/*.xml'])
 	}
 }  
