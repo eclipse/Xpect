@@ -9,7 +9,6 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>maven-parents/grammar-plugin</module>
-		<module>maven-parents/test-plugin</module>
 		<module>org.eclipse.xtext.example.arithmetics</module>
 		<module>org.eclipse.xtext.example.arithmetics.ide</module>
 		<module>org.eclipse.xtext.example.arithmetics.ui</module>

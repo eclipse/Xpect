@@ -6,8 +6,7 @@ Bundle-Version: 2.9.2.qualifier
 Bundle-SymbolicName: org.eclipse.xtext.example.arithmetics.ide; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext.example.arithmetics,
- org.eclipse.xtext.ide,
- org.eclipse.xtext.xbase.ide
+ org.eclipse.xtext.ide
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.xtext.example.arithmetics.ide.contentassist.antlr,
  org.eclipse.xtext.example.arithmetics.ide.contentassist.antlr.internal
