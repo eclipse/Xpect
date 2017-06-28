@@ -12,11 +12,11 @@
 		<relativePath>../../maven-test-parent</relativePath>
 	</parent>
 	<build>
-		<plugins>
+		<!-- <plugins>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-surefire-plugin</artifactId>
 			</plugin>
-		</plugins>
+		</plugins> -->
 	</build>
 </project>
