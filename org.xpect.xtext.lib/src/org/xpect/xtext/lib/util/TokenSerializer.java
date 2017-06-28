@@ -12,6 +12,7 @@ import org.eclipse.xtext.formatting.IFormatter;
 import org.eclipse.xtext.nodemodel.ILeafNode;
 import org.eclipse.xtext.resource.SaveOptions;
 import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.serializer.ISerializationContext;
 import org.eclipse.xtext.serializer.acceptor.ISemanticSequenceAcceptor;
 import org.eclipse.xtext.serializer.acceptor.ISequenceAcceptor;
 import org.eclipse.xtext.serializer.acceptor.ISyntacticSequenceAcceptor;
@@ -135,8 +136,8 @@ public class TokenSerializer {
 	@Inject
 	protected IConcreteSyntaxValidator validator;
 
-	protected EObject getContext(EObject semanticObject) {
-		Iterator<EObject> contexts = contextFinder.findContextsByContentsAndContainer(semanticObject, null).iterator();
+	protected ISerializationContext getContext(EObject semanticObject) {
+		Iterator<ISerializationContext> contexts = contextFinder.findByContentsAndContainer(semanticObject, null).iterator();
 		if (!contexts.hasNext())
 			throw new RuntimeException("No Context for " + EmfFormatter.objPath(semanticObject) + " could be found");
 		return contexts.next();
@@ -150,7 +151,7 @@ public class TokenSerializer {
 		return serialize(obj, SaveOptions.defaultOptions());
 	}
 
-	protected void serialize(EObject semanticObject, EObject context, ISequenceAcceptor tokens, ISerializationDiagnostic.Acceptor errors) {
+	protected void serialize(EObject semanticObject, ISerializationContext context, ISequenceAcceptor tokens, ISerializationDiagnostic.Acceptor errors) {
 		ISemanticSequencer semantic = semanticSequencerProvider.get();
 		ISyntacticSequencer syntactic = syntacticSequencerProvider.get();
 		IHiddenTokenSequencer hidden = hiddenTokenSequencerProvider.get();
@@ -171,7 +172,7 @@ public class TokenSerializer {
 		// formatterTokenStream = ((IFormatterExtension) formatter).createFormatterStream(obj, null, tokenStream, !options.isFormatting());
 		// else
 		// formatterTokenStream = formatter.createFormatterStream(null, tokenStream, !options.isFormatting());
-		EObject context = getContext(obj);
+		ISerializationContext context = getContext(obj);
 		// ISequenceAcceptor acceptor = new TokenStreamSequenceAdapter(formatterTokenStream, errors);
 		serialize(obj, context, formatterAcceptor, errors);
 		formatterAcceptor.flush();
