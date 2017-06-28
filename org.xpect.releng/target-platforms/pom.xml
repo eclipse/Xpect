@@ -8,8 +8,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
-		<module>eclipse_4_5_0-xtext_2_8_3</module>
-		<module>eclipse_4_5_0-xtext_2_8_4</module>
+		<module>eclipse_4_5_0-xtext_2_9_2</module>
 		<module>eclipse_4_4_0-xtext_nightly</module>
 	</modules>
 </project>

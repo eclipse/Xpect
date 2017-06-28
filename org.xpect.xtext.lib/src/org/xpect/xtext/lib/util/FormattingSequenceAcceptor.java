@@ -10,6 +10,7 @@ import org.eclipse.xtext.AbstractElement;
 import org.eclipse.xtext.AbstractRule;
 import org.eclipse.xtext.Action;
 import org.eclipse.xtext.CrossReference;
+import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.RuleCall;
@@ -81,7 +82,8 @@ public class FormattingSequenceAcceptor implements ISequenceAcceptor {
 	private final Stack<EObject> semanticElements = new Stack<EObject>();
 	private final ITokenStream formatterTokenStream;
 
-	public FormattingSequenceAcceptor(EObject obj, IFormatter formatter, ISerializationDiagnostic.Acceptor errors, boolean preserveWhitespace, IAcceptor delegate) {
+	public FormattingSequenceAcceptor(EObject obj, IFormatter formatter, Grammar grammar, ISerializationDiagnostic.Acceptor errors, boolean preserveWhitespace,
+			IAcceptor delegate) {
 		this.delegate = delegate;
 		this.semanticElements.push(obj);
 		Out out = new Out();
@@ -89,7 +91,7 @@ public class FormattingSequenceAcceptor implements ISequenceAcceptor {
 			formatterTokenStream = ((IFormatterExtension) formatter).createFormatterStream(obj, null, out, preserveWhitespace);
 		else
 			formatterTokenStream = formatter.createFormatterStream(null, out, preserveWhitespace);
-		this.formatter = new TokenStreamSequenceAdapter(formatterTokenStream, errors);
+		this.formatter = new TokenStreamSequenceAdapter(formatterTokenStream, grammar, errors);
 	}
 
 	public void acceptAssignedCrossRefDatatype(RuleCall datatypeRC, String token, EObject value, int index, ICompositeNode node) {

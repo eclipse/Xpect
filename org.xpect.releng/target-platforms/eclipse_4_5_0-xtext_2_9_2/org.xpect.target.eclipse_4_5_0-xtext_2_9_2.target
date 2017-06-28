@@ -6,8 +6,8 @@
 <repository location="http://download.itemis.com/updates/releases/2.1.1/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.xtext.sdk.feature.group" version="2.8.3.v201506010551"/>
-<repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.8.3/"/>
+<unit id="org.eclipse.xtext.sdk.feature.group" version="2.9.2.v201603040440"/>
+<repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.9.2/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.mwe2.runtime.sdk.feature.group" version="2.8.1.v201508030321"/>
@@ -18,13 +18,8 @@
 <repository location="http://meysholdt.github.io/eclipse_jdt_junit_runners/updatesite/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="de.itemis.statefullexer.feature.group" version="1.0.0.201311181130"/>
+<unit id="de.itemis.statefullexer.feature.group" version="1.0.0.201706281509"/>
 <repository location="http://meysholdt.github.io/xtext_stateful_lexer/updatesite/"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.xtext.example.arithmetics.sdk.feature.group" version="2.8.3.201507052101"/>
-<unit id="org.eclipse.xtext.example.domainmodel.sdk.feature.group" version="2.8.3.201507052101"/>
-<repository location="http://meysholdt.github.io/xtext_examples/repositories/generated-with-xtext_2_8_3/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.gef.sdk.feature.group" version="3.10.0.201506010206"/>

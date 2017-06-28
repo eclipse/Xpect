@@ -24,11 +24,11 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-			<id>eclipse_4_4_0-xtext_2_8_4</id>
+			<id>eclipse_4_5_0-xtext_2_9_2</id>
 			<properties>
 				<!-- <destination-repository>generated-with-xtext_2_8_4</destination-repository> -->
-				<target-name>org.xpect.target.eclipse_4_5_0-xtext_2_8_3</target-name>
-				<xtend-compiler-version>2.8.4</xtend-compiler-version>
+				<target-name>org.xpect.target.eclipse_4_5_0-xtext_2_9_2</target-name>
+				<xtend-compiler-version>2.9.2</xtend-compiler-version>
 			</properties>
 		</profile>
 	</profiles>

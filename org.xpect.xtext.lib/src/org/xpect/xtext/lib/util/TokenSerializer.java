@@ -165,7 +165,7 @@ public class TokenSerializer {
 	public List<Token> serialize(EObject obj, SaveOptions options) {
 		Acceptor tokenStream = new Acceptor();
 		ISerializationDiagnostic.Acceptor errors = ISerializationDiagnostic.EXCEPTION_THROWING_ACCEPTOR;
-		FormattingSequenceAcceptor formatterAcceptor = new FormattingSequenceAcceptor(obj, formatter, errors, !options.isFormatting(), tokenStream);
+		FormattingSequenceAcceptor formatterAcceptor = new FormattingSequenceAcceptor(obj, formatter, grammar.getGrammar(), errors, !options.isFormatting(), tokenStream);
 		// ITokenStream formatterTokenStream;
 		// if (formatter instanceof IFormatterExtension)
 		// formatterTokenStream = ((IFormatterExtension) formatter).createFormatterStream(obj, null, tokenStream, !options.isFormatting());
