@@ -1,0 +1,25 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.eclipse.xtext.example.arithmetics</groupId>
+	<artifactId>org.eclipse.xtext.example.arithmetics</artifactId>
+	<version>2.8.4-SNAPSHOT</version>
+	<packaging>eclipse-plugin</packaging>
+	<parent>
+		<groupId>org.eclipse.xtext.example</groupId>
+		<artifactId>org.eclipse.xtext.example.maven_parents.grammar_plugin</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+		<relativePath>../maven-parents/grammar-plugin</relativePath>
+	</parent>
+	<properties>
+		<mwe2-file>src/org/eclipse/xtext/example/arithmetics/Arithmetics.mwe2</mwe2-file>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.fornax.toolsupport</groupId>
+				<artifactId>fornax-oaw-m2-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
