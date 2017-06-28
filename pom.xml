@@ -12,19 +12,43 @@
 	</properties>
 	<modules>
 		<module>org.xpect.releng/target-platforms</module>
-		<module>org.xpect</module>
-		<module>org.xpect.tests</module>
-		<module>org.xpect.ui</module>
-		<module>org.xpect.ui.junit</module>
-		<module>org.xpect.xtext.lib</module>
-		<module>org.xpect.xtext.lib.tests</module>
-		<module>org.xpect.xtext.xbase.lib</module>
-		<module>org.xpect.sdk</module>
-		<module>org.xpect.xtext.lib.feature</module>
-		<module>org.xpect.xtext.xbase.lib.feature</module>
-		<module>org.eclipse.xtext.example.arithmetics.xpect.tests</module>
-		<module>org.eclipse.xtext.example.domainmodel.xpect.tests</module>
-		<module>org.xpect.releng/integration-tests</module>
-		<module>org.xpect.releng/p2-repository</module>
 	</modules>
+	<profiles>
+		<profile>
+			<id>plugins</id>
+			<activation>
+				<property>
+					<name>testOnly</name>
+					<value>!true</value>
+				</property>
+			</activation>
+			<modules>
+				<module>org.xpect</module>
+				<module>org.xpect.ui</module>
+				<module>org.xpect.ui.junit</module>
+				<module>org.xpect.xtext.lib</module>
+				<module>org.xpect.xtext.xbase.lib</module>
+				<module>org.xpect.sdk</module>
+				<module>org.xpect.xtext.lib.feature</module>
+				<module>org.xpect.xtext.xbase.lib.feature</module>
+				<module>org.xpect.releng/p2-repository</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>tests</id>
+			<activation>
+				<property>
+					<name>testOnly</name>
+					<value>!false</value>
+				</property>
+			</activation>
+			<modules>
+				<module>org.xpect.releng/xtext-examples</module>
+				<module>org.xpect.tests</module>
+				<module>org.xpect.xtext.lib.tests</module>
+				<module>org.eclipse.xtext.example.arithmetics.xpect.tests</module>
+				<module>org.eclipse.xtext.example.domainmodel.xpect.tests</module>
+			</modules>
+		</profile>
+	</profiles>
 </project>

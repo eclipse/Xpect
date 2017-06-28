@@ -19,6 +19,20 @@
 		</pluginRepository>
 	</pluginRepositories>
 
+	<profiles>
+		<profile>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<id>eclipse_4_4_0-xtext_2_8_4</id>
+			<properties>
+				<!-- <destination-repository>generated-with-xtext_2_8_4</destination-repository> -->
+				<target-name>org.xpect.target.eclipse_4_5_0-xtext_2_8_3</target-name>
+				<xtend-compiler-version>2.8.4</xtend-compiler-version>
+			</properties>
+		</profile>
+	</profiles>
+
 	<build>
 		<plugins>
 
@@ -37,7 +51,7 @@
 					<target>
 						<artifact>
 							<groupId>org.xpect</groupId>
-							<artifactId>org.xpect.target.eclipse_4_5_0-xtext_2_8_3</artifactId>
+							<artifactId>${target-name}</artifactId>
 							<version>0.2.0-SNAPSHOT</version>
 						</artifact>
 					</target>
@@ -79,6 +93,26 @@
 						</filters> <dependency-resolution> <extraRequirements> <requirement> <type>p2-installable-unit</type> 
 						<id>org.eclipse.jdt.core</id> <versionRange>3.9.1.v20130905-0837</versionRange> 
 						</requirement> </extraRequirements> </dependency-resolution> -->
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>xtend-maven-plugin</artifactId>
+				<version>${xtend-compiler-version}</version>
+				<executions>
+					<execution>
+						<phase>process-sources</phase> <!-- "generate-sources" is for MWE2, "compile" for Java -->
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>xtend-gen</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 
