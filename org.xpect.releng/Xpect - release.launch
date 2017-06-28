@@ -7,6 +7,7 @@
 <stringAttribute key="M2_PROFILES" value=""/>
 <listAttribute key="M2_PROPERTIES">
 <listEntry value="target_p2_repository=/../../../Xpect_pages/updatesite/nightly/local"/>
+<listEntry value="target-platform=eclipse_4_5_0-xtext_nightly"/>
 </listAttribute>
 <stringAttribute key="M2_RUNTIME" value="EMBEDDED"/>
 <booleanAttribute key="M2_SKIP_TESTS" value="false"/>

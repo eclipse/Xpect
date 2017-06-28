@@ -7,6 +7,8 @@
 	<packaging>pom</packaging>
 
 	<properties>
+		<target-platform>eclipse_4_5_0-xtext_2_9_2</target-platform>
+		<xtend-compiler-version>2.9.2</xtend-compiler-version>
 		<tycho-version>0.26.0</tycho-version>
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 	</properties>
@@ -18,20 +20,6 @@
 			<url>http://www.fornax-platform.org/m2/repository</url>
 		</pluginRepository>
 	</pluginRepositories>
-
-	<profiles>
-		<profile>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<id>eclipse_4_5_0-xtext_2_9_2</id>
-			<properties>
-				<!-- <destination-repository>generated-with-xtext_2_8_4</destination-repository> -->
-				<target-name>org.xpect.target.eclipse_4_5_0-xtext_2_9_2</target-name>
-				<xtend-compiler-version>2.9.2</xtend-compiler-version>
-			</properties>
-		</profile>
-	</profiles>
 
 	<build>
 		<plugins>
@@ -51,7 +39,7 @@
 					<target>
 						<artifact>
 							<groupId>org.xpect</groupId>
-							<artifactId>${target-name}</artifactId>
+							<artifactId>org.xpect.target.${target-platform}</artifactId>
 							<version>0.2.0-SNAPSHOT</version>
 						</artifact>
 					</target>

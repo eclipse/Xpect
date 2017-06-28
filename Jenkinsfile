@@ -2,15 +2,21 @@
 node {
 	try {
 		def mvnHome = tool 'M3'
+		def mvnParams = '--batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false clean install'
 
-		stage 'Build'
+		stage 'Compile - Xtext 2.9.2'
 		checkout scm
-		sh "${mvnHome}/bin/mvn --batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false clean install"
+		sh "${mvnHome}/bin/mvn -P!tests -Dtarget-platform=eclipse_4_5_0-xtext_2_9_2 ${mvnParams}"
 		archive 'build/**/*.*'
 		
 		stage 'Test'
 		wrap([$class:'Xvnc', useXauthority: true]) {
-			sh "${mvnHome}/bin/mvn --batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=true clean install"
+		
+			stage 'Test - Xtext 2.9.2'
+			sh "${mvnHome}/bin/mvn -P!plugins -Dtarget-platform=eclipse_4_5_0-xtext_2_9_2 ${mvnParams}"
+			
+			stage 'Test - Xtext Nightly'
+			sh "${mvnHome}/bin/mvn -P!plugins -Dtarget-platform=eclipse_4_4_0-xtext_nightly ${mvnParams}"
 		}
 				
 		// slackSend "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"

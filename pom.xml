@@ -8,19 +8,17 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
-		<tycho-version>0.26.0</tycho-version>
+		<target-platform>eclipse_4_5_0-xtext_2_9_2</target-platform>
+		<xtend-compiler-version>2.9.2</xtend-compiler-version>
 	</properties>
 	<modules>
-		<module>org.xpect.releng/target-platforms</module>
+		<module>org.xpect.releng/target-platforms/${target-platform}</module>
 	</modules>
 	<profiles>
 		<profile>
 			<id>plugins</id>
 			<activation>
-				<property>
-					<name>testOnly</name>
-					<value>!true</value>
-				</property>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<modules>
 				<module>org.xpect</module>
@@ -37,10 +35,7 @@
 		<profile>
 			<id>tests</id>
 			<activation>
-				<property>
-					<name>testOnly</name>
-					<value>!false</value>
-				</property>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<modules>
 				<module>org.xpect.releng/xtext-examples</module>
