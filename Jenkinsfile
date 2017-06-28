@@ -9,14 +9,13 @@ node {
 		sh "${mvnHome}/bin/mvn -P!tests -Dtarget-platform=eclipse_4_5_0-xtext_2_9_2 ${mvnParams}"
 		archive 'build/**/*.*'
 		
-		stage 'Test'
 		wrap([$class:'Xvnc', useXauthority: true]) {
 		
 			stage 'Test - Xtext 2.9.2'
 			sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_2_9_2 ${mvnParams}"
 			
 			stage 'Test - Xtext Nightly'
-			sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_4_0-xtext_nightly ${mvnParams}"
+			sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_nightly ${mvnParams}"
 		}
 				
 		// slackSend "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
