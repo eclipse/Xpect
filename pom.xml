@@ -33,12 +33,27 @@
 			</modules>
 		</profile>
 		<profile>
+			<id>xtext-examples</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<modules>
+				<module>org.xpect.releng/xtext-examples/maven-parents/grammar-plugin</module>
+				<module>org.xpect.releng/xtext-examples/org.eclipse.xtext.example.arithmetics</module>
+				<module>org.xpect.releng/xtext-examples/org.eclipse.xtext.example.arithmetics.ide</module>
+				<module>org.xpect.releng/xtext-examples/org.eclipse.xtext.example.arithmetics.ui</module>
+				<module>org.xpect.releng/xtext-examples/org.eclipse.xtext.example.domainmodel</module>
+				<module>org.xpect.releng/xtext-examples/org.eclipse.xtext.example.domainmodel.ui</module>
+			</modules>
+		</profile>
+		<profile>
 			<id>tests</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<modules>
-				<module>org.xpect.releng/xtext-examples</module>
+				<module>org.xpect.releng/xtext-examples/org.eclipse.xtext.example.arithmetics.tests</module>
+				<module>org.xpect.releng/xtext-examples/org.eclipse.xtext.example.domainmodel.tests</module>
 				<module>org.xpect.tests</module>
 				<module>org.xpect.xtext.lib.tests</module>
 				<module>org.eclipse.xtext.example.arithmetics.xpect.tests</module>
