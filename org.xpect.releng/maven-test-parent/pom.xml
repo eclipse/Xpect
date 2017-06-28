@@ -35,14 +35,6 @@
 						<argLine>${memory-settings} ${os-jvm-flags}</argLine>
 						<!-- <debugPort>5005</debugPort> -->
 					</configuration>
-					<executions>
-						<execution>
-							<phase>test</phase>
-							<goals>
-								<goal>test</goal>
-							</goals>
-						</execution>
-					</executions>
 				</plugin>
 
 				<!-- Use maven surefire (not tycho surefire!) to run tests as plain JUnit 
@@ -135,12 +127,6 @@
 										<type>eclipse-plugin</type>
 										<artifactId>org.eclipse.xtext.logging</artifactId>
 									</dependency>
-									<dependency>
-										<!-- we need to include this explicitly because it's a fragment -->
-										<type>eclipse-plugin</type>
-										<artifactId>org.eclipse.xtext.example.arithmetics.xpect.tests</artifactId>
-										<groupId>org.eclipse.xtext.example.arithmetics</groupId>
-									</dependency>
 								</dependencies>
 
 							</configuration>
@@ -179,21 +165,15 @@
 										<type>eclipse-plugin</type>
 										<artifactId>org.eclipse.xtext.logging</artifactId>
 									</dependency>
-									<dependency>
-										<!-- we need to include this explicitly because it's a fragment -->
-										<type>eclipse-plugin</type>
-										<artifactId>org.eclipse.xtext.example.arithmetics.xpect.tests</artifactId>
-										<groupId>org.eclipse.xtext.example.arithmetics</groupId>
-									</dependency>
 									<!-- makes OSX JVM visible to test environment -->
-									<dependency>
+									<!-- <dependency>
 										<type>eclipse-plugin</type>
 										<artifactId>org.eclipse.jdt.launching.macosx</artifactId>
 									</dependency>
 									<dependency>
 										<type>eclipse-plugin</type>
 										<artifactId>org.eclipse.jdt.launching.ui.macosx</artifactId>
-									</dependency>
+									</dependency> -->
 								</dependencies>
 
 							</configuration>
