@@ -67,7 +67,7 @@
 							<artifactId>tycho-surefire-plugin</artifactId>
 							<version>${tycho-version}</version>
 							<configuration>
-								<reportsDirectory>${project.build.directory}/surfire-reports-plugin</reportsDirectory>
+								<reportsDirectory>${project.build.directory}/surefire-reports-plugin</reportsDirectory>
 								<useUIHarness>true</useUIHarness>
 								<useUIThread>false</useUIThread>
 								<argLine>${memory-settings}</argLine>
@@ -122,7 +122,7 @@
 							<artifactId>tycho-surefire-plugin</artifactId>
 							<version>${tycho-version}</version>
 							<configuration>
-								<reportsDirectory>${project.build.directory}/surfire-reports-plugin</reportsDirectory>
+								<reportsDirectory>${project.build.directory}/surefire-reports-plugin</reportsDirectory>
 								<useUIHarness>true</useUIHarness>
 								<useUIThread>false</useUIThread>
 								<argLine>${memory-settings} -XstartOnFirstThread</argLine>
@@ -195,7 +195,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.16</version>
 				<configuration>
-					<reportsDirectory>${project.build.directory}/surfire-reports-standalone</reportsDirectory>
+					<reportsDirectory>${project.build.directory}/surefire-reports-standalone</reportsDirectory>
 				</configuration>
 				<executions>
 					<execution>

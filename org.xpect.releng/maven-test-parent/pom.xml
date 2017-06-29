@@ -30,7 +30,7 @@
 					<artifactId>tycho-surefire-plugin</artifactId>
 					<version>${tycho-version}</version>
 					<configuration>
-						<reportsDirectory>${project.build.directory}/surfire-reports-plugin</reportsDirectory>
+						<reportsDirectory>${project.build.directory}/surefire-reports-plugin</reportsDirectory>
 						<useUIHarness>true</useUIHarness>
 						<useUIThread>true</useUIThread>
 						<argLine>${memory-settings} ${os-jvm-flags}</argLine>
@@ -52,7 +52,7 @@
 					<version>2.16</version>
 					<configuration>
 						<!-- <debugForkedProcess>true</debugForkedProcess> -->
-						<reportsDirectory>${project.build.directory}/surfire-reports-standalone</reportsDirectory>
+						<reportsDirectory>${project.build.directory}/surefire-reports-standalone</reportsDirectory>
 					</configuration>
 					<executions>
 						<execution>
