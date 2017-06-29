@@ -15,6 +15,7 @@
 
 	<properties>
 		<os-jvm-flags />
+		<memory-settings>-Xmx1G</memory-settings>
 	</properties>
 
 	<build>
@@ -34,6 +35,12 @@
 						<useUIThread>true</useUIThread>
 						<argLine>${memory-settings} ${os-jvm-flags}</argLine>
 						<!-- <debugPort>5005</debugPort> -->
+						<dependencies>
+							<dependency>
+								<type>eclipse-plugin</type>
+								<artifactId>org.eclipse.xtext.logging</artifactId>
+							</dependency>
+						</dependencies>
 					</configuration>
 				</plugin>
 
@@ -68,75 +75,6 @@
 	</build>
 
 	<profiles>
-
-		<profile>
-			<id>non-osx</id>
-			<activation>
-				<os>
-					<family>!mac</family>
-				</os>
-			</activation>
-			<build>
-				<pluginManagement>
-					<plugins>
-						<plugin>
-							<groupId>org.eclipse.tycho</groupId>
-							<artifactId>target-platform-configuration</artifactId>
-							<configuration>
-								<dependency-resolution>
-									<optionalDependencies>ignore</optionalDependencies>
-								</dependency-resolution>
-								<environments>
-									<environment>
-										<os>linux</os>
-										<ws>gtk</ws>
-										<arch>x86</arch>
-									</environment>
-									<environment>
-										<os>linux</os>
-										<ws>gtk</ws>
-										<arch>x86_64</arch>
-									</environment>
-									<environment>
-										<os>win32</os>
-										<ws>win32</ws>
-										<arch>x86</arch>
-									</environment>
-									<environment>
-										<os>win32</os>
-										<ws>win32</ws>
-										<arch>x86_64</arch>
-									</environment>
-									<environment>
-										<os>macosx</os>
-										<ws>cocoa</ws>
-										<arch>x86_64</arch>
-									</environment>
-								</environments>
-							</configuration>
-						</plugin>
-
-						<plugin>
-							<groupId>org.eclipse.tycho</groupId>
-							<artifactId>tycho-surefire-plugin</artifactId>
-							<version>${tycho-version}</version>
-							<configuration>
-
-								<dependencies>
-									<dependency>
-										<type>eclipse-plugin</type>
-										<artifactId>org.eclipse.xtext.logging</artifactId>
-									</dependency>
-								</dependencies>
-
-							</configuration>
-						</plugin>
-
-					</plugins>
-				</pluginManagement>
-			</build>
-		</profile>
-
 		<profile>
 			<id>osx</id>
 			<activation>
@@ -147,40 +85,6 @@
 			<properties>
 				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
 			</properties>
-			<build>
-
-				<pluginManagement>
-					<plugins>
-						<plugin>
-							<groupId>org.eclipse.tycho</groupId>
-							<artifactId>tycho-surefire-plugin</artifactId>
-							<version>${tycho-version}</version>
-							<configuration>
-
-								<!-- makes test run in UI thread when under OSX -->
-								<argLine>-XstartOnFirstThread</argLine>
-
-								<dependencies>
-									<dependency>
-										<type>eclipse-plugin</type>
-										<artifactId>org.eclipse.xtext.logging</artifactId>
-									</dependency>
-									<!-- makes OSX JVM visible to test environment -->
-									<!-- <dependency>
-										<type>eclipse-plugin</type>
-										<artifactId>org.eclipse.jdt.launching.macosx</artifactId>
-									</dependency>
-									<dependency>
-										<type>eclipse-plugin</type>
-										<artifactId>org.eclipse.jdt.launching.ui.macosx</artifactId>
-									</dependency> -->
-								</dependencies>
-
-							</configuration>
-						</plugin>
-					</plugins>
-				</pluginManagement>
-			</build>
 		</profile>
 	</profiles>
 </project>
