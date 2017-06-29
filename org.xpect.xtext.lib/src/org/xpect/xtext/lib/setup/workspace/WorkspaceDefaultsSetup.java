@@ -2,10 +2,10 @@ package org.xpect.xtext.lib.setup.workspace;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.xtext.IGrammarAccess;
 import org.xpect.Environment;
 import org.xpect.XpectImport;
@@ -25,6 +25,8 @@ import com.google.inject.Injector;
 @XpectRequiredEnvironment(Environment.PLUGIN_TEST)
 @XpectImport({ InjectorSetup.class, File.class, Folder.class, JavaProject.class, Project.class, SrcFolder.class, ThisFile.class })
 public class WorkspaceDefaultsSetup {
+
+	static final private Logger LOG = Logger.getLogger(WorkspaceDefaultsSetup.class);
 
 	public static final Path XTEND_LIBRARY_PATH = new Path("org.eclipse.xtend.XTEND_CONTAINER");
 
@@ -120,9 +122,8 @@ public class WorkspaceDefaultsSetup {
 	}
 
 	protected void initializeXbaseProject() {
+		LOG.warn("Can't add xbase dependencies to test project; org.xpect.xtext.xbase.lib.XbaseWorkspaceDefaultsSetup not loaded.");
 		initializeJavaProject();
-		JavaProject javaProject = workspace.getMember(JavaProject.class);
-		javaProject.addClasspathEntry(JavaCore.newContainerEntry(XTEND_LIBRARY_PATH));
 	}
 
 }

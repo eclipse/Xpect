@@ -1,14 +1,19 @@
 package org.xpect.xtext.lib.setup.workspace;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.URIUtil;
+import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
@@ -38,6 +43,44 @@ public class JavaProject extends Project {
 
 	public void addClasspathEntry(IClasspathEntry path) {
 		classpathEntries.add(path);
+	}
+
+	// see /org/eclipse/xtext/xbase/compiler/OnTheFlyJavaCompiler.java
+	public void addClassPathOfClass(Class<?> clazz) {
+		final String classNameAsPath = "/" + clazz.getName().replace('.', '/');
+		String resourceName = classNameAsPath + ".class";
+		URL url = clazz.getResource(resourceName);
+		if (url == null)
+			throw new IllegalArgumentException(resourceName + " not found");
+		String pathToFolderOrJar = null;
+		if (url.getProtocol().startsWith("bundleresource")) {
+			try {
+				url = FileLocator.resolve(url);
+			} catch (IOException e) {
+				throw new WrappedException(e);
+			}
+		}
+		if (url.getProtocol().startsWith("jar")) {
+			try {
+				final String path = url.getPath().substring(0, url.getPath().indexOf('!'));
+				String encodedPath = path.replace(" ", "%20");
+				pathToFolderOrJar = new URL(encodedPath).toURI().getRawPath();
+			} catch (Exception e) {
+				throw new WrappedException(e);
+			}
+		} else {
+			String resolvedRawPath;
+			try {
+				if (url.toExternalForm().contains(" "))
+					resolvedRawPath = URIUtil.toURI(url).getRawPath();
+				else
+					resolvedRawPath = url.toURI().getRawPath();
+			} catch (URISyntaxException e) {
+				throw new WrappedException(e);
+			}
+			pathToFolderOrJar = resolvedRawPath.substring(0, resolvedRawPath.indexOf(classNameAsPath));
+		}
+		this.classpathEntries.add(JavaCore.newLibraryEntry(new Path(pathToFolderOrJar), null, null));
 	}
 
 	public void addContainer(String name) {
