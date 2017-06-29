@@ -18,7 +18,7 @@ node {
 		}
 			
 		stage ('test with xtext nighly') {
-			sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_nightly ${mvnParams} clean integration-test."
+			sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_nightly ${mvnParams} clean integration-test"
 			junit '**/TEST-*.xml'
 		}
 		
