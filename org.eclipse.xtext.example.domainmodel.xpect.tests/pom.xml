@@ -10,6 +10,7 @@
 		<os-jvm-flags />
 		<memory-settings>-Xmx1G</memory-settings>
 		<tycho-version>0.26.0</tycho-version>
+		<target-platform>eclipse_4_6_3-xtext_2_9_2</target-platform>
 	</properties>
 
 	<profiles>
@@ -50,7 +51,7 @@
 					<target>
 						<artifact>
 							<groupId>org.xpect</groupId>
-							<artifactId>org.xpect.target.eclipse_4_5_0-xtext_2_9_2</artifactId>
+							<artifactId>org.xpect.target.${target-platform}</artifactId>
 							<version>0.2.0-SNAPSHOT</version>
 						</artifact>
 					</target>
