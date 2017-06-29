@@ -27,32 +27,39 @@ import com.google.inject.Inject;
 @XpectImport({ XtextStandaloneSetup.class, XtextWorkspaceSetup.class })
 public class Generator2Test {
 
-	@Inject
-	private IGenerator2 generator;
-
-	protected InMemoryFileSystemAccessFormatter createInMemoryFileSystemAccessFormatter() {
-		return new InMemoryFileSystemAccessFormatter();
-	}
-
-	public IGenerator2 getGenerator() {
-		return generator;
-	}
-
-	@Xpect(liveExecution = LiveExecutionType.FAST)
-	@ParameterParser(syntax = "('file' arg2=TEXT)?")
-	public void generated(@StringExpectation IStringExpectation expectation, @ThisResource XtextResource resource, String arg2) {
-		InMemoryFileSystemAccess fsa = new InMemoryFileSystemAccess();
-		generator.doGenerate(resource, fsa, new NullGeneratorContext());
-		String files = createInMemoryFileSystemAccessFormatter().includeOnlyFileNamesEndingWith(arg2).apply(fsa);
-		expectation.assertEquals(files);
-	}
-
-	private class NullGeneratorContext implements IGeneratorContext {
+	protected static class NullGeneratorContext implements IGeneratorContext {
 
 		@Override
 		public CancelIndicator getCancelIndicator() {
 			return null;
 		}
 
+	}
+
+	@Inject
+	private IGenerator2 generator;
+
+	private NullGeneratorContext createGeneratorContext(XtextResource resource) {
+		return new NullGeneratorContext();
+	}
+
+	protected InMemoryFileSystemAccessFormatter createInMemoryFileSystemAccessFormatter() {
+		return new InMemoryFileSystemAccessFormatter();
+	}
+
+	@Xpect(liveExecution = LiveExecutionType.FAST)
+	@ParameterParser(syntax = "('file' arg2=TEXT)?")
+	public void generated(@StringExpectation IStringExpectation expectation, @ThisResource XtextResource resource, String arg2) {
+		InMemoryFileSystemAccess fsa = new InMemoryFileSystemAccess();
+		IGeneratorContext context = createGeneratorContext(resource);
+		generator.beforeGenerate(resource, fsa, context);
+		generator.doGenerate(resource, fsa, context);
+		generator.afterGenerate(resource, fsa, context);
+		String files = createInMemoryFileSystemAccessFormatter().includeOnlyFileNamesEndingWith(arg2).apply(fsa);
+		expectation.assertEquals(files);
+	}
+
+	protected IGenerator2 getGenerator() {
+		return generator;
 	}
 }
