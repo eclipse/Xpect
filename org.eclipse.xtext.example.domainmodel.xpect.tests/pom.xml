@@ -7,25 +7,148 @@
 	<packaging>eclipse-test-plugin</packaging>
 
 	<properties>
-		<os-jvm-flags />
 		<memory-settings>-Xmx1G</memory-settings>
 		<tycho-version>0.26.0</tycho-version>
 		<target-platform>eclipse_4_6_3-xtext_2_9_2</target-platform>
 	</properties>
 
 	<profiles>
+
 		<profile>
-			<id>macosx-jvm-flags</id>
+			<id>non-osx</id>
+			<activation>
+				<os>
+					<family>!mac</family>
+				</os>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<!-- configure a target platform to make sure all dependencies are 
+							available -->
+						<plugin>
+							<groupId>org.eclipse.tycho</groupId>
+							<artifactId>target-platform-configuration</artifactId>
+							<version>${tycho-version}</version>
+							<configuration>
+								<target>
+									<artifact>
+										<groupId>org.xpect</groupId>
+										<artifactId>org.xpect.target.${target-platform}</artifactId>
+										<version>0.2.0-SNAPSHOT</version>
+									</artifact>
+								</target>
+								<environments>
+									<environment>
+										<os>linux</os>
+										<ws>gtk</ws>
+										<arch>x86</arch>
+									</environment>
+									<environment>
+										<os>linux</os>
+										<ws>gtk</ws>
+										<arch>x86_64</arch>
+									</environment>
+									<environment>
+										<os>win32</os>
+										<ws>win32</ws>
+										<arch>x86</arch>
+									</environment>
+									<environment>
+										<os>win32</os>
+										<ws>win32</ws>
+										<arch>x86_64</arch>
+									</environment>
+								</environments>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.eclipse.tycho</groupId>
+							<artifactId>tycho-surefire-plugin</artifactId>
+							<version>${tycho-version}</version>
+							<configuration>
+								<reportsDirectory>${project.build.directory}/surfire-reports-plugin</reportsDirectory>
+								<useUIHarness>true</useUIHarness>
+								<useUIThread>false</useUIThread>
+								<argLine>${memory-settings}</argLine>
+								<dependencies>
+									<dependency>
+										<type>eclipse-plugin</type>
+										<artifactId>org.eclipse.xtext.logging</artifactId>
+									</dependency>
+								</dependencies>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+
+		<profile>
+			<id>osx</id>
 			<activation>
 				<os>
 					<family>mac</family>
 				</os>
 			</activation>
-			<properties>
-				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
-			</properties>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<!-- configure a target platform to make sure all dependencies are 
+							available -->
+						<plugin>
+							<groupId>org.eclipse.tycho</groupId>
+							<artifactId>target-platform-configuration</artifactId>
+							<version>${tycho-version}</version>
+							<configuration>
+								<target>
+									<artifact>
+										<groupId>org.xpect</groupId>
+										<artifactId>org.xpect.target.${target-platform}</artifactId>
+										<version>0.2.0-SNAPSHOT</version>
+									</artifact>
+								</target>
+								<environments>
+									<environment>
+										<os>macosx</os>
+										<ws>cocoa</ws>
+										<arch>x86_64</arch>
+									</environment>
+								</environments>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.eclipse.tycho</groupId>
+							<artifactId>tycho-surefire-plugin</artifactId>
+							<version>${tycho-version}</version>
+							<configuration>
+								<reportsDirectory>${project.build.directory}/surfire-reports-plugin</reportsDirectory>
+								<useUIHarness>true</useUIHarness>
+								<useUIThread>false</useUIThread>
+								<argLine>${memory-settings} -XstartOnFirstThread</argLine>
+								<dependencies>
+									<dependency>
+										<type>eclipse-plugin</type>
+										<artifactId>org.eclipse.xtext.logging</artifactId>
+									</dependency>
+									<!-- makes OSX JVM visible to test environment -->
+									<dependency>
+										<type>eclipse-plugin</type>
+										<artifactId>org.eclipse.jdt.launching.macosx</artifactId>
+									</dependency>
+									<dependency>
+										<type>eclipse-plugin</type>
+										<artifactId>org.eclipse.jdt.launching.ui.macosx</artifactId>
+									</dependency>
+								</dependencies>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
 		</profile>
 	</profiles>
+
 
 	<build>
 		<!-- make sure surefire finds our test classes even though they are in 
@@ -46,43 +169,6 @@
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
-				<version>${tycho-version}</version>
-				<configuration>
-					<target>
-						<artifact>
-							<groupId>org.xpect</groupId>
-							<artifactId>org.xpect.target.${target-platform}</artifactId>
-							<version>0.2.0-SNAPSHOT</version>
-						</artifact>
-					</target>
-					<environments>
-						<environment>
-							<os>linux</os>
-							<ws>gtk</ws>
-							<arch>x86</arch>
-						</environment>
-						<environment>
-							<os>linux</os>
-							<ws>gtk</ws>
-							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86</arch>
-						</environment>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>macosx</os>
-							<ws>cocoa</ws>
-							<arch>x86_64</arch>
-						</environment>
-					</environments>
-				</configuration>
 			</plugin>
 
 			<!-- Compile Xtend-Classes -->
@@ -131,19 +217,6 @@
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-surefire-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<configuration>
-					<reportsDirectory>${project.build.directory}/surfire-reports-plugin</reportsDirectory>
-					<useUIHarness>true</useUIHarness>
-					<useUIThread>false</useUIThread>
-					<argLine>${memory-settings} ${os-jvm-flags}</argLine>
-					<dependencies>
-						<dependency>
-							<type>eclipse-plugin</type>
-							<artifactId>org.eclipse.xtext.logging</artifactId>
-						</dependency>
-					</dependencies>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
