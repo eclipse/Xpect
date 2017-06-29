@@ -7,7 +7,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<target-platform>eclipse_4_5_0-xtext_2_9_2</target-platform>
+		<target-platform>eclipse_4_6_3-xtext_2_9_2</target-platform>
 		<xtend-compiler-version>2.9.2</xtend-compiler-version>
 		<tycho-version>0.26.0</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
