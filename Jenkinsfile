@@ -4,27 +4,22 @@ node {
 	def mvnHome = tool 'M3'
 	def mvnParams = '--batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false'
 
-	stage 'Compile Xtext-2.9.2'
-	checkout scm
-	sh "${mvnHome}/bin/mvn -P!tests -Dtarget-platform=eclipse_4_6_3-xtext_2_9_2 ${mvnParams} clean install"
-	archive 'build/**/*.*'
+	stage ('compile with Xtext 2.9.2') {
+		checkout scm
+		sh "${mvnHome}/bin/mvn -P!tests -Dtarget-platform=eclipse_4_6_3-xtext_2_9_2 ${mvnParams} clean install"
+		archive 'build/**/*.*'
+	}
 	
 	wrap([$class:'Xvnc', useXauthority: true]) {
 		
-		stage 'Test Xtext-2.9.2'
-		try {
+		stage ('test with Xtext 2.9.2') {
 			sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_6_3-xtext_2_9_2 ${mvnParams} clean integration-test"
-		} finally {
-			step([$class: 'JUnitResultArchiver', testResults: '**/target/surfire-reports-standalone/*.xml'])
-			step([$class: 'JUnitResultArchiver', testResults: '**/target/surfire-reports-plugin/*.xml'])
+			junit '**/TEST-*.xml'
 		}
 			
-		stage 'Test Xtext-Nightly'
-		try {
+		stage ('test with xtext nighly') {
 			sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_nightly ${mvnParams} clean integration-test."
-		} finally {
-			step([$class: 'JUnitResultArchiver', testResults: '**/target/surfire-reports-standalone/*.xml'])
-			step([$class: 'JUnitResultArchiver', testResults: '**/target/surfire-reports-plugin/*.xml'])
+			junit '**/TEST-*.xml'
 		}
 		
 	}
