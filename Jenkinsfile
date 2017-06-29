@@ -6,14 +6,14 @@ node {
 
 	stage 'Compile Xtext-2.9.2'
 	checkout scm
-	sh "${mvnHome}/bin/mvn -P!tests -Dtarget-platform=eclipse_4_5_0-xtext_2_9_2 ${mvnParams} clean install"
+	sh "${mvnHome}/bin/mvn -P!tests -Dtarget-platform=eclipse_4_6_3-xtext_2_9_2 ${mvnParams} clean install"
 	archive 'build/**/*.*'
 	
 	wrap([$class:'Xvnc', useXauthority: true]) {
 		
 		stage 'Test Xtext-2.9.2'
 		try {
-			sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_2_9_2 ${mvnParams} clean integration-test"
+			sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_6_3-xtext_2_9_2 ${mvnParams} clean integration-test"
 		} finally {
 			step([$class: 'JUnitResultArchiver', testResults: '**/target/surfire-reports-standalone/*.xml'])
 			step([$class: 'JUnitResultArchiver', testResults: '**/target/surfire-reports-plugin/*.xml'])
