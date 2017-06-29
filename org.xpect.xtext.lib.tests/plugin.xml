@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.xpect.fileExtensions">
+      <fileExtension
+            fileExtension="xtext"
+            xtextLanguageName="org.eclipse.xtext.Xtext"
+            xtextRuntimeModule="org.eclipse.xtext.XtextRuntimeModule"
+            xtextUiModule="org.eclipse.xtext.xtext.ui.internal.XtextUIModuleInternal">
+      </fileExtension>
+   </extension>
+
+</plugin>
