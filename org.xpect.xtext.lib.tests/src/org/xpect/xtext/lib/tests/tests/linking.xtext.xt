@@ -9,7 +9,7 @@ Model:
 	// XPECT linkedFragment --> XtextFragmentProvider_org.xpect.tests.tests.Linking/Element
 	elements+=Element*;
 
-// XPECT linkedFragment --> XtextFragmentProvider_org.xpect.tests.tests.Linking/WS, XtextFragmentProvider_org.xpect.tests.tests.Linking/ML_COMMENT
+// XPECT linkedFragments --> XtextFragmentProvider_org.xpect.tests.tests.Linking/WS, XtextFragmentProvider_org.xpect.tests.tests.Linking/ML_COMMENT
 Element hidden(WS, ML_COMMENT):
 	// XPECT linkedFragment --> XtextFragmentProvider_org.xpect.tests.tests.Linking/ID
 	'element' name=ID;
