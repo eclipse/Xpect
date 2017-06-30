@@ -8,8 +8,12 @@
 package org.xpect.xtext.lib.tests;
 
 import org.eclipse.xtext.generator.IGenerator;
+import org.eclipse.xtext.generator.IGenerator2;
+import org.eclipse.xtext.generator.IGeneratorContext;
 import org.eclipse.xtext.generator.InMemoryFileSystemAccess;
 import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.util.CancelIndicator;
+import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.xpect.XpectImport;
 import org.xpect.expectation.IStringExpectation;
@@ -32,23 +36,61 @@ import com.google.inject.Inject;
 @XpectImport({ XtextStandaloneSetup.class, XtextWorkspaceSetup.class })
 public class GeneratorTest {
 
-	@Inject
+	protected static class NullGeneratorContext implements IGeneratorContext {
+
+		@Override
+		public CancelIndicator getCancelIndicator() {
+			return null;
+		}
+
+	}
+
+	@Inject(optional = true)
 	private IGenerator generator;
+
+	@Inject(optional = true)
+	private IGenerator2 generator2;
+
+	protected IGeneratorContext createGeneratorContext(XtextResource resource) {
+		return new NullGeneratorContext();
+	}
 
 	protected InMemoryFileSystemAccessFormatter createInMemoryFileSystemAccessFormatter() {
 		return new InMemoryFileSystemAccessFormatter();
-	}
-
-	public IGenerator getGenerator() {
-		return generator;
 	}
 
 	@Xpect(liveExecution = LiveExecutionType.FAST)
 	@ParameterParser(syntax = "('file' arg2=TEXT)?")
 	public void generated(@StringExpectation IStringExpectation expectation, @ThisResource XtextResource resource, String arg2) {
 		InMemoryFileSystemAccess fsa = new InMemoryFileSystemAccess();
-		generator.doGenerate(resource, fsa);
+		IGenerator gen1 = getGenerator();
+		IGenerator2 gen2 = getGenerator2();
+		if (gen2 != null) {
+			IGeneratorContext context = createGeneratorContext(resource);
+			gen2.beforeGenerate(resource, fsa, context);
+			gen2.doGenerate(resource, fsa, context);
+			gen2.afterGenerate(resource, fsa, context);
+		} else if (gen1 != null) {
+			gen1.doGenerate(resource, fsa);
+		} else {
+			Assert.fail("no generator available");
+		}
 		String files = createInMemoryFileSystemAccessFormatter().includeOnlyFileNamesEndingWith(arg2).apply(fsa);
 		expectation.assertEquals(files);
 	}
+
+	protected IGenerator getGenerator() {
+		return generator;
+	}
+
+	protected IGenerator2 getGenerator2() {
+		if (generator2 != null) {
+			return generator2;
+		}
+		if (generator instanceof IGenerator2) {
+			return (IGenerator2) generator;
+		}
+		return null;
+	}
+
 }
