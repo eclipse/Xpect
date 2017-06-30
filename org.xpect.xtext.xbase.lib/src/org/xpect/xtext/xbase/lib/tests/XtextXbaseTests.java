@@ -5,7 +5,7 @@ import org.xpect.runner.XpectRunner;
 import org.xpect.runner.XpectSuiteClasses;
 import org.xpect.xtext.lib.tests.XtextTests;
 
-@XpectSuiteClasses({ JvmModelInferrerTest.class, XtextTests.class })
+@XpectSuiteClasses({ JvmModelInferrerTest.class, XtextTests.class, JavaGeneratorTest.class })
 @RunWith(XpectRunner.class)
 public class XtextXbaseTests {
 
