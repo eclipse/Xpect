@@ -61,21 +61,35 @@ public class LinkingTest {
 		URI target = EcoreUtil.getURI(targetObject);
 		return deresolve(baseUri, target);
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	@Xpect(liveExecution = LiveExecutionType.FAST)
 	@ParameterParser(syntax = "('at' arg1=OFFSET)?")
-	public void linkedFragment(@CommaSeparatedValuesExpectation(ordered = true) ICommaSeparatedValuesExpectation expectation, @ThisOffset ICrossEReferenceAndEObject arg1) {
-		URI baseUri = arg1.getEObject().eResource().getURI();
+	public void linkedFragment(IStringExpectation expectation, @ThisOffset ICrossEReferenceAndEObject arg1) {
 		Object targetObject = arg1.getEObject().eGet(arg1.getCrossEReference());
 		if (targetObject == null) {
 			Assert.fail("Reference is null");
 		} else if (targetObject instanceof EObject) {
+			URI baseUri = arg1.getEObject().eResource().getURI();
 			String actual = getLinkedFragment((EObject) targetObject, baseUri);
-			expectation.assertEquals(Collections.singletonList(actual));
+			expectation.assertEquals(actual);
 		} else if (targetObject instanceof EList<?>) {
+			Assert.fail("use 'XPECT linkedFragment' (plural)");
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Xpect(liveExecution = LiveExecutionType.FAST)
+	@ParameterParser(syntax = "('at' arg1=OFFSET)?")
+	public void linkedFragments(@CommaSeparatedValuesExpectation(ordered = true) ICommaSeparatedValuesExpectation expectation, @ThisOffset ICrossEReferenceAndEObject arg1) {
+		Object targetObject = arg1.getEObject().eGet(arg1.getCrossEReference());
+		if (targetObject == null) {
+			Assert.fail("Reference is null");
+		} else if (targetObject instanceof EObject) {
+			Assert.fail("use 'XPECT linkedFragment' (singular)");
+		} else if (targetObject instanceof EList<?>) {
+			URI baseUri = arg1.getEObject().eResource().getURI();
 			List<String> result = Lists.newArrayList();
-			for(EObject target:(List<EObject>) targetObject) {
+			for (EObject target : (List<EObject>) targetObject) {
 				String fragment = getLinkedFragment(target, baseUri);
 				result.add(fragment);
 			}
