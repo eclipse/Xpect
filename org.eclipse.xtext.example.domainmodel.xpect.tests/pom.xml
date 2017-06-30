@@ -67,6 +67,10 @@
 							<artifactId>tycho-surefire-plugin</artifactId>
 							<version>${tycho-version}</version>
 							<configuration>
+								<systemProperties>
+									<xpectTestTitlePostfix>.${target-platform}</xpectTestTitlePostfix>
+									<xpectTestTitleShowEnvironment>true</xpectTestTitleShowEnvironment>
+								</systemProperties>
 								<reportsDirectory>${project.build.directory}/surefire-reports-plugin</reportsDirectory>
 								<useUIHarness>true</useUIHarness>
 								<useUIThread>false</useUIThread>
@@ -126,6 +130,10 @@
 								<useUIHarness>true</useUIHarness>
 								<useUIThread>false</useUIThread>
 								<argLine>${memory-settings} -XstartOnFirstThread</argLine>
+								<systemProperties>
+									<xpectTestTitlePostfix>.${target-platform}</xpectTestTitlePostfix>
+									<xpectTestTitleShowEnvironment>true</xpectTestTitleShowEnvironment>
+								</systemProperties>
 								<dependencies>
 									<dependency>
 										<type>eclipse-plugin</type>
@@ -195,6 +203,10 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.16</version>
 				<configuration>
+					<systemProperties>
+						<xpectTestTitlePostfix>.${target-platform}</xpectTestTitlePostfix>
+						<xpectTestTitleShowEnvironment>true</xpectTestTitleShowEnvironment>
+					</systemProperties>
 					<reportsDirectory>${project.build.directory}/surefire-reports-standalone</reportsDirectory>
 				</configuration>
 				<executions>

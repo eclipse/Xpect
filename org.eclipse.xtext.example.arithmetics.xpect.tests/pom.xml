@@ -109,6 +109,10 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.16</version>
 				<configuration>
+					<systemProperties>
+						<xpectTestTitlePostfix>.${target-platform}</xpectTestTitlePostfix>
+						<xpectTestTitleShowEnvironment>true</xpectTestTitleShowEnvironment>
+					</systemProperties>
 					<reportsDirectory>${project.build.directory}/surefire-reports-standalone</reportsDirectory>
 				</configuration>
 				<executions>
@@ -127,18 +131,10 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-<!-- 
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-surefire-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<configuration>
-					<reportsDirectory>${project.build.directory}/surefire-reports-plugin</reportsDirectory>
-					<useUIHarness>true</useUIHarness>
-					<useUIThread>false</useUIThread>
-					<argLine>${memory-settings} ${os-jvm-flags}</argLine>
-				</configuration>
-			</plugin> -->
+			<!-- <plugin> <groupId>org.eclipse.tycho</groupId> <artifactId>tycho-surefire-plugin</artifactId> 
+				<version>${tycho-version}</version> <configuration> <reportsDirectory>${project.build.directory}/surefire-reports-plugin</reportsDirectory> 
+				<useUIHarness>true</useUIHarness> <useUIThread>false</useUIThread> <argLine>${memory-settings} 
+				${os-jvm-flags}</argLine> </configuration> </plugin> -->
 		</plugins>
 	</build>
 </project>
