@@ -31,7 +31,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
-      defaultValue="Luna"
+      defaultValue="Neon"
       storageURI="scope://Workspace"/>
   <setupTask
       xsi:type="setup.workingsets:WorkingSetTask">
@@ -98,7 +98,8 @@
         <requirement
             name="org.eclipse.xtext.example.domainmodel.xpect.tests"/>
         <sourceLocator
-            rootFolder="${git.clone.location}"/>
+            rootFolder="${git.clone.location}"
+            locateNestedProjects="true"/>
         <repositoryList
             name="Neon">
           <repository
@@ -181,6 +182,17 @@
       <description>Install the tools needed in the IDE to work with the source code for ${scope.project.label}</description>
     </setupTask>
     <setupTask
+      xsi:type="projects:ProjectsBuildTask"
+      refresh="true"/>
+  <setupTask
+      xsi:type="setup:CompoundTask"
+      name="org.eclipse.debug.ui">
+    <setupTask
+        xsi:type="setup:PreferenceTask"
+        key="/instance/org.eclipse.debug.ui/org.eclipse.debug.ui.cancel_launch_with_compile_errors"
+        value="always"/>
+  </setupTask>
+    <setupTask
         xsi:type="launching:LaunchTask"
         id="GenerateXpectLanguage"
         launcher="/org.xpect.releng/GenerateXpect.launch">
@@ -188,9 +200,15 @@
     </setupTask>
     <setupTask
         xsi:type="launching:LaunchTask"
-        id="GenerateXpectLanguage2"
-        launcher="/org.xpect.releng/GenerateXpect.launch">
-      <description>Run Task again, workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=457947</description>
+        id="GenerateArithmetics"
+        launcher="/org.xpect.releng/GenerateArithmetics.launch">
+      <description>Generate Arithmetics</description>
+    </setupTask>
+    <setupTask
+        xsi:type="launching:LaunchTask"
+        id="GenerateDomainmodel"
+        launcher="/org.xpect.releng/GenerateDomainmodel.launch">
+      <description>Generate Domain Model</description>
     </setupTask>
     <stream
         name="master"/>
