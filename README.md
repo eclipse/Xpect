@@ -1,4 +1,3 @@
-
 <!--
 Copyright (c) 2012-2017 TypeFox GmbH and itemis AG.
 All rights reserved. This program and the accompanying materials
