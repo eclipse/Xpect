@@ -2,6 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Junit
 Bundle-SymbolicName: org.xpect.ui.junit;singleton:=true
+Bundle-Vendor: %providerName
 Bundle-Version: 0.2.0.qualifier
 Bundle-Activator: org.xpect.ui.junit.Activator
 Require-Bundle: org.xpect;bundle-version="[0.2.0,0.2.1)",
@@ -25,4 +26,3 @@ Require-Bundle: org.xpect;bundle-version="[0.2.0,0.2.1)",
  org.eclipse.pde.ui;bundle-version="3.6.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
-Bundle-Vendor: TypeFox GmbH

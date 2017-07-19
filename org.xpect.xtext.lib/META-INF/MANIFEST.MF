@@ -2,6 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Lib
 Bundle-SymbolicName: org.xpect.xtext.lib
+Bundle-Vendor: %providerName
 Bundle-Version: 0.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.7.0";visibility:=reexport,
@@ -17,4 +18,3 @@ Export-Package: org.xpect.xtext.lib.setup,
  org.xpect.xtext.lib.setup.workspace,
  org.xpect.xtext.lib.tests,
  org.xpect.xtext.lib.util
-Bundle-Vendor: itemis AG
