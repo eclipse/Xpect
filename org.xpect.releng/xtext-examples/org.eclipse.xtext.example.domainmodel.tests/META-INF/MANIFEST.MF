@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.eclipse.xtext.example.domainmodel.test
-Bundle-Vendor: My Company
+Bundle-Vendor: %providerName
 Bundle-Version: 2.9.2.qualifier
 Bundle-SymbolicName: org.eclipse.xtext.example.domainmodel.tests;singleton:=true
 Bundle-ActivationPolicy: lazy

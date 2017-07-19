@@ -2,6 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests
 Bundle-SymbolicName: org.xpect.xtext.lib.tests;singleton:=true
+Bundle-Vendor: %providerName
 Bundle-Version: 0.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.xpect.xtext.lib;bundle-version="0.2.0",
