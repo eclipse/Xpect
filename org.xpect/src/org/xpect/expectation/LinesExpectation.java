@@ -26,7 +26,9 @@ public @interface LinesExpectation {
 	boolean caseSensitive() default true;
 
 	Class<? extends Function<Object, String>> itemFormatter() default ToString.class;
-
+	
+	Class<? extends Function<String, String>> expectationFormatter() default ByPassExpectationImpl.class;
+	
 	boolean ordered() default false;
 
 	boolean quoted() default false;
