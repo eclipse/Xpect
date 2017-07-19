@@ -10,4 +10,5 @@ Contributors:
 -->
 
 Contents in this folder were copied from the Xtext project:
-https://github.com/eclipse/xtext-eclipse/tree/master/org.eclipse.xtext.xtext.ui.examples/projects
+	https://github.com/eclipse/xtext-eclipse/tree/master/org.eclipse.xtext.xtext.ui.examples/projects
+	(Except for the pom.xml files.)
