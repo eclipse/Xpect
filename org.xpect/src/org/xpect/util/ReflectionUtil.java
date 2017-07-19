@@ -31,6 +31,16 @@ public class ReflectionUtil {
 		}
 	}
 
+	public static <T> T newInstanceUnchecked(Class<T> clazz) {
+		try {
+			return clazz.newInstance();
+		} catch (InstantiationException e) {
+			throw new RuntimeException(e);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	public static <T> T readField(Class<?> declaredIn, Object owner, String fieldName, Class<T> type) {
 		try {

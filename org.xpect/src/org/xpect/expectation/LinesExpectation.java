@@ -13,6 +13,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.xpect.expectation.impl.ActualCollection.ToString;
+import org.xpect.util.IdentityStringFunction;
 
 import com.google.common.base.Function;
 
@@ -27,7 +28,7 @@ public @interface LinesExpectation {
 
 	Class<? extends Function<Object, String>> itemFormatter() default ToString.class;
 	
-	Class<? extends Function<String, String>> expectationFormatter() default ByPassExpectationImpl.class;
+	Class<? extends Function<String, String>> expectationFormatter() default IdentityStringFunction.class;
 	
 	boolean ordered() default false;
 

@@ -14,6 +14,7 @@ import org.xpect.expectation.impl.ExpectationCollection.ExpectationItem;
 import org.xpect.setup.XpectSetupFactory;
 import org.xpect.state.Creates;
 import org.xpect.text.Text;
+import org.xpect.util.ReflectionUtil;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Objects.ToStringHelper;
@@ -80,15 +81,16 @@ public class CommaSeparatedValuesExpectationImpl extends AbstractExpectation imp
 		act.setQuoted(annotation.quoted());
 		act.setSeparator(',');
 		act.setWhitespaceSensitive(annotation.whitespaceSensitive());
+		act.setItemFormatter(ReflectionUtil.newInstanceUnchecked(annotation.itemFormatter()));
 		if (actual != null && predicate != null) {
 			if (expectationCollection.isWildcard())
-				act.init(expectationCollection.applyPredicate(predicate), annotation.itemFormatter());
+				act.init(expectationCollection.applyPredicate(predicate));
 			else
-				act.init(actual, annotation.itemFormatter());
+				act.init(actual);
 		} else if (predicate != null)
-			act.init(expectationCollection.applyPredicate(predicate), annotation.itemFormatter());
+			act.init(expectationCollection.applyPredicate(predicate));
 		else if (actual != null)
-			act.init(actual, annotation.itemFormatter());
+			act.init(actual);
 		else
 			throw new NullPointerException();
 

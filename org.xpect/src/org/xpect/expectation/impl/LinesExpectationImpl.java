@@ -3,13 +3,11 @@ package org.xpect.expectation.impl;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.xtext.util.Exceptions;
 import org.eclipse.xtext.util.Pair;
 import org.junit.Assert;
 import org.junit.ComparisonFailure;
 import org.xpect.XpectArgument;
 import org.xpect.XpectImport;
-import org.xpect.expectation.ByPassExpectationImpl;
 import org.xpect.expectation.ILinesExpectation;
 import org.xpect.expectation.LinesExpectation;
 import org.xpect.expectation.impl.ActualCollection.ActualItem;
@@ -19,10 +17,8 @@ import org.xpect.state.Creates;
 import org.xpect.text.Text;
 import org.xpect.util.ReflectionUtil;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-import com.google.common.io.ByteProcessor;
 
 @XpectSetupFactory
 @XpectImport(ExpectationRegionProvider.class)
@@ -48,6 +44,7 @@ public class LinesExpectationImpl extends AbstractExpectation implements ILinesE
 		exp.setQuoted(annotation.quoted());
 		exp.setSeparator('\n');
 		exp.setWhitespaceSensitive(annotation.whitespaceSensitive());
+		exp.setExpectationFormatter(ReflectionUtil.newInstanceUnchecked(annotation.expectationFormatter()));
 		exp.init(getExpectation());
 
 		ActualCollection act = new ActualCollection();
@@ -57,7 +54,8 @@ public class LinesExpectationImpl extends AbstractExpectation implements ILinesE
 		act.setQuoted(annotation.quoted());
 		act.setSeparator('\n');
 		act.setWhitespaceSensitive(annotation.whitespaceSensitive());
-		act.init(actual, annotation.itemFormatter());
+		act.setItemFormatter(ReflectionUtil.newInstanceUnchecked(annotation.itemFormatter()));
+		act.init(actual);
 
 		if (!exp.matches(act)) {
 			List<String> expString = Lists.newArrayList();
@@ -78,22 +76,7 @@ public class LinesExpectationImpl extends AbstractExpectation implements ILinesE
 			throw new ComparisonFailure(message, expDoc, actDoc);
 		}
 	}
-	
-	@Override
-	public String getExpectation() {
-		if (annotation.expectationFormatter() != ByPassExpectationImpl.class) {
-			try {
-				Function<String, String> func = annotation.expectationFormatter().newInstance();
-				return func.apply(super.getExpectation());
-			} catch (InstantiationException e) {
-				Exceptions.throwUncheckedException(e);
-			} catch (IllegalAccessException e) {
-				Exceptions.throwUncheckedException(e);
-			}
-		}
-		return super.getExpectation();
-	}
-	
+
 	@Creates
 	public ILinesExpectation create() {
 		return this;

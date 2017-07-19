@@ -19,6 +19,8 @@ import org.eclipse.xtext.util.Tuples;
 import org.xpect.expectation.impl.ActualCollection.ActualItem;
 import org.xpect.expectation.impl.ExpectationCollection.ExpectationItem;
 
+import com.google.common.base.Function;
+import com.google.common.base.Functions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Lists;
@@ -56,6 +58,8 @@ public class ExpectationCollection extends StringCollection<ExpectationItem> {
 
 	final protected static String WILDCARD = "...";
 
+	private Function<String, String> expectationFormatter = Functions.identity();
+
 	public List<String> applyPredicate(Predicate<String> predicate) {
 		List<String> items = Lists.newArrayList();
 		for (ExpectationItem i : this)
@@ -65,9 +69,14 @@ public class ExpectationCollection extends StringCollection<ExpectationItem> {
 	}
 
 	protected ExpectationItem createItem(String item, boolean negated, boolean quoted, boolean escaped) {
+		String formatted = expectationFormatter.apply(item);
 		if (!escaped && !negated && !quoted && WILDCARD.equals(item))
-			return new ExpectationItem(item.toString(), false, true);
-		return new ExpectationItem(item.toString(), negated, false);
+			return new ExpectationItem(formatted, false, true);
+		return new ExpectationItem(formatted, negated, false);
+	}
+
+	public Function<String, String> getExpectationFormatter() {
+		return expectationFormatter;
 	}
 
 	public void init(String expectation) {
@@ -329,5 +338,9 @@ public class ExpectationCollection extends StringCollection<ExpectationItem> {
 				return false;
 		}
 		return true;
+	}
+
+	public void setExpectationFormatter(Function<String, String> expectationFormatter) {
+		this.expectationFormatter = expectationFormatter;
 	}
 }

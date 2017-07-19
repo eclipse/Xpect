@@ -1,4 +1,4 @@
-package org.xpect.expectation;
+package org.xpect.util;
 
 import com.google.common.base.Function;
 
@@ -6,11 +6,11 @@ import com.google.common.base.Function;
  * @author Dennis Huebner - Initial contribution and API
  *
  */
-final public class ByPassExpectationImpl implements Function<String,String> {
+final public class IdentityStringFunction implements Function<String, String> {
 
 	@Override
 	public String apply(String input) {
 		return input;
 	}
-	
+
 }
