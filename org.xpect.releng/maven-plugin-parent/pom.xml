@@ -24,6 +24,14 @@ Contributors:
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>license-feature</id>
+			<url>http://download.eclipse.org/cbi/updates/license/</url>
+			<layout>p2</layout>
+		</repository>
+	</repositories>
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>fornax.plugin.repository</id>
