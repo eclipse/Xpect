@@ -14,7 +14,7 @@ Contributors:
 	<modelVersion>4.0.0</modelVersion>
 	<version>0.2.0-SNAPSHOT</version>
 	<groupId>org.xpect</groupId>
-	<artifactId>org.xpect.target.eclipse_4_6_3-xtext_2_9_2</artifactId>
+	<artifactId>org.xpect.target.eclipse_4_4_2-xtext_2_9_2</artifactId>
 	<packaging>eclipse-target-definition</packaging>
 	<parent>
 		<groupId>org.xpect</groupId>
