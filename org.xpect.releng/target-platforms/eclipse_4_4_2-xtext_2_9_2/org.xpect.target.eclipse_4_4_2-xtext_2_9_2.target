@@ -22,9 +22,9 @@
 <repository location="http://meysholdt.github.io/xtext_stateful_lexer/updatesite/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.gef.sdk.feature.group" version="3.11.0.201606061308"/>
-<unit id="org.eclipse.sdk.ide" version="4.6.3.M20170301-0400"/>
-<repository location="http://download.eclipse.org/releases/neon/201705151400/"/>
+<unit id="org.eclipse.gef.sdk.feature.group" version="3.9.101.201408150207"/>
+<unit id="org.eclipse.sdk.ide" version="4.4.2.M20150204-1700"/>
+<repository location="http://download.eclipse.org/releases/luna/201502271000/"/>
 </location>
 </locations>
 <environment>

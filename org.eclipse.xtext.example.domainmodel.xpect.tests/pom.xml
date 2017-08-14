@@ -20,7 +20,7 @@ Contributors:
 	<properties>
 		<memory-settings>-Xmx1G</memory-settings>
 		<tycho-version>0.26.0</tycho-version>
-		<target-platform>eclipse_4_6_3-xtext_2_9_2</target-platform>
+		<target-platform>eclipse_4_4_2-xtext_2_9_2</target-platform>
 	</properties>
 
 	<profiles>
