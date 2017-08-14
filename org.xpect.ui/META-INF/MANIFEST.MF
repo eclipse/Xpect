@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.xpect.ui
-Bundle-Vendor: itemis AG
+Bundle-Vendor: %providerName
 Bundle-Version: 0.2.0.qualifier
 Bundle-SymbolicName: org.xpect.ui;singleton:=true
 Bundle-ActivationPolicy: lazy

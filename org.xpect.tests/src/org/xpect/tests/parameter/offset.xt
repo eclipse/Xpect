@@ -1,8 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2012-2017 TypeFox GmbH and itemis AG.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   Moritz Eysholdt - Initial contribution and API
+ *******************************************************************************/
+
   XPECT_SETUP org.xpect.tests.parameter.ParameterParserTest END_SETUP
   
 // match
-XPECT intOffset at f|oo --> 147
-XPECT intOffset at foo| --> 149
+XPECT intOffset at f|oo --> 684
+XPECT intOffset at foo| --> 686
 foo
 
 // no match
@@ -10,10 +21,10 @@ XPECT testFailureMessage --> OFFSET 'doesntexist' not found.
 XPECT intOffset at doesntexist
 
 // no offset specified
-XPECT intOffset --> 370
-XPECT intOffset at |bar --> 370
+XPECT intOffset --> 907
+XPECT intOffset at |bar --> 907
 test title
-XPECT intOffset --> 370
+XPECT intOffset --> 907
 bar
 
 // match

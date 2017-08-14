@@ -2,6 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests
 Bundle-SymbolicName: org.eclipse.xtext.example.domainmodel.xpect.tests
+Bundle-Vendor: %providerName
 Bundle-Version: 0.2.0.qualifier
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.xtext.example.domainmodel;bundle-version="2.9.2",

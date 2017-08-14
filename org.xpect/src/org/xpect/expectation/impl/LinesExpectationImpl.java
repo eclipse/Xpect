@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2012-2017 TypeFox GmbH and itemis AG.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   Moritz Eysholdt - Initial contribution and API
+ *******************************************************************************/
+
 package org.xpect.expectation.impl;
 
 import java.util.Collection;
@@ -15,6 +26,7 @@ import org.xpect.expectation.impl.ExpectationCollection.ExpectationItem;
 import org.xpect.setup.XpectSetupFactory;
 import org.xpect.state.Creates;
 import org.xpect.text.Text;
+import org.xpect.util.ReflectionUtil;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -43,6 +55,7 @@ public class LinesExpectationImpl extends AbstractExpectation implements ILinesE
 		exp.setQuoted(annotation.quoted());
 		exp.setSeparator('\n');
 		exp.setWhitespaceSensitive(annotation.whitespaceSensitive());
+		exp.setExpectationFormatter(ReflectionUtil.newInstanceUnchecked(annotation.expectationFormatter()));
 		exp.init(getExpectation());
 
 		ActualCollection act = new ActualCollection();
@@ -52,7 +65,8 @@ public class LinesExpectationImpl extends AbstractExpectation implements ILinesE
 		act.setQuoted(annotation.quoted());
 		act.setSeparator('\n');
 		act.setWhitespaceSensitive(annotation.whitespaceSensitive());
-		act.init(actual, annotation.itemFormatter());
+		act.setItemFormatter(ReflectionUtil.newInstanceUnchecked(annotation.itemFormatter()));
+		act.init(actual);
 
 		if (!exp.matches(act)) {
 			List<String> expString = Lists.newArrayList();
