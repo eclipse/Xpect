@@ -1,0 +1,27 @@
+/*******************************************************************************
+ * Copyright (c) 2012-2017 TypeFox GmbH and itemis AG.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   Moritz Eysholdt - Initial contribution and API
+ *******************************************************************************/
+
+package org.eclipse.xpect.examples.xtend
+
+
+/* XPECT_SETUP org.eclipse.xpect.examples.xtend.XtendTest END_SETUP */
+
+class MyXtendClass {
+
+	// XPECT warnings --> "The value of the field MyXtendClass.x is not used" at "x"	
+	val x = true
+	
+	// XPECT errors --> "This expression is not allowed in this context, since it doesn't cause any side effects." at "1"
+	def void foo() { 1 }
+	
+	// XPECT scope at int --> String, java.lang.String, ...
+	def int bar() { 1 }	
+}

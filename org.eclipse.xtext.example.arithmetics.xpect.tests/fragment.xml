@@ -13,7 +13,7 @@ Contributors:
 <?eclipse version="3.4"?>
 <fragment>
    <extension
-         point="org.xpect.testSuite">
+         point="org.eclipse.xpect.testSuite">
       <testSuite
             class="org.eclipse.xtext.example.arithmetics.xpect.tests.suite.ArithmeticsXtextTest"
             fileExtension="calc">

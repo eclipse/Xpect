@@ -12,8 +12,8 @@
 package org.eclipse.xtext.example.domainmodel.xpect.tests.testsuite;
 
 import org.junit.runner.RunWith;
-import org.xpect.runner.XpectRunner;
-import org.xpect.xtext.lib.tests.XtextTests;
+import org.eclipse.xpect.runner.XpectRunner;
+import org.eclipse.xpect.xtext.lib.tests.XtextTests;
 
 @RunWith(XpectRunner.class)
 public class DMXtextTest extends XtextTests {

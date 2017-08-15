@@ -1,8 +1,0 @@
-   XPECT_SETUP org.xpect.tests.expectation.impl.ExpectationTest END_SETUP  
-
-// not modified
-XPECT expectedExpectation --> Hallo <tester>!
-
-// modified
-XPECT modifiedExpectation --> Hallo <tester>!
-
