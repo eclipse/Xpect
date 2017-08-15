@@ -1,0 +1,109 @@
+<!--
+Copyright (c) 2012-2017 TypeFox GmbH and itemis AG.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+  Moritz Eysholdt - Initial contribution and API
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.eclipse.xpect</groupId>
+	<artifactId>org.eclipse.xpect.test.parent</artifactId>
+	<version>0.2.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>org.eclipse.xpect</groupId>
+		<artifactId>org.eclipse.xpect.parent</artifactId>
+		<version>0.2.0-SNAPSHOT</version>
+		<relativePath>../maven-plugin-parent/</relativePath>
+	</parent>
+
+	<properties>
+		<os-jvm-flags />
+		<memory-settings>-Xmx1G</memory-settings>
+	</properties>
+
+	<build>
+		<!-- make sure surefire finds our test classes even though they are in 
+			the "src" folder -->
+		<testOutputDirectory>target/classes</testOutputDirectory>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-surefire-plugin</artifactId>
+					<version>${tycho-version}</version>
+					<configuration>
+						<systemProperties>
+							<xpectTestTitlePostfix>.${target-platform}</xpectTestTitlePostfix>
+							<xpectTestTitleShowEnvironment>true</xpectTestTitleShowEnvironment>
+						</systemProperties>
+						<reportsDirectory>${project.build.directory}/surefire-reports-plugin</reportsDirectory>
+						<useUIHarness>true</useUIHarness>
+						<useUIThread>true</useUIThread>
+						<argLine>${memory-settings} ${os-jvm-flags}</argLine>
+						<!-- <debugPort>5005</debugPort> -->
+						<dependencies>
+							<dependency>
+								<type>eclipse-plugin</type>
+								<artifactId>org.eclipse.xtext.logging</artifactId>
+							</dependency>
+						</dependencies>
+					</configuration>
+				</plugin>
+
+				<!-- Use maven surefire (not tycho surefire!) to run tests as plain JUnit 
+					tests (not Plug-In JUnit tests!) -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.16</version>
+					<configuration>
+						<systemProperties>
+							<xpectTestTitlePostfix>.${target-platform}</xpectTestTitlePostfix>
+							<xpectTestTitleShowEnvironment>true</xpectTestTitleShowEnvironment>
+						</systemProperties>
+						<!-- <debugForkedProcess>true</debugForkedProcess> -->
+						<reportsDirectory>${project.build.directory}/surefire-reports-standalone</reportsDirectory>
+					</configuration>
+					<executions>
+						<execution>
+							<phase>test</phase>
+							<goals>
+								<goal>test</goal>
+							</goals>
+						</execution>
+					</executions>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.maven.surefire</groupId>
+							<artifactId>surefire-junit47</artifactId>
+							<version>2.16</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>osx</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
+			</properties>
+		</profile>
+	</profiles>
+</project>

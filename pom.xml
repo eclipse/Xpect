@@ -14,8 +14,8 @@ Contributors:
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.xpect</groupId>
-	<artifactId>org.xpect.root</artifactId>
+	<groupId>org.eclipse.xpect</groupId>
+	<artifactId>org.eclipse.xpect.root</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
@@ -23,7 +23,7 @@ Contributors:
 		<xtend-compiler-version>2.9.2</xtend-compiler-version>
 	</properties>
 	<modules>
-		<module>org.xpect.releng/target-platforms/${target-platform}</module>
+		<module>org.eclipse.xpect.releng/target-platforms/${target-platform}</module>
 	</modules>
 	<profiles>
 		<profile>
@@ -32,15 +32,15 @@ Contributors:
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<modules>
-				<module>org.xpect</module>
-				<module>org.xpect.ui</module>
-				<module>org.xpect.ui.junit</module>
-				<module>org.xpect.xtext.lib</module>
-				<module>org.xpect.xtext.xbase.lib</module>
-				<module>org.xpect.sdk</module>
-				<module>org.xpect.xtext.lib.feature</module>
-				<module>org.xpect.xtext.xbase.lib.feature</module>
-				<module>org.xpect.releng/p2-repository</module>
+				<module>org.eclipse.xpect</module>
+				<module>org.eclipse.xpect.ui</module>
+				<module>org.eclipse.xpect.ui.junit</module>
+				<module>org.eclipse.xpect.xtext.lib</module>
+				<module>org.eclipse.xpect.xtext.xbase.lib</module>
+				<module>org.eclipse.xpect.sdk</module>
+				<module>org.eclipse.xpect.xtext.lib.feature</module>
+				<module>org.eclipse.xpect.xtext.xbase.lib.feature</module>
+				<module>org.eclipse.xpect.releng/p2-repository</module>
 			</modules>
 		</profile>
 		<profile>
@@ -49,12 +49,12 @@ Contributors:
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<modules>
-				<module>org.xpect.releng/xtext-examples/maven-parents/grammar-plugin</module>
-				<module>org.xpect.releng/xtext-examples/org.eclipse.xtext.example.arithmetics</module>
-				<module>org.xpect.releng/xtext-examples/org.eclipse.xtext.example.arithmetics.ide</module>
-				<module>org.xpect.releng/xtext-examples/org.eclipse.xtext.example.arithmetics.ui</module>
-				<module>org.xpect.releng/xtext-examples/org.eclipse.xtext.example.domainmodel</module>
-				<module>org.xpect.releng/xtext-examples/org.eclipse.xtext.example.domainmodel.ui</module>
+				<module>org.eclipse.xpect.releng/xtext-examples/maven-parents/grammar-plugin</module>
+				<module>org.eclipse.xpect.releng/xtext-examples/org.eclipse.xtext.example.arithmetics</module>
+				<module>org.eclipse.xpect.releng/xtext-examples/org.eclipse.xtext.example.arithmetics.ide</module>
+				<module>org.eclipse.xpect.releng/xtext-examples/org.eclipse.xtext.example.arithmetics.ui</module>
+				<module>org.eclipse.xpect.releng/xtext-examples/org.eclipse.xtext.example.domainmodel</module>
+				<module>org.eclipse.xpect.releng/xtext-examples/org.eclipse.xtext.example.domainmodel.ui</module>
 			</modules>
 		</profile>
 		<profile>
@@ -63,10 +63,10 @@ Contributors:
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<modules>
-				<module>org.xpect.releng/xtext-examples/org.eclipse.xtext.example.arithmetics.tests</module>
-				<module>org.xpect.releng/xtext-examples/org.eclipse.xtext.example.domainmodel.tests</module>
-				<module>org.xpect.tests</module>
-				<module>org.xpect.xtext.lib.tests</module>
+				<module>org.eclipse.xpect.releng/xtext-examples/org.eclipse.xtext.example.arithmetics.tests</module>
+				<module>org.eclipse.xpect.releng/xtext-examples/org.eclipse.xtext.example.domainmodel.tests</module>
+				<module>org.eclipse.xpect.tests</module>
+				<module>org.eclipse.xpect.xtext.lib.tests</module>
 				<module>org.eclipse.xtext.example.arithmetics.xpect.tests</module>
 				<module>org.eclipse.xtext.example.domainmodel.xpect.tests</module>
 			</modules>

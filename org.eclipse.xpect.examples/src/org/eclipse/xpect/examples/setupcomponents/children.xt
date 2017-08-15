@@ -1,0 +1,38 @@
+/*******************************************************************************
+ * Copyright (c) 2012-2017 TypeFox GmbH and itemis AG.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   Moritz Eysholdt - Initial contribution and API
+ *******************************************************************************/
+
+
+XPECT_SETUP org.eclipse.xpect.examples.setupcomponents.CustomSetupTest 
+	CustomSetupComponent  {                                          // calls CustomSetupRoot.add(CustomSetupComponent)
+		baz = "rootBaz"                                              // calls CustomSetupComponent.setBaz(String)
+		CustomSetupComponent "childFoo1" "childBar1" {               // calls CustomSetupComponent.add(CustomSetupComponent)
+			baz = "childBaz1"                                        // calls CustomSetupComponent.setBaz(String)
+		}	
+		myChild = CustomSetupComponent "childFoo2" "childBar2" {     // calls CustomSetupComponent.setMyChild(CustomSetupComponent)
+			baz = "childBaz2"
+		}
+		myChildren = CustomSetupComponent "childFoo3" "childBar3" {  // calls CustomSetupComponent.addMyChildren(CustomSetupComponent)
+			baz = "childBaz3"
+		}
+//		myChild = {
+//			baz = "childBaz"
+//		} 
+	}
+END_SETUP
+
+
+XPECT mysetup ---
+CustomSetupComponent foo=defaultFoo bar=defaultBar baz=rootBaz {
+  CustomSetupComponent foo=childFoo1 bar=childBar1 baz=childBaz1
+  CustomSetupComponent foo=childFoo2 bar=childBar2 baz=childBaz2
+  CustomSetupComponent foo=childFoo3 bar=childBar3 baz=childBaz3
+}
+---

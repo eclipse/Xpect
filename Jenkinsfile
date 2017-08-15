@@ -18,7 +18,7 @@ node {
 	stage ('compile with Eclipse Luna and Xtext 2.9.2') {
 		checkout scm
 		sh "${mvnHome}/bin/mvn -P!tests -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean install"
-		archive 'org.xpect.releng/p2-repository/target/repository/**/*.*'
+		archive 'org.eclipse.xpect.releng/p2-repository/target/repository/**/*.*'
 	}
 	
 	wrap([$class:'Xvnc', useXauthority: true]) {

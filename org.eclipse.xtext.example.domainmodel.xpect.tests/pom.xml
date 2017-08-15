@@ -44,8 +44,8 @@ Contributors:
 							<configuration>
 								<target>
 									<artifact>
-										<groupId>org.xpect</groupId>
-										<artifactId>org.xpect.target.${target-platform}</artifactId>
+										<groupId>org.eclipse.xpect</groupId>
+										<artifactId>org.eclipse.xpect.target.${target-platform}</artifactId>
 										<version>0.2.0-SNAPSHOT</version>
 									</artifact>
 								</target>
@@ -118,8 +118,8 @@ Contributors:
 							<configuration>
 								<target>
 									<artifact>
-										<groupId>org.xpect</groupId>
-										<artifactId>org.xpect.target.${target-platform}</artifactId>
+										<groupId>org.eclipse.xpect</groupId>
+										<artifactId>org.eclipse.xpect.target.${target-platform}</artifactId>
 										<version>0.2.0-SNAPSHOT</version>
 									</artifact>
 								</target>
