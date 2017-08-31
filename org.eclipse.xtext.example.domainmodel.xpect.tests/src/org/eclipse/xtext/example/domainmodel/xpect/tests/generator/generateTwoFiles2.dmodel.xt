@@ -1,0 +1,95 @@
+/*******************************************************************************
+ * Copyright (c) 2012-2017 TypeFox GmbH and itemis AG.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   Moritz Eysholdt - Initial contribution and API
+ *******************************************************************************/
+
+/* XPECT_SETUP org.eclipse.xtext.example.domainmodel.xpect.tests.generator.DMGeneratorTest END_SETUP */
+
+/*
+Test the full generated code
+XPECT !generated ---
+-- DEFAULT_OUTPUTpkg1/MyEntity1.java --
+  package pkg1;
+  
+  import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
+  import org.eclipse.xtext.xbase.lib.util.ToStringHelper;
+  
+  @SuppressWarnings("all")
+  public class MyEntity1 {
+    public MyEntity1() {
+    }
+    
+    public MyEntity1(final Procedure1<MyEntity1> initializer) {
+      initializer.apply(this);
+    }
+    
+    private String name;
+    
+    public String getName() {
+      return this.name;
+    }
+    
+    public void setName(final String name) {
+      this.name = name;
+    }
+    
+    @Override
+    public String toString() {
+      String result = new ToStringHelper().toString(this);
+      return result;
+    }
+  }
+  
+-- / --
+-- DEFAULT_OUTPUTpkg1/MyEntity2.java --
+  package pkg1;
+  
+  import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
+  import org.eclipse.xtext.xbase.lib.util.ToStringHelper;
+  
+  @SuppressWarnings("all")
+  public class MyEntity2 {
+    public MyEntity2() {
+    }
+    
+    public MyEntity2(final Procedure1<MyEntity2> initializer) {
+      initializer.apply(this);
+    }
+    
+    private String id;
+    
+    public String getId() {
+      return this.id;
+    }
+    
+    public void setId(final String id) {
+      this.id = id;
+    }
+    
+    @Override
+    public String toString() {
+      String result = new ToStringHelper().toString(this);
+      return result;
+    }
+  }
+  
+-- / --
+----
+*/
+ 
+package pkg1 {
+	entity MyEntity1 {
+		name:String
+	}
+	entity MyEntity2 {
+		id:String
+	}
+}
+
+

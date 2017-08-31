@@ -1,0 +1,5 @@
+*.class
+*.jar
+bin
+target
+.DS_Store

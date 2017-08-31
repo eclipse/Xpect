@@ -1,0 +1,151 @@
+<!--
+Copyright (c) 2012-2017 TypeFox GmbH and itemis AG.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+
+Contributors:
+  Moritz Eysholdt - Initial contribution and API
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.eclipse.xtext.example.arithmetics</groupId>
+	<artifactId>org.eclipse.xtext.example.arithmetics.xpect.tests</artifactId>
+	<version>0.2.0-SNAPSHOT</version>
+	<packaging>eclipse-plugin</packaging>
+
+	<properties>
+		<os-jvm-flags />
+		<memory-settings>-Xmx1G</memory-settings>
+		<tycho-version>0.26.0</tycho-version>
+		<target-platform>eclipse_4_4_2-xtext_2_9_2</target-platform>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>macosx-jvm-flags</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
+		<!-- make sure surefire finds our test classes even though they are in 
+			the "src" folder -->
+		<testOutputDirectory>target/classes</testOutputDirectory>
+
+		<plugins>
+
+			<!-- use tycho -->
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+
+			<!-- configure a target platform to make sure all dependencies are available -->
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<target>
+						<artifact>
+							<groupId>org.eclipse.xpect</groupId>
+							<artifactId>org.eclipse.xpect.target.${target-platform}</artifactId>
+							<version>0.2.0-SNAPSHOT</version>
+						</artifact>
+					</target>
+					<environments>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
+				</configuration>
+			</plugin>
+
+			<!-- Compile Xtend-Classes -->
+			<plugin>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>xtend-maven-plugin</artifactId>
+				<version>2.8.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>xtend-gen</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Use maven surefire (not tycho surefire!) to run tests as plain JUnit 
+				tests (not Plug-In JUnit tests!) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.16</version>
+				<configuration>
+					<systemProperties>
+						<xpectTestTitlePostfix>.${target-platform}</xpectTestTitlePostfix>
+						<xpectTestTitleShowEnvironment>true</xpectTestTitleShowEnvironment>
+					</systemProperties>
+					<reportsDirectory>${project.build.directory}/surefire-reports-standalone</reportsDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-junit47</artifactId>
+						<version>2.16</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<!-- <plugin> <groupId>org.eclipse.tycho</groupId> <artifactId>tycho-surefire-plugin</artifactId> 
+				<version>${tycho-version}</version> <configuration> <reportsDirectory>${project.build.directory}/surefire-reports-plugin</reportsDirectory> 
+				<useUIHarness>true</useUIHarness> <useUIThread>false</useUIThread> <argLine>${memory-settings} 
+				${os-jvm-flags}</argLine> </configuration> </plugin> -->
+		</plugins>
+	</build>
+</project>
