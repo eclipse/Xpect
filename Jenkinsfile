@@ -11,7 +11,7 @@
 
 timestamps() {
 
-    node() {
+    node {
 
         def mvnHome = tool 'apache-maven-3.0.5'
         def mvnParams = '--batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false'
