@@ -16,6 +16,16 @@ timestamps() {
         def mvnHome = tool 'apache-maven-3.0.5'
         def mvnParams = '--batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false'
         timeout(time: 1, unit: 'HOURS') {
+            stage('log configuration') {
+                sh """\
+                               echo "===== checking tools versions ====="
+                               pwd
+                               ls -ls
+                               ${mvnHome}/bin/mvn -v
+                               echo "==================================="
+                          """
+            }
+
             stage('compile with Eclipse Luna and Xtext 2.9.2') {
                 sh "${mvnHome}/bin/mvn -P!tests -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean install"
                 archive 'org.eclipse.xpect.releng/p2-repository/target/repository/**/*.*'
