@@ -24,6 +24,10 @@ timestamps() {
                                ${mvnHome}/bin/mvn -v
                                echo "==================================="
                           """
+                //clone
+                timeout(time: 30, unit: 'MINUTES') {
+                    gitCheckout("xpect_force_clone", scm.userRemoteConfigs, scm.branches[0].name)
+                }
             }
 
             stage('compile with Eclipse Luna and Xtext 2.9.2') {
@@ -45,4 +49,27 @@ timestamps() {
             }
         }
     }
+}
+
+
+//======
+
+/**
+ * Helper function that performs git checkout.
+ * Note that for the remote user can pass either inherited remote config,
+ * or assuming you have git url like {@code git@github.com:Profile/repo.git}, then you can in place create config
+ * by passing {@code [[url: git@github.com:Profile/repo.git]]}
+ *
+ * @param checkoutDir string with directory name where to checkout, relative to the workspace
+ * @param gitRemote scm object configuring remote ({@code scm.userRemoteConfigs})
+ * @param branch branch name to checkout (it is String but cannot infer from scm object)
+ */
+@NonCPS
+def gitCheckout(String checkoutDir, Object gitRemote, Object branch) {
+    checkout poll: false, scm: [ $class                             : 'GitSCM'
+                                 , branches                         : [[name: branch]]
+                                 , doGenerateSubmoduleConfigurations: false
+                                 , extensions                       : [ [$class: 'RelativeTargetDirectory', relativeTargetDir: checkoutDir],
+                                                                        [$class: 'CloneOption', depth: 0, noTags: false, shallow: true]]
+                                 , userRemoteConfigs                : gitRemote]
 }
