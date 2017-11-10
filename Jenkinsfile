@@ -22,7 +22,7 @@ timestamps() {
                 sh """\
                                echo "===== checking tools versions ====="
                                pwd
-                               ls -ls
+                               ls -la
                                ${mvnHome}/bin/mvn -v
                                echo "==================================="
                           """
