@@ -14,20 +14,22 @@ timestamps() {
         def mvnHome = tool 'apache-maven-3.0.5'
         def mvnParams = '--batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false'
         timeout(time: 1, unit: 'HOURS') {
-            stage('git checkout') {
+            stage('prepare workspace') {
+                step([$class: 'WsCleanup'])
+                // we need to live with detached head, or we need to adjust settings:
+                // https://issues.jenkins-ci.org/browse/JENKINS-42860
                 checkout scm
             }
-
             stage('log configuration') {
+                echo("===== checking tools versions =====")
                 sh """\
-                               echo "===== checking tools versions ====="
-                               git status
-                               git log
+                               git config --get remote.origin.url
+                               git reset --hard
                                pwd
                                ls -la
                                ${mvnHome}/bin/mvn -v
-                               echo "==================================="
                           """
+                echo("===================================")
             }
 
             stage('compile with Eclipse Luna and Xtext 2.9.2') {
