@@ -40,13 +40,19 @@ timestamps() {
             wrap([$class: 'Xvnc', useXauthority: true]) {
 
                 stage('test with Eclipse Luna and Xtext 2.9.2') {
-                    sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean integration-test"
-                    junit '**/TEST-*.xml'
+                    try{
+                        sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean integration-test"
+                    }finally{
+                        junit '**/TEST-*.xml'
+                    }
                 }
 
                 stage('test with Eclipse Mars and Xtext nighly') {
-                    sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_nightly ${mvnParams} clean integration-test"
-                    junit '**/TEST-*.xml'
+                    try{
+                        sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_nightly ${mvnParams} clean integration-test"
+                    }finally {
+                        junit '**/TEST-*.xml'
+                    }
                 }
             }
         }
