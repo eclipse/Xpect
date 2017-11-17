@@ -12,7 +12,7 @@
 timestamps() {
     node() {
         def mvnHome = tool 'apache-maven-3.0.5'
-        def mvnParams = '-fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false'
+        def mvnParams = '--batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false'
         timeout(time: 1, unit: 'HOURS') {
             stage('prepare workspace') {
                 step([$class: 'WsCleanup'])
@@ -41,7 +41,7 @@ timestamps() {
 
                 stage('test with Eclipse Luna and Xtext 2.9.2') {
                     try{
-                        sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean integration-test"
+                        sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean integration-test -X -e"
                     }finally{
                         junit '**/TEST-*.xml'
                     }
@@ -49,7 +49,7 @@ timestamps() {
 
                 stage('test with Eclipse Mars and Xtext nighly') {
                     try{
-                        sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_nightly ${mvnParams} clean integration-test"
+                        sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_nightly ${mvnParams} clean integration-test -X -e"
                     }finally {
                         junit '**/TEST-*.xml'
                     }
