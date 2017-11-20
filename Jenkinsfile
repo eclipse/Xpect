@@ -23,12 +23,12 @@ timestamps() {
             stage('log configuration') {
                 echo("===== checking tools versions =====")
                 sh """\
-                               git config --get remote.origin.url
-                               git reset --hard
-                               pwd
-                               ls -la
-                               ${mvnHome}/bin/mvn -v
-                          """
+                       git config --get remote.origin.url
+                       git reset --hard
+                       pwd
+                       ls -la
+                       ${mvnHome}/bin/mvn -v
+                   """
                 echo("===================================")
             }
 
