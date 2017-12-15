@@ -16,14 +16,31 @@ import java.lang.reflect.Constructor;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
+import org.apache.log4j.Logger;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.xpect.XpectInjectorProvider;
 import org.eclipse.xpect.XpectJavaModel;
+import org.eclipse.xpect.ui.XpectPluginActivator;
 import org.eclipse.xpect.util.XpectJavaModelManager;
 
 @InjectWith(XpectInjectorProvider.class)
 @RunWith(XtextRunner.class)
 public abstract class AbstractXjmTest {
+	private static final Logger LOG = Logger.getLogger(AbstractXjmTest.class);
+
+	/**
+	 * When running as plugin test we need to ensure that Xpect was activated in the platform.
+	 * Some other tests have side effect of doing that, but relying on that will make this
+	 * test fail when running alone, or when test runner decides on different test order.
+	 * This setup method ensures that when Xpect is activated in the running platform.
+	 */
+	@BeforeClass
+	public static void ensureXpectActivated() {
+		if (Platform.isRunning())
+			LOG.debug("Activating xpect :: " + XpectPluginActivator.getInstance());
+	}
 
 	protected void assertXjm(Class<?> clazz) {
 		try {
