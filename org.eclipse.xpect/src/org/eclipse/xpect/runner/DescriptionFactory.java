@@ -14,10 +14,10 @@ package org.eclipse.xpect.runner;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.xtext.util.XtextVersion;
-import org.junit.runner.Description;
 import org.eclipse.xpect.XpectFile;
 import org.eclipse.xpect.XpectInvocation;
+import org.eclipse.xtext.util.XtextVersion;
+import org.junit.runner.Description;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
@@ -52,24 +52,25 @@ public class DescriptionFactory {
 	}
 
 	public static Description createTestDescription(Class<?> javaClass, IXpectURIProvider uriProvider, XpectInvocation invocation) {
-		URI uri = uriProvider.deresolveToProject(EcoreUtil.getURI(invocation));
+		URI uri = EcoreUtil.getURI(invocation);
+		String fragmentToXpectMethod = uri.fragment();
 		String title = getTitle(invocation);
 		if (!Strings.isNullOrEmpty(title))
-			return Description.createTestDescription(javaClass, uri.toString() + ": " + title);
+			return Description.createTestDescription(javaClass, fragmentToXpectMethod + ": " + title);
 		else
-			return Description.createTestDescription(javaClass, uri.toString());
+			return Description.createTestDescription(javaClass, fragmentToXpectMethod);
 	}
 
 	public static Description createTestDescription(XpectInvocation invocation) {
 		URI uri = EcoreUtil.getURI(invocation);
+		String fragmentToXpectMethod = uri.fragment();
 		Preconditions.checkArgument(uri.isPlatform());
 		String className = invocation.getFile().getJavaModel().getTestOrSuite().getJvmClass().getQualifiedName();
-		String text = Joiner.on('/').join(uri.segmentsList().subList(2, uri.segmentCount())) + "#" + uri.fragment();
 		String title = getTitle(invocation);
 		if (!Strings.isNullOrEmpty(title))
-			return Description.createTestDescription(className, text + ": " + title);
+			return Description.createTestDescription(className, fragmentToXpectMethod + ": " + title);
 		else
-			return Description.createTestDescription(className, text);
+			return Description.createTestDescription(className, fragmentToXpectMethod);
 	}
 
 	public static String getTitle(XpectInvocation inv) {
