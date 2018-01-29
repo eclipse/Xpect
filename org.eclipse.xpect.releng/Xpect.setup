@@ -105,8 +105,6 @@
           <repository
               url="http://download.eclipse.org/releases/neon"/>
           <repository
-              url="http://meysholdt.github.io/eclipse_jdt_junit_runners/updatesite/"/>
-          <repository
               url="http://meysholdt.github.io/xtext_stateful_lexer/updatesite/"/>
           <repository
               url="http://download.itemis.com/updates/releases/2.1.1/"/>
@@ -117,8 +115,6 @@
             name="Mars">
           <repository
               url="http://download.eclipse.org/releases/mars"/>
-          <repository
-              url="http://meysholdt.github.io/eclipse_jdt_junit_runners/updatesite/"/>
           <repository
               url="http://meysholdt.github.io/xtext_stateful_lexer/updatesite/"/>
           <repository
@@ -131,8 +127,6 @@
           <repository
               url="http://download.eclipse.org/releases/luna"/>
           <repository
-              url="http://meysholdt.github.io/eclipse_jdt_junit_runners/updatesite/"/>
-          <repository
               url="http://meysholdt.github.io/xtext_stateful_lexer/updatesite/"/>
           <repository
               url="http://download.itemis.com/updates/releases/2.1.1/"/>
@@ -144,8 +138,6 @@
           <repository
               url="http://download.eclipse.org/releases/kepler"/>
           <repository
-              url="http://meysholdt.github.io/eclipse_jdt_junit_runners/updatesite/"/>
-          <repository
               url="http://meysholdt.github.io/xtext_stateful_lexer/updatesite/"/>
           <repository
               url="http://download.itemis.com/updates/releases/2.1.1/"/>
@@ -156,8 +148,6 @@
             name="Juno">
           <repository
               url="http://download.eclipse.org/releases/juno"/>
-          <repository
-              url="http://meysholdt.github.io/eclipse_jdt_junit_runners/updatesite/"/>
           <repository
               url="http://meysholdt.github.io/xtext_stateful_lexer/updatesite/"/>
           <repository
