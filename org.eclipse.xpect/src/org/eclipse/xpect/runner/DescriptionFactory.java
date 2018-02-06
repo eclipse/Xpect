@@ -25,7 +25,6 @@ import org.junit.runner.Description;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import com.ibm.icu.impl.Pair;
 
 public class DescriptionFactory {
 
@@ -54,28 +53,6 @@ public class DescriptionFactory {
 		Description result = Description.createTestDescription(clazz, name);
 		return result;
 	}
-
-//	public static Description createTestDescription(Class<?> javaClass, IXpectURIProvider uriProvider, XpectInvocation invocation) {
-//		URI uri = EcoreUtil.getURI(invocation);
-//		String fragmentToXpectMethod = uri.fragment();
-//		String title = getTitle(invocation);
-//		if (!Strings.isNullOrEmpty(title))
-//			return Description.createTestDescription(javaClass, fragmentToXpectMethod + ": " + title);
-//		else
-//			return Description.createTestDescription(javaClass, fragmentToXpectMethod);
-//	}
-
-//	public static Description createTestDescription(XpectInvocation invocation) {
-//		URI uri = EcoreUtil.getURI(invocation);
-//		String fragmentToXpectMethod = uri.fragment();
-//		Preconditions.checkArgument(uri.isPlatform());
-//		String className = invocation.getFile().getJavaModel().getTestOrSuite().getJvmClass().getQualifiedName();
-//		String title = getTitle(invocation);
-//		if (!Strings.isNullOrEmpty(title))
-//			return Description.createTestDescription(className, fragmentToXpectMethod + ": " + title);
-//		else
-//			return Description.createTestDescription(className, fragmentToXpectMethod);
-//	}
 	
 	public static Description createTestDescription(Class<?> javaClass, IXpectURIProvider uriProvider, XpectInvocation invocation) {
 		URI uri = uriProvider.deresolveToProject(EcoreUtil.getURI(invocation));
