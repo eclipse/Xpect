@@ -88,17 +88,25 @@ public class TestDataUIUtil {
 			ITestCaseElement tce = (ITestCaseElement) element;
 			result.clazz = tce.getTestClassName();
 			String methodName = tce.getTestMethodName();
+			// The methodName is expected to have the following format
+			// 		errors~0: This is a comment 〔path/to/file.xt〕
 			if (methodName.contains("~")) {
 				int colon = methodName.indexOf(':');
 				String description;
 				URI uri;
+				int openBracket = methodName.lastIndexOf('\u3014');
+				int closeBracket = methodName.lastIndexOf('\u3015');
+				String pathToResource = methodName.substring(openBracket + 1, closeBracket);
+				String xpectMethodFragment;
+				
 				if (colon >= 0) {
-					description = methodName.substring(colon + 1).trim();
-					uri = URI.createURI(methodName.substring(0, colon).trim());
+					description = methodName.substring(colon + 1, openBracket).trim();
+					xpectMethodFragment = methodName.substring(0, colon);
 				} else {
 					description = null;
-					uri = URI.createURI(methodName);
+					xpectMethodFragment = methodName.substring(0, openBracket).trim();
 				}
+				uri = URI.createURI(pathToResource + "#" + xpectMethodFragment);
 				if (project != null) {
 					URI base = URI.createPlatformResourceURI(project + "/", true);
 					result.uri = uri.resolve(base);

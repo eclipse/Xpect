@@ -3,7 +3,6 @@ package org.eclipse.xpect.ui.junit;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.internal.junit.model.TestCaseElement;
 import org.eclipse.jdt.internal.junit.model.TestElement;
-import org.eclipse.jdt.internal.junit.model.TestSuiteElement;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -38,18 +37,10 @@ public class GotoXpectMethodAction implements IViewActionDelegate, ISelectionCha
 		run();
 	}
 
-	public void run() {
-		TestSuiteElement suite = testCaseElement.getParent();
-		TestElementInfo parsed = TestDataUIUtil.parse(suite);
-
-		String testMethodName = testCaseElement.getTestMethodName();
-		int colon = testMethodName.indexOf(':');
-		if (colon > 0) {
-			testMethodName = testMethodName.substring(0, colon);
-		}
-		// URI is the result of the parent test suite and the fragment to the Xpect method.
-		URI uri = parsed.getURI().appendFragment(testMethodName);		
-		new OpenFileAction(globalOpener, uri, "foo", "bar").run();
+	public void run() {		
+		TestElementInfo parsed = TestDataUIUtil.parse(testCaseElement);
+		URI uriToXpectTestMethod = parsed.getURI();
+		new OpenFileAction(globalOpener, uriToXpectTestMethod, "foo", "bar").run();
 	}
 
 	public void selectionChanged(SelectionChangedEvent event) {
@@ -72,3 +63,4 @@ public class GotoXpectMethodAction implements IViewActionDelegate, ISelectionCha
 		action.setEnabled(testCaseElement != null);
 	}
 }
+
