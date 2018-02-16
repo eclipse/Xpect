@@ -11,13 +11,16 @@
 
 package org.eclipse.xpect.runner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.xtext.util.XtextVersion;
-import org.junit.runner.Description;
 import org.eclipse.xpect.XpectFile;
 import org.eclipse.xpect.XpectInvocation;
+import org.eclipse.xtext.util.XtextVersion;
+import org.junit.runner.Description;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
@@ -50,27 +53,46 @@ public class DescriptionFactory {
 		Description result = Description.createTestDescription(clazz, name);
 		return result;
 	}
-
+	
 	public static Description createTestDescription(Class<?> javaClass, IXpectURIProvider uriProvider, XpectInvocation invocation) {
 		URI uri = uriProvider.deresolveToProject(EcoreUtil.getURI(invocation));
 		String title = getTitle(invocation);
+		List<String> ret = extractXpectMethodNameAndResourceURI(uri.toString());
+		String fragmentToXpectMethod = ret.get(0);
+		String pathToResource = ret.get(1);
+		
+		String text = fragmentToXpectMethod;
+		
 		if (!Strings.isNullOrEmpty(title))
-			return Description.createTestDescription(javaClass, uri.toString() + ": " + title);
-		else
-			return Description.createTestDescription(javaClass, uri.toString());
+			text = text + ": " + title;
+		// The test name has the following format
+		// 		errors~0: This is a comment 〔path/to/file.xt〕
+		return Description.createTestDescription(javaClass, text + " \u3014" + pathToResource  + "\u3015");
 	}
 
 	public static Description createTestDescription(XpectInvocation invocation) {
 		URI uri = EcoreUtil.getURI(invocation);
 		Preconditions.checkArgument(uri.isPlatform());
 		String className = invocation.getFile().getJavaModel().getTestOrSuite().getJvmClass().getQualifiedName();
-		String text = Joiner.on('/').join(uri.segmentsList().subList(2, uri.segmentCount())) + "#" + uri.fragment();
+		String pathToResource = Joiner.on('/').join(uri.segmentsList().subList(2, uri.segmentCount()));
+		String fragmentToXpectMethod = uri.fragment();
+		String text = fragmentToXpectMethod;
 		String title = getTitle(invocation);
 		if (!Strings.isNullOrEmpty(title))
-			return Description.createTestDescription(className, text + ": " + title);
-		else
-			return Description.createTestDescription(className, text);
+			text = text + ": " + title;
+		// The test name has the following format
+		// 		errors~0: This is a comment 〔path/to/file.xt〕
+		return Description.createTestDescription(className, text + " \u3014" + pathToResource  + "\u3015");
 	}
+	
+	public static List<String> extractXpectMethodNameAndResourceURI(String text) {
+		int sharpPos = text.indexOf('#');
+		List<String> result = new ArrayList<String>();
+		result.add(text.substring(sharpPos + 1));
+		result.add(text.substring(0, sharpPos));
+		return result;
+	}
+
 
 	public static String getTitle(XpectInvocation inv) {
 		String postfix = System.getProperty("xpectTestTitlePostfix");

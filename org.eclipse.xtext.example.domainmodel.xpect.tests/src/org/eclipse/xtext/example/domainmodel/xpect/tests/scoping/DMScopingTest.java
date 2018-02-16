@@ -21,3 +21,4 @@ import org.eclipse.xpect.xtext.lib.tests.ScopingTest;
 public class DMScopingTest extends ScopingTest {
 
 }
+   

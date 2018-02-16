@@ -13,16 +13,18 @@ Contributors:
 <?eclipse version="3.0"?>
 
 <plugin>
+   <extension point="org.eclipse.ui.popupMenus">
+        <viewerContribution
+			id="org.eclipse.xpect.ui.junit.gotoXpectMethod"
+			targetID="org.eclipse.jdt.junit.ResultView">
+		<action
+			class="org.eclipse.xpect.ui.junit.GotoXpectMethodAction"
+	        id="org.eclipse.xpect.ui.junit.gotoXpectMethod"
+	        label="Go to XPECT method"
+	        menubarPath="org.eclipse.jdt.junit.ResultView"/>
+      </viewerContribution>
+   </extension>
 
-    
-    <extension
-        point="org.eclipse.jdt.junit.runners.junitRunnerUI">
-     <junitRunnerUIHandler
-           handlerClass="org.eclipse.xpect.ui.junit.XpectRunnerUIHandler"
-           runnerClass="org.eclipse.xpect.runner.XpectRunner">
-     </junitRunnerUIHandler>
-  </extension>
-    
     <extension point="org.eclipse.debug.ui.launchShortcuts">
       <shortcut
             label="JUnit Test"

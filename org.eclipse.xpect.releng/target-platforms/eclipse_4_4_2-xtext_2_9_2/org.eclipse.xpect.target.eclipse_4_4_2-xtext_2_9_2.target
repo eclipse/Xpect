@@ -14,10 +14,6 @@
 <repository location="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.9.1/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.jdt.junit.runners.feature.feature.group" version="0.1.0.201308221506"/>
-<repository location="http://meysholdt.github.io/eclipse_jdt_junit_runners/updatesite/"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="de.itemis.statefullexer.feature.group" version="1.0.0.201706281509"/>
 <repository location="http://meysholdt.github.io/xtext_stateful_lexer/updatesite/"/>
 </location>
