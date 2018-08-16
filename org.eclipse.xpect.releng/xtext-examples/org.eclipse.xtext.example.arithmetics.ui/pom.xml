@@ -22,4 +22,15 @@ Contributors:
 		<version>0.2.0-SNAPSHOT</version>
 		<relativePath>../../maven-plugin-parent</relativePath>
 	</parent>
+	<build>
+		<plugins>
+			<!-- Don't publish this artifact to Maven repositories. -->
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

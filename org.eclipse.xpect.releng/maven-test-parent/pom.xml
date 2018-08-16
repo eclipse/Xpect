@@ -33,7 +33,15 @@ Contributors:
 		<!-- make sure surefire finds our test classes even though they are in 
 			the "src" folder -->
 		<testOutputDirectory>target/classes</testOutputDirectory>
-
+		<plugins>
+			<!-- Don't publish this artifact to Maven repositories. -->
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+		</plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>
