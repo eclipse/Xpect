@@ -33,28 +33,34 @@ timestamps() {
             }
 
             stage('compile with Eclipse Luna and Xtext 2.9.2') {
-                sh "${mvnHome}/bin/mvn -P!tests -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} --batch-mode --update-snapshots clean install"
+                sh "${mvnHome}/bin/mvn -P!tests -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean install"
                 archive 'org.eclipse.xpect.releng/p2-repository/target/repository/**/*.*'
             }
 
-            wrap([$class: 'Xvnc', useXauthority: true]) {
+            // wrap([$class: 'Xvnc', useXauthority: true]) {
 
-                stage('test with Eclipse Luna and Xtext 2.9.2') {
-                    try{
-                        sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean integration-test"
-                    }finally{
-                        junit '**/TEST-*.xml'
-                    }
-                }
+            //     stage('test with Eclipse Luna and Xtext 2.9.2') {
+            //         try{
+            //             sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean integration-test"
+            //         }finally{
+            //             junit '**/TEST-*.xml'
+            //         }
+            //     }
 
-                stage('test with Eclipse Mars and Xtext nighly') {
-                    try{
-                        sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_nightly ${mvnParams} clean integration-test"
-                    }finally {
-                        junit '**/TEST-*.xml'
-                    }
-                }
+            //     stage('test with Eclipse Mars and Xtext nighly') {
+            //         try{
+            //             sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_nightly ${mvnParams} clean integration-test"
+            //         }finally {
+            //             junit '**/TEST-*.xml'
+            //         }
+            //     }
+            // }
+            
+            stage('deploy') {
+                def settings = "-s /opt/public/hipp/homes/genie.xpect/.m2/settings-deploy-ossrh.xml"
+                sh "${mvnHome}/bin/mvn -P!tests -P maven-publish -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${settings} ${mvnParams} clean deploy"
             }
+
         }
     }
 }
