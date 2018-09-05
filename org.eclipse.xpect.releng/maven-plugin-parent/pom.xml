@@ -224,6 +224,13 @@
 				<role>project lead</role>
 			</roles>
 		</developer>
+        <developer>
+			<id>qtran-n4</id>
+			<name>Dr. Quang Minh Tran</name>
+			<email>quang.tran@numberfour.eu</email>
+			<organization>NumberFour AG</organization>
+			<organizationUrl>https://www.enfore.com/</organizationUrl>
+		</developer>
 		<developer>
 			<id>dennis.huebner</id>
 			<name>Dennis Huebner</name>
