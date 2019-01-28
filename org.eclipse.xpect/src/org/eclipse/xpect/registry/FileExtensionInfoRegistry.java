@@ -28,11 +28,11 @@ import org.eclipse.xpect.registry.IEmfFileExtensionInfo.IXtextFileExtensionInfo;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Objects.ToStringHelper;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
@@ -249,6 +249,8 @@ public class FileExtensionInfoRegistry implements IEmfFileExtensionInfo.Registry
 
 	private List<IEmfFileExtensionInfo> collectFileExtensionInfos(IExtensionInfo.Registry registry, Collection<String> issues) {
 		List<ExtensionPointData> infos = Lists.newArrayList();
+		for (IExtensionInfo ext : registry.getExtensions("org.eclipse.xpect.fileExtensions"))
+			infos.add(parseXpectFileExtensionInfo(ext));
 		for (IExtensionInfo ext : registry.getExtensions("org.eclipse.emf.ecore.extension_parser"))
 			infos.add(parseEmfExtensionParser(ext));
 		for (IExtensionInfo ext : registry.getExtensions("org.eclipse.xtext.extension_resourceServiceProvider"))
@@ -258,17 +260,15 @@ public class FileExtensionInfoRegistry implements IEmfFileExtensionInfo.Registry
 			if (editorInfo.editor != null && editorInfo.editor.getFactory() != null)
 				infos.add(editorInfo);
 		}
-		for (IExtensionInfo ext : registry.getExtensions("org.eclipse.xpect.fileExtensions"))
-			infos.add(parseXpectFileExtensionInfo(ext));
 
-		Multimap<String, ExtensionPointData> ext2info = HashMultimap.create();
+		Multimap<String, ExtensionPointData> ext2info = LinkedHashMultimap.create();
 		for (ExtensionPointData info : infos)
 			for (String ext : info.fileExtensions)
 				if (ext != null && !"___xbase".equals(ext) && !"xt".equals(ext))
 					ext2info.put(ext, info);
 
 		List<IEmfFileExtensionInfo> allInfos = Lists.newArrayList();
-		Multimap<String, FileExtensionData> name2xtextInfo = HashMultimap.create();
+		Multimap<String, FileExtensionData> name2xtextInfo = LinkedHashMultimap.create();
 		for (String ext : ext2info.keySet()) {
 			FileExtensionData merged = mergeByFileExt(ext, ext2info.get(ext), issues);
 			if (merged.languageID == null)
