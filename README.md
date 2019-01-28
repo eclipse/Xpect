@@ -24,7 +24,7 @@ Go to http://www.xpect-tests.org (and look for an Eclipse update-site).
 
 **The Fast Way:** Download [OOMPH](https://wiki.eclipse.org/Eclipse_Oomph_Installer) and point it to [Xpect.setup](https://github.com/meysholdt/Xpect/raw/master/org.eclipse.xpect.releng/Xpect.setup).
 
-**The Manual Way:** Prerequisite: Java 1.6 or newer; Eclipse 3.8 or 4.2 or newer; Xtext 2.9.2.
+**The Manual Way:** Prerequisite: Java 1.8 or newer; Eclipse 3.8 or 4.2 or newer; Xtext 2.9.2.
 
  1. Clone https://github.com/meysholdt/Xpect (this repository)
  2. Import all projects into your Eclipse workspace.
