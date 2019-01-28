@@ -5,6 +5,6 @@ Bundle-SymbolicName: org.eclipse.xtext.example.arithmetics.xpect.tests;singleton
 Bundle-Vendor: %providerName
 Bundle-Version: 0.2.0.qualifier
 Fragment-Host: org.eclipse.xtext.example.arithmetics.ui 
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.xpect.xtext.lib;bundle-version="0.2.0"
 Export-Package: org.eclipse.xtext.example.arithmetics.xpect.tests
