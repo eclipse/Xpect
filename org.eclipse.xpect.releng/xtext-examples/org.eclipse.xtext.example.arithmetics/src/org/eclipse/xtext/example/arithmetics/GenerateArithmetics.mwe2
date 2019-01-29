@@ -52,6 +52,9 @@ Workflow {
 			validator = {
 				// composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
 			}
+			junitSupport = {
+				useDeprecatedClasses = true
+			}
 		}
 	}
 }
