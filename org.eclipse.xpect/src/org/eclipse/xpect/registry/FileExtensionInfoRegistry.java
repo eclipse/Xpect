@@ -23,11 +23,11 @@ import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.eclipse.xtext.resource.IResourceFactory;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.util.Strings;
+import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 import org.eclipse.xpect.registry.IEmfFileExtensionInfo.IXtextFileExtensionInfo;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
-import com.google.common.base.Objects.ToStringHelper;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -55,7 +55,7 @@ public class FileExtensionInfoRegistry implements IEmfFileExtensionInfo.Registry
 
 		@Override
 		public String toString() {
-			ToStringHelper result = Objects.toStringHelper(this).add("fileExtension", getFileExtensionString());
+			ToStringBuilder result = new ToStringBuilder(this).add("fileExtension", getFileExtensionString());
 			if (resFact != null && !DEFAULT_RESOURCE_FACTORY.equals(resFact.getName()))
 				result.add("resourceFactory", resFact);
 			if (languageID != null)
@@ -102,7 +102,7 @@ public class FileExtensionInfoRegistry implements IEmfFileExtensionInfo.Registry
 		public String toString() {
 			List<String> extensions = Lists.newArrayList(fileExtensions);
 			Collections.sort(extensions);
-			ToStringHelper result = Objects.toStringHelper(IEmfFileExtensionInfo.class).add("fileExtensions", extensions);
+			ToStringBuilder result = new ToStringBuilder(this).add("fileExtensions", extensions);
 			if (resourceFactory != null && !DEFAULT_RESOURCE_FACTORY.equals(resourceFactory.getName()))
 				result.add("resourceFactory", resourceFactory);
 			return result.toString();
@@ -203,7 +203,7 @@ public class FileExtensionInfoRegistry implements IEmfFileExtensionInfo.Registry
 		public String toString() {
 			List<String> extensions = Lists.newArrayList(getFileExtensions());
 			Collections.sort(extensions);
-			ToStringHelper result = Objects.toStringHelper(IXtextFileExtensionInfo.class).add("fileExtensions", extensions);
+			ToStringBuilder result = new ToStringBuilder(this).add("fileExtensions", extensions);
 			if (getResourceFactory() != null && !DEFAULT_RESOURCE_FACTORY.equals(getResourceFactory().getName()))
 				result.add("resourceFactory", getResourceFactory());
 			if (languageID != null)
