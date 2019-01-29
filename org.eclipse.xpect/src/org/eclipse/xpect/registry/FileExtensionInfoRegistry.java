@@ -27,7 +27,6 @@ import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 import org.eclipse.xpect.registry.IEmfFileExtensionInfo.IXtextFileExtensionInfo;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -55,7 +54,7 @@ public class FileExtensionInfoRegistry implements IEmfFileExtensionInfo.Registry
 
 		@Override
 		public String toString() {
-			ToStringBuilder result = new ToStringBuilder(this).add("fileExtension", getFileExtensionString());
+			ToStringBuilder result = new ToStringBuilder(this).verbatimValues().singleLine().add("fileExtension", getFileExtensionString());
 			if (resFact != null && !DEFAULT_RESOURCE_FACTORY.equals(resFact.getName()))
 				result.add("resourceFactory", resFact);
 			if (languageID != null)
@@ -102,7 +101,7 @@ public class FileExtensionInfoRegistry implements IEmfFileExtensionInfo.Registry
 		public String toString() {
 			List<String> extensions = Lists.newArrayList(fileExtensions);
 			Collections.sort(extensions);
-			ToStringBuilder result = new ToStringBuilder(this).add("fileExtensions", extensions);
+			ToStringBuilder result = new ToStringBuilder(this).verbatimValues().singleLine().add("fileExtensions", extensions);
 			if (resourceFactory != null && !DEFAULT_RESOURCE_FACTORY.equals(resourceFactory.getName()))
 				result.add("resourceFactory", resourceFactory);
 			return result.toString();
@@ -203,7 +202,7 @@ public class FileExtensionInfoRegistry implements IEmfFileExtensionInfo.Registry
 		public String toString() {
 			List<String> extensions = Lists.newArrayList(getFileExtensions());
 			Collections.sort(extensions);
-			ToStringBuilder result = new ToStringBuilder(this).add("fileExtensions", extensions);
+			ToStringBuilder result = new ToStringBuilder(this).verbatimValues().singleLine().add("fileExtensions", extensions);
 			if (getResourceFactory() != null && !DEFAULT_RESOURCE_FACTORY.equals(getResourceFactory().getName()))
 				result.add("resourceFactory", getResourceFactory());
 			if (languageID != null)
