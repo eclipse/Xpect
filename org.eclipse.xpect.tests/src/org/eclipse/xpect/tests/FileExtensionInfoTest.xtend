@@ -31,7 +31,7 @@ class FileExtensionInfoTest {
 			</extension>
 		'''.parse
 		val expected = '''
-			IEmfFileExtensionInfo{fileExtensions=[foo]}
+			EmfFileExtensionInfo [fileExtensions = [foo]]
 		'''
 		assertEquals(expected, actual)
 	}
@@ -46,7 +46,7 @@ class FileExtensionInfoTest {
 			</extension>
 		'''.parse
 		val expected = '''
-			IEmfFileExtensionInfo{fileExtensions=[foo], resourceFactory=org.foo.BarFactory}
+			EmfFileExtensionInfo [fileExtensions = [foo], resourceFactory = org.foo.BarFactory]
 		'''
 		assertEquals(expected, actual)
 	}
@@ -70,7 +70,7 @@ class FileExtensionInfoTest {
 			</extension>
 		'''.parse
 		val expected = '''
-			IXtextFileExtensionInfo{fileExtensions=[foo], languageID=org.foo.Foo, runtimeModule=org.foo.RuntimeModule, uiModule=org.FooUiModule}
+			XtextFileExtensionInfo [fileExtensions = [foo], languageID = org.foo.Foo, runtimeModule = org.foo.RuntimeModule, uiModule = org.FooUiModule]
 		'''
 		assertEquals(expected, actual)
 	}
@@ -94,7 +94,7 @@ class FileExtensionInfoTest {
 			</extension>
 		'''.parse
 		val expected = '''
-			IXtextFileExtensionInfo{fileExtensions=[foo], resourceFactory=org.foo.ResourceFactory, languageID=org.foo.Foo, runtimeModule=org.foo.RuntimeModule, uiModule=org.FooUiModule, resourceServiceProvider=org.foo.ResourceServiceProvider, resourceUIServiceProvider=org.foo.ResourceUIServiceProvider}
+			XtextFileExtensionInfo [fileExtensions = [foo], resourceFactory = org.foo.ResourceFactory, languageID = org.foo.Foo, runtimeModule = org.foo.RuntimeModule, uiModule = org.FooUiModule, resourceServiceProvider = org.foo.ResourceServiceProvider, resourceUIServiceProvider = org.foo.ResourceUIServiceProvider]
 		'''
 		assertEquals(expected, actual)
 	}
@@ -113,7 +113,7 @@ class FileExtensionInfoTest {
 			</extension>
 		'''.parse
 		val expected = '''
-			IXtextFileExtensionInfo{fileExtensions=[bar, foo], languageID=org.foo.Foo, runtimeModule=org.foo.FooRuntimeModule, uiModule=org.foo.ui.FooUiModule}
+			XtextFileExtensionInfo [fileExtensions = [bar, foo], languageID = org.foo.Foo, runtimeModule = org.foo.FooRuntimeModule, uiModule = org.foo.ui.FooUiModule]
 		'''
 		assertEquals(expected, actual)
 	}
@@ -133,7 +133,7 @@ class FileExtensionInfoTest {
 			</extension>
 		'''.parse
 		val expected = '''
-			IXtextFileExtensionInfo{fileExtensions=[bar, foo], resourceFactory=org.foo.ResourceFactory, languageID=org.foo.Foo, runtimeModule=org.foo.RuntimeModule, uiModule=org.foo.uiModle, resourceServiceProvider=org.foo.ResourceServiceProvider, resourceUIServiceProvider=org.foo.ResourceUIServiceProvider}
+			XtextFileExtensionInfo [fileExtensions = [bar, foo], resourceFactory = org.foo.ResourceFactory, languageID = org.foo.Foo, runtimeModule = org.foo.RuntimeModule, uiModule = org.foo.uiModle, resourceServiceProvider = org.foo.ResourceServiceProvider, resourceUIServiceProvider = org.foo.ResourceUIServiceProvider]
 		'''
 		assertEquals(expected, actual)
 	}
@@ -151,7 +151,7 @@ class FileExtensionInfoTest {
 			</extension>
 		'''.parse
 		val expected = '''
-			IXtextFileExtensionInfo{fileExtensions=[bar, foo], resourceFactory=org.foo.ResourceFactory, languageID=org.foo.Foo, runtimeModule=org.foo.RuntimeModule, resourceServiceProvider=org.foo.ResourceServiceProvider}
+			XtextFileExtensionInfo [fileExtensions = [bar, foo], resourceFactory = org.foo.ResourceFactory, languageID = org.foo.Foo, runtimeModule = org.foo.RuntimeModule, resourceServiceProvider = org.foo.ResourceServiceProvider]
 		'''
 		assertEquals(expected, actual)
 	}
@@ -205,7 +205,7 @@ class FileExtensionInfoTest {
 			</extension>
 		'''.parse
 		val expected = '''
-			IXtextFileExtensionInfo{fileExtensions=[bar, foo], resourceFactory=org.foo.ResourceFactory, languageID=org.foo.Foo, runtimeModule=org.foo.FooRuntimeModule, uiModule=org.FooUiModule, resourceServiceProvider=org.foo.ResourceServiceProvider, resourceUIServiceProvider=org.foo.ResourceUIServiceProvider}
+			XtextFileExtensionInfo [fileExtensions = [bar, foo], resourceFactory = org.foo.ResourceFactory, languageID = org.foo.Foo, runtimeModule = org.foo.FooRuntimeModule, uiModule = org.FooUiModule, resourceServiceProvider = org.foo.ResourceServiceProvider, resourceUIServiceProvider = org.foo.ResourceUIServiceProvider]
 		'''
 		assertEquals(expected, actual)
 	}

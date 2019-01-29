@@ -195,6 +195,23 @@ Contributors:
 						</configuration>
 					</execution>
 				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.eclipse.jdt</groupId>
+						<artifactId>org.eclipse.jdt.core</artifactId>
+						<version>3.10.0</version>
+					</dependency>
+					<dependency>
+						<groupId>org.eclipse.jdt</groupId>
+						<artifactId>org.eclipse.jdt.launching</artifactId>
+						<version>3.10.0</version>
+					</dependency>
+					<dependency>
+						<groupId>org.eclipse.jdt</groupId>
+						<artifactId>org.eclipse.jdt.debug</artifactId>
+						<version>3.10.1</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 
 			<!-- Use maven surefire (not tycho surefire!) to run tests as plain JUnit 
