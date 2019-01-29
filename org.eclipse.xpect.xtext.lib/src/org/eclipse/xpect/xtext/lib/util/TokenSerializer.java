@@ -17,6 +17,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xpect.expectation.IStringDiffExpectation.IToken;
+import org.eclipse.xpect.text.StringEndsSimilarityFunction;
+import org.eclipse.xpect.text.WhitespaceTokenizer;
+import org.eclipse.xpect.util.IDifferencer.ISimilarityFunction;
 import org.eclipse.xtext.IGrammarAccess;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.formatting.IFormatter;
@@ -35,12 +39,7 @@ import org.eclipse.xtext.serializer.sequencer.ISemanticSequencer;
 import org.eclipse.xtext.serializer.sequencer.ISyntacticSequencer;
 import org.eclipse.xtext.util.EmfFormatter;
 import org.eclipse.xtext.validation.IConcreteSyntaxValidator;
-import org.eclipse.xpect.expectation.IStringDiffExpectation.IToken;
-import org.eclipse.xpect.text.StringEndsSimilarityFunction;
-import org.eclipse.xpect.text.WhitespaceTokenizer;
-import org.eclipse.xpect.util.IDifferencer.ISimilarityFunction;
-
-import com.google.common.base.Objects;
+import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -109,7 +108,7 @@ public class TokenSerializer {
 
 		@Override
 		public String toString() {
-			return Objects.toStringHelper(this).add("segments", Lists.newArrayList(segments)).add("hidden", hidden).add("owner", owner).toString();
+			return new ToStringBuilder(this).add("segments", Lists.newArrayList(segments)).add("hidden", hidden).add("owner", owner).toString();
 		}
 
 	}
