@@ -14,7 +14,7 @@ Contributors:
 	<modelVersion>4.0.0</modelVersion>
 	<version>0.2.0-SNAPSHOT</version>
 	<groupId>org.eclipse.xpect</groupId>
-	<artifactId>org.eclipse.xpect.target.eclipse_4_5_0-xtext_nightly</artifactId>
+	<artifactId>org.eclipse.xpect.target.eclipse_4_5_0-xtext_2_14_0</artifactId>
 	<packaging>eclipse-target-definition</packaging>
 	<parent>
 		<groupId>org.eclipse.xpect</groupId>

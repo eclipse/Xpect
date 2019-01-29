@@ -47,7 +47,15 @@ timestamps() {
                     }
                 }
 
-                stage('test with Eclipse Mars and Xtext nighly') {
+                stage('test with Eclipse Mars and Xtext 2.14') {
+                    try{
+                        sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_2_14_0 ${mvnParams} clean integration-test"
+                    }finally {
+                        junit '**/TEST-*.xml'
+                    }
+                }
+
+                stage('test with Eclipse 2018-12 and Xtext nighly') {
                     try{
                         sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_10_0-xtext_nightly ${mvnParams} clean integration-test"
                     }finally {
