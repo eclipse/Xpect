@@ -18,8 +18,11 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.InvalidPathException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Set;
 import java.util.jar.Manifest;
 
@@ -49,9 +52,9 @@ public class ClasspathUtil {
 		} catch (IOException e) {
 			LOG.error(e.getMessage(), e);
 		}
-		if (classLoader instanceof URLClassLoader) {
-			URLClassLoader ucl = (URLClassLoader) classLoader;
-			for (URL u : ucl.getURLs())
+		URL[] urls = getClassPathURLs(classLoader);
+		if (urls.length > 0) {
+			for (URL u : urls)
 				if (!u.getFile().endsWith(".jar")) {
 					try {
 						java.io.File f = new java.io.File(u.toURI());
@@ -140,5 +143,44 @@ public class ClasspathUtil {
 				name = name.substring(0, i);
 		}
 		return name;
+	}
+
+	/**
+	 * Returns the entries of the Java class path (cf. system property "java.class.path")
+	 * parsed as URLs. Ignores empty entries and entries that cannot be parsed successfully;
+	 * never returns <code>null</code>.
+	 * <p>
+	 * Note that as of JDK9 and later, the parsing of class path entries performed by this
+	 * method might differ slightly from the JVM's internal parsing (e.g. details of encoding,
+	 * trailing empty segments).
+	 */
+	public static URL[] getClassPathURLs(ClassLoader classLoader) {
+		if (classLoader instanceof URLClassLoader) {
+			// up to, including jdk8:
+			URL[] result = ((URLClassLoader) classLoader).getURLs();
+			return result != null ? result : new URL[0];
+		} else {
+			// since jdk9:
+			// see https://stackoverflow.com/q/49557431
+			String cp = System.getProperty("java.class.path");
+			if (cp == null || cp.length() == 0) {
+				return new URL[0];
+			}
+			String[] entries = cp.split(File.pathSeparator);
+			List<URL> result = new ArrayList<>();
+			for (String entry : entries) {
+				if (entry == null || entry.length() == 0) {
+					continue;
+				}
+				try {
+					File entryFile = new File(entry).getCanonicalFile();
+					URL entryURL = entryFile.toPath().toUri().toURL();
+					result.add(entryURL);
+				} catch (IOException | InvalidPathException e) {
+					// ignore
+				}
+			}
+			return result.toArray(new URL[result.size()]);
+		}
 	}
 }
