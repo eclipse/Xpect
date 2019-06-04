@@ -172,6 +172,9 @@ public class ClasspathUtil {
 				if (entry == null || entry.length() == 0) {
 					continue;
 				}
+				// Compare the following to the implementation of method
+				// jdk.internal.loader.URLClassPath#toFileURL(String) in
+				// JDK9 and later:
 				try {
 					File entryFile = new File(entry).getCanonicalFile();
 					URL entryURL = entryFile.toPath().toUri().toURL();
