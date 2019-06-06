@@ -24,14 +24,6 @@ Contributors:
 		<relativePath>../../../maven-plugin-parent</relativePath>
 	</parent>
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>fornax.plugin.repository</id>
-			<name>Fornax Plugin Repository</name>
-			<url>http://www.fornax-platform.org/m2/repository</url>
-		</pluginRepository>
-	</pluginRepositories>
-
 	<build>
 		<resources>
 			<resource>
@@ -55,7 +47,7 @@ Contributors:
 				<plugin>
 					<groupId>org.fornax.toolsupport</groupId>
 					<artifactId>fornax-oaw-m2-plugin</artifactId>
-					<version>3.4.0</version>
+					<version>3.6.0</version>
 					<configuration>
 						<workflowEngine>mwe2</workflowEngine>
 						<workflowDescriptor>${mwe2-file}</workflowDescriptor>
