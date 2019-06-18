@@ -24,7 +24,8 @@ Require-Bundle: org.apache.log4j;bundle-version="1.2.0";visibility:=reexport,
  org.eclipse.xtext.ecore;bundle-version="2.9.2";resolution:=optional,
  org.objectweb.asm;bundle-version="[3.0.0,8.0.0)";resolution:=optional,
  org.eclipse.equinox.common;bundle-version="3.0.0";resolution:=optional,
- org.eclipse.core.runtime;bundle-version="3.0.0";resolution:=optional
+ org.eclipse.core.runtime;bundle-version="3.0.0";resolution:=optional,
+ io.github.classgraph;bundle-version="4.8.35"
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.xpect,
