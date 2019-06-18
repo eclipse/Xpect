@@ -18,11 +18,8 @@ https://ci.eclipse.org/xpect/job/Xpect/
 
 To select an other target platform use e.g. `-Dtarget-platform=eclipse_4_4_2-xtext_2_9_2`
 
-```mvn org.eclipse.tycho:tycho-versions-plugin:set-version -P'!tests' -P'!xtext-examples' -DnewVersion="0.2.0.v20190618"```
+```mvn org.eclipse.tycho:tycho-versions-plugin:set-version -P'!tests' -P'!xtext-examples' -DnewVersion="0.2.0.v20190618" -Dartifacts="org.eclipse.xpect.parent"```
 
 ### Sonatype Web UI
 
 https://oss.sonatype.org/index.html
-
-
- mvn org.eclipse.tycho:tycho-versions-plugin:set-version -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 -P'!tests' -P'!xtext-examples' -DnewVersion="0.2.0.v20190618"
