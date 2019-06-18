@@ -17,9 +17,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLClassLoader;
-import java.nio.file.InvalidPathException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
@@ -32,6 +29,8 @@ import org.eclipse.xpect.runner.XpectRunner;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 import com.google.common.io.Closeables;
+
+import io.github.classgraph.ClassGraph;
 
 public class ClasspathUtil {
 
@@ -52,9 +51,9 @@ public class ClasspathUtil {
 		} catch (IOException e) {
 			LOG.error(e.getMessage(), e);
 		}
-		URL[] urls = getClassPathURLs(classLoader);
-		if (urls.length > 0) {
-			for (URL u : urls)
+		List<URL> urls = new ClassGraph().getClasspathURLs();
+		if (!urls.isEmpty()) {
+			for (URL u : urls) {
 				if (!u.getFile().endsWith(".jar")) {
 					try {
 						java.io.File f = new java.io.File(u.toURI());
@@ -78,6 +77,7 @@ public class ClasspathUtil {
 						LOG.error(e.getMessage(), e);
 					}
 				}
+			}
 		}
 		// for some reason, ucl.getURLs() doesn't catch the current project in standalone maven surefire
 		if (XpectRunner.INSTANCE != null) {
@@ -143,47 +143,5 @@ public class ClasspathUtil {
 				name = name.substring(0, i);
 		}
 		return name;
-	}
-
-	/**
-	 * Returns the entries of the Java class path (cf. system property "java.class.path")
-	 * parsed as URLs. Ignores empty entries and entries that cannot be parsed successfully;
-	 * never returns <code>null</code>.
-	 * <p>
-	 * Note that as of JDK9 and later, the parsing of class path entries performed by this
-	 * method might differ slightly from the JVM's internal parsing (e.g. details of encoding,
-	 * trailing empty segments).
-	 */
-	public static URL[] getClassPathURLs(ClassLoader classLoader) {
-		if (classLoader instanceof URLClassLoader) {
-			// up to, including jdk8:
-			URL[] result = ((URLClassLoader) classLoader).getURLs();
-			return result != null ? result : new URL[0];
-		} else {
-			// since jdk9:
-			// see https://stackoverflow.com/q/49557431
-			String cp = System.getProperty("java.class.path");
-			if (cp == null || cp.length() == 0) {
-				return new URL[0];
-			}
-			String[] entries = cp.split(File.pathSeparator);
-			List<URL> result = new ArrayList<>();
-			for (String entry : entries) {
-				if (entry == null || entry.length() == 0) {
-					continue;
-				}
-				// Compare the following to the implementation of method
-				// jdk.internal.loader.URLClassPath#toFileURL(String) in
-				// JDK9 and later:
-				try {
-					File entryFile = new File(entry).getCanonicalFile();
-					URL entryURL = entryFile.toPath().toUri().toURL();
-					result.add(entryURL);
-				} catch (IOException | InvalidPathException e) {
-					// ignore
-				}
-			}
-			return result.toArray(new URL[result.size()]);
-		}
 	}
 }
