@@ -12,12 +12,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.xpect</groupId>
 	<artifactId>org.eclipse.xpect.root</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.2.0.v20190618</version>
 	<packaging>pom</packaging>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<target-platform>eclipse_4_5_0-xtext_nightly</target-platform>
+		<target-platform>eclipse_4_4_2-xtext_2_9_2</target-platform>
 		<xtend-compiler-version>2.9.2</xtend-compiler-version>
 	</properties>
 	<modules>
