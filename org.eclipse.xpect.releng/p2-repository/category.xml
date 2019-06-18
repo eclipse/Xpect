@@ -10,8 +10,8 @@ Contributors:
   Moritz Eysholdt - Initial contribution and API
 -->
 <site>
-	<feature url="features/org.eclipse.xpect.sdk_0.2.0.qualifier.jar" id="org.eclipse.xpect.sdk"
-		version="0.2.0.qualifier">
+	<feature url="features/org.eclipse.xpect.sdk_0.2.0.v20190618.jar" id="org.eclipse.xpect.sdk"
+		version="0.2.0.v20190618">
 		<category name="Xpect 0.2.0" />
 	</feature>
 	<category-def name="Xpect 0.2.0" label="Xpect 0.2.0">

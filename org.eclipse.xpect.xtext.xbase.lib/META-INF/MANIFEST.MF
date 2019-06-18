@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Lib
 Bundle-SymbolicName: org.eclipse.xpect.xtext.xbase.lib
-Bundle-Version: 0.2.0.qualifier
+Bundle-Version: 0.2.0.v20190618
 Bundle-Vendor: %providerName
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.7.0";visibility:=reexport,
