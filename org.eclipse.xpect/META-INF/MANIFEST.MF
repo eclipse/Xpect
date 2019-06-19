@@ -3,9 +3,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-Version: 0.2.0.qualifier
+Bundle-Version: 0.2.0.v20190619
 Bundle-ClassPath: .
 Bundle-SymbolicName: org.eclipse.xpect;singleton:=true
+Automatic-Module-Name: org.eclipse.xpect
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.apache.log4j;bundle-version="1.2.0";visibility:=reexport,
  org.junit;bundle-version="4.11.0";visibility:=reexport,

@@ -70,6 +70,7 @@
 			<modules>
 				<module>org.eclipse.xpect.releng/xtext-examples/org.eclipse.xtext.example.arithmetics.tests</module>
 				<module>org.eclipse.xpect.releng/xtext-examples/org.eclipse.xtext.example.domainmodel.tests</module>
+				<module>org.eclipse.xpect.releng/maven-test-parent</module>
 				<module>org.eclipse.xpect.tests</module>
 				<module>org.eclipse.xpect.xtext.lib.tests</module>
 				<module>org.eclipse.xtext.example.arithmetics.xpect.tests</module>
