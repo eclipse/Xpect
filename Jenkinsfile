@@ -63,11 +63,16 @@ timestamps() {
                     }
                 }
             }
-            
+
             if(env.BRANCH_NAME.toLowerCase() == 'master') {
                 stage('deploy') {
                     def settings = "-s /opt/public/hipp/homes/genie.xpect/.m2/settings-deploy-ossrh.xml"
                     sh "${mvnHome}/bin/mvn -P!tests -P maven-publish -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${settings} ${mvnParams} clean deploy"
+                }
+            } else if(env.BRANCH_NAME.toLowerCase().startsWith('release_')) {
+                stage('deploy') {
+                    def settings = "-s /opt/public/hipp/homes/genie.xpect/.m2/settings-deploy-ossrh.xml"
+                    sh "${mvnHome}/bin/mvn -P!tests -P!xtext-examples  -P maven-publish -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${settings} ${mvnParams} clean deploy"
                 }
             }
         }

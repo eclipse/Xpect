@@ -20,8 +20,9 @@ Contributors:
 	<properties>
 		<os-jvm-flags />
 		<memory-settings>-Xmx1G</memory-settings>
-		<tycho-version>1.3.0</tycho-version>
+		<tycho-version>1.4.0</tycho-version>
 		<target-platform>eclipse_4_4_2-xtext_2_9_2</target-platform>
+		<target-platform-version>0.2.0-SNAPSHOT</target-platform-version>
 	</properties>
 
 	<profiles>
@@ -63,7 +64,7 @@ Contributors:
 						<artifact>
 							<groupId>org.eclipse.xpect</groupId>
 							<artifactId>org.eclipse.xpect.target.${target-platform}</artifactId>
-							<version>0.2.0-SNAPSHOT</version>
+							<version>${target-platform-version}</version>
 						</artifact>
 					</target>
 					<environments>

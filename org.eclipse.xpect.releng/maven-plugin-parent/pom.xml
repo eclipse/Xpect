@@ -16,9 +16,22 @@
 	<properties>
 		<target-platform>eclipse_4_4_2-xtext_2_9_2</target-platform>
 		<xtend-compiler-version>2.9.2</xtend-compiler-version>
-		<tycho-version>1.3.0</tycho-version>
+		<tycho-version>1.4.0</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<target-platform-version>0.2.0-SNAPSHOT</target-platform-version>
 	</properties>
+
+	<modules>
+		<module>../../org.eclipse.xpect</module>
+		<module>../../org.eclipse.xpect.ui</module>
+		<module>../../org.eclipse.xpect.ui.junit</module>
+		<module>../../org.eclipse.xpect.xtext.lib</module>
+		<module>../../org.eclipse.xpect.xtext.xbase.lib</module>
+		<module>../../org.eclipse.xpect.sdk</module>
+		<module>../../org.eclipse.xpect.xtext.lib.feature</module>
+		<module>../../org.eclipse.xpect.xtext.xbase.lib.feature</module>
+		<module>../../org.eclipse.xpect.releng/p2-repository</module>
+	</modules>
 
 	<repositories>
 		<repository>
@@ -47,7 +60,7 @@
 						<artifact>
 							<groupId>org.eclipse.xpect</groupId>
 							<artifactId>org.eclipse.xpect.target.${target-platform}</artifactId>
-							<version>0.2.0-SNAPSHOT</version>
+							<version>${target-platform-version}</version>
 						</artifact>
 					</target>
 					<environments>
@@ -138,6 +151,42 @@
 		</pluginManagement>
 	</build>
 	<profiles>
+		<profile>
+			<id>eclipse_4_10_0-xtext_nightly</id>
+			<activation>
+				<property>
+					<name>target-platform</name>
+					<value>eclipse_4_10_0-xtext_nightly</value>
+				</property>
+			</activation>
+			<modules>
+				<module>../target-platforms/eclipse_4_10_0-xtext_nightly</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>eclipse_4_5_0-xtext_2_14_0</id>
+			<activation>
+				<property>
+					<name>target-platform</name>
+					<value>eclipse_4_5_0-xtext_2_14_0</value>
+				</property>
+			</activation>
+			<modules>
+				<module>../target-platforms/eclipse_4_5_0-xtext_2_14_0</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>eclipse_4_4_2-xtext_2_9_2</id>
+			<activation>
+				<property>
+					<name>target-platform</name>
+					<value>eclipse_4_4_2-xtext_2_9_2</value>
+				</property>
+			</activation>
+			<modules>
+				<module>../target-platforms/eclipse_4_4_2-xtext_2_9_2</module>
+			</modules>
+		</profile>
 		<profile>
 			<id>maven-publish</id>
 			<distributionManagement>
