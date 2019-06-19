@@ -12,17 +12,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.xpect</groupId>
 	<artifactId>org.eclipse.xpect.root</artifactId>
-	<version>0.2.0.v20190618</version>
+	<version>0.2.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<target-platform>eclipse_4_4_2-xtext_2_9_2</target-platform>
 		<xtend-compiler-version>2.9.2</xtend-compiler-version>
+		<tycho-version>1.4.0</tycho-version>
 	</properties>
-	<modules>
-		<module>org.eclipse.xpect.releng/target-platforms/${target-platform}</module>
-	</modules>
 	<build>
 		<plugins>
 			<!-- Don't publish this artifact to Maven repositories. -->
@@ -33,6 +31,11 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-versions-plugin</artifactId>
+				<version>${tycho-version}</version>
+			</plugin>
 		</plugins>
 	</build>
 	<profiles>
@@ -42,15 +45,6 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<modules>
-				<module>org.eclipse.xpect</module>
-				<module>org.eclipse.xpect.ui</module>
-				<module>org.eclipse.xpect.ui.junit</module>
-				<module>org.eclipse.xpect.xtext.lib</module>
-				<module>org.eclipse.xpect.xtext.xbase.lib</module>
-				<module>org.eclipse.xpect.sdk</module>
-				<module>org.eclipse.xpect.xtext.lib.feature</module>
-				<module>org.eclipse.xpect.xtext.xbase.lib.feature</module>
-				<module>org.eclipse.xpect.releng/p2-repository</module>
 				<module>org.eclipse.xpect.releng/maven-plugin-parent</module>
 			</modules>
 		</profile>

@@ -16,9 +16,22 @@
 	<properties>
 		<target-platform>eclipse_4_4_2-xtext_2_9_2</target-platform>
 		<xtend-compiler-version>2.9.2</xtend-compiler-version>
-		<tycho-version>1.3.0</tycho-version>
+		<tycho-version>1.4.0</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
+	<modules>
+		<module>../../org.eclipse.xpect</module>
+		<module>../../org.eclipse.xpect.ui</module>
+		<module>../../org.eclipse.xpect.ui.junit</module>
+		<module>../../org.eclipse.xpect.xtext.lib</module>
+		<module>../../org.eclipse.xpect.xtext.xbase.lib</module>
+		<module>../../org.eclipse.xpect.sdk</module>
+		<module>../../org.eclipse.xpect.xtext.lib.feature</module>
+		<module>../../org.eclipse.xpect.xtext.xbase.lib.feature</module>
+		<module>../../org.eclipse.xpect.releng/p2-repository</module>
+		<module>../target-platforms/${target-platform}</module>
+	</modules>
 
 	<repositories>
 		<repository>
