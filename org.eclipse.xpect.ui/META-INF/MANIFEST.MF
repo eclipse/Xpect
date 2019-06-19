@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.eclipse.xpect.ui
 Bundle-Vendor: %providerName
-Bundle-Version: 0.2.0.v20190618
+Bundle-Version: 0.2.0.qualifier
 Bundle-SymbolicName: org.eclipse.xpect.ui;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xpect;bundle-version="[0.2.0,0.2.1)";visibility:=reexport,
