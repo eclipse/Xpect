@@ -282,4 +282,7 @@
 			<organizationUrl>https://typefox.io/</organizationUrl>
 		</developer>
 	</developers>
+	<name>Xpect</name>
+	<url>https://projects.eclipse.org/projects/modeling.xpect</url>
+	<description>Eclipse Xpect is a unit- and integration-testing framework to be used for Xtext-based languages. Test data (e.g. expectations) are embedded into programs written in the DSL under tests. Xpect itself is based on Junit; new test methods can be written in Java and are called by the Xpect framework with the test data. Typical Xpect tests include expecting certain error messages, ensuring correct scopes, or specific content assist proposals.</description>
 </project>
