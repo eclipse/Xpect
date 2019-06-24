@@ -17,9 +17,9 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Set;
 import java.util.jar.Manifest;
 
@@ -29,6 +29,8 @@ import org.eclipse.xpect.runner.XpectRunner;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 import com.google.common.io.Closeables;
+
+import io.github.classgraph.ClassGraph;
 
 public class ClasspathUtil {
 
@@ -49,9 +51,9 @@ public class ClasspathUtil {
 		} catch (IOException e) {
 			LOG.error(e.getMessage(), e);
 		}
-		if (classLoader instanceof URLClassLoader) {
-			URLClassLoader ucl = (URLClassLoader) classLoader;
-			for (URL u : ucl.getURLs())
+		List<URL> urls = new ClassGraph().getClasspathURLs();
+		if (!urls.isEmpty()) {
+			for (URL u : urls) {
 				if (!u.getFile().endsWith(".jar")) {
 					try {
 						java.io.File f = new java.io.File(u.toURI());
@@ -75,6 +77,7 @@ public class ClasspathUtil {
 						LOG.error(e.getMessage(), e);
 					}
 				}
+			}
 		}
 		// for some reason, ucl.getURLs() doesn't catch the current project in standalone maven surefire
 		if (XpectRunner.INSTANCE != null) {
