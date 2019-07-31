@@ -4,8 +4,16 @@
 
 https://ci.eclipse.org/xpect/job/Xpect/
 
+## Publishing
+
+### P2
+p2 repository should be published under https://download.eclipse.org/xpect/updates/?d
+nightly/releases
+
+### Maven
 Maven SNAPSHOT artifacts are automatically deployed during a regular build
 
+Maven release artifacts are automatically deployed during a release build
 
 ## Releasing
 
