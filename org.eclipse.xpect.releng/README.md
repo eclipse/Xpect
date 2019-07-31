@@ -4,6 +4,7 @@
 
 https://ci.eclipse.org/xpect/job/Xpect/
 
+Maven SNAPSHOT artifacts are automatically deployed during a regular build
 
 
 ## Releasing
