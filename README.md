@@ -19,6 +19,9 @@ The core focus of Xpect is on testing Xtext languages and supporting the process
 
 Go to http://www.xpect-tests.org (and look for an Eclipse update-site).
 
+#### Nightly builds
+
+Use Jenkins https://ci.eclipse.org/xpect/job/Xpect/job/master/lastSuccessfulBuild/artifact/org.eclipse.xpect.releng/p2-repository/target/repository/
 
 ## Compile and Build Xpect by Yourself
 
