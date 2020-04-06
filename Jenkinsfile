@@ -10,7 +10,7 @@
  *******************************************************************************/
 
 timestamps() {
-    node() {
+    node('ui-test') {
         def mvnHome = tool 'apache-maven-3.2.5'
         def mvnParams = '--batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false'
         timeout(time: 1, unit: 'HOURS') {
