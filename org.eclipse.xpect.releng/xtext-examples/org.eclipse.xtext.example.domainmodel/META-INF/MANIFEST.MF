@@ -15,7 +15,7 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  org.eclipse.xtext.common.types,
  org.eclipse.xtext.xbase.lib;visibility:=reexport,
  org.eclipse.xtext.ui.codetemplates,
- org.objectweb.asm;bundle-version="[5.0.1,8.0.0)";resolution:=optional,
+ org.objectweb.asm;bundle-version="[5.0.1,9.0.0)";resolution:=optional,
  org.eclipse.equinox.common,
  org.eclipse.xtext.generator,
  org.apache.commons.logging
