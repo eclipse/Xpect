@@ -66,13 +66,33 @@ timestamps() {
 
             if(env.BRANCH_NAME?.toLowerCase() == 'master') {
                 stage('deploy') {
-                    def settings = "-s /opt/public/hipp/homes/genie.xpect/.m2/settings-deploy-ossrh.xml"
-                    sh "${mvnHome}/bin/mvn -P!tests -P maven-publish -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${settings} ${mvnParams} clean deploy"
+                    withCredentials([file(credentialsId: 'secret-subkeys.asc', variable: 'KEYRING')]) {
+                        sh '''
+                        rm -r xpect-local-maven-repository
+                        gpg --batch --import "${KEYRING}"
+                        for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u);
+                        do
+                            echo -e "5\ny\n" | gpg --batch --command-fd 0 --expert --edit-key $fpr trust;
+                        done
+                        '''
+                        sh "${mvnHome}/bin/mvn -P!tests -P maven-publish -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean deploy"
+                    }
+                    
                 }
             } else if(env.BRANCH_NAME?.toLowerCase()?.startsWith('release_')) {
                 stage('deploy') {
-                    def settings = "-s /opt/public/hipp/homes/genie.xpect/.m2/settings-deploy-ossrh.xml"
-                    sh "${mvnHome}/bin/mvn -P!tests -P!xtext-examples  -P maven-publish -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${settings} ${mvnParams} clean deploy"
+                    withCredentials([file(credentialsId: 'secret-subkeys.asc', variable: 'KEYRING')]) {
+                        sh '''
+                        rm -r xpect-local-maven-repository
+                        gpg --batch --import "${KEYRING}"
+                        for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u);
+                        do
+                            echo -e "5\ny\n" | gpg --batch --command-fd 0 --expert --edit-key $fpr trust;
+                        done
+                        '''
+                        sh "${mvnHome}/bin/mvn -P!tests -P!xtext-examples  -P maven-publish -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean deploy"
+                    }
+                    
                 }
             }
         }
