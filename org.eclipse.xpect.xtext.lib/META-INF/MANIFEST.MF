@@ -19,3 +19,4 @@ Export-Package: org.eclipse.xpect.xtext.lib.setup,
  org.eclipse.xpect.xtext.lib.setup.workspace,
  org.eclipse.xpect.xtext.lib.tests,
  org.eclipse.xpect.xtext.lib.util
+Automatic-Module-Name: org.eclipse.xpect.xtext.lib

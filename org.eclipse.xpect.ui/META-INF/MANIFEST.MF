@@ -27,3 +27,4 @@ Export-Package: org.eclipse.xpect.ui,
  org.eclipse.xpect.ui.quickfix,
  org.eclipse.xpect.ui.services,
  org.eclipse.xpect.ui.util
+Automatic-Module-Name: org.eclipse.xpect.ui
