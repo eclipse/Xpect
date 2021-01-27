@@ -41,7 +41,6 @@ import org.eclipse.xpect.state.StateContainer;
 import org.eclipse.xpect.ui.preferences.XpectRootPreferencePage;
 import org.eclipse.xpect.ui.util.XpectFileAccess;
 
-import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
@@ -59,7 +58,7 @@ public class LiveTestRunner {
 			Class<? extends Annotation> thisResource = (Class<? extends Annotation>) Platform.getBundle("org.eclipse.xpect.xtext.lib").loadClass("org.eclipse.xpect.xtext.lib.setup.ThisResource");
 			fileConfig.addValue(thisResource, XtextResource.class, (XtextResource) resource);
 		} catch (ClassNotFoundException e1) {
-			Throwables.propagate(e1);
+			throw new RuntimeException(e1);
 		}
 	}
 

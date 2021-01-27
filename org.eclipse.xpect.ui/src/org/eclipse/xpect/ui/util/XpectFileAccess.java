@@ -30,7 +30,6 @@ import org.eclipse.xpect.XpectFile;
 import org.eclipse.xpect.registry.ILanguageInfo;
 import org.eclipse.xpect.runner.XpectRunner;
 
-import com.google.common.base.Throwables;
 import com.google.inject.Injector;
 
 /**
@@ -55,7 +54,7 @@ public class XpectFileAccess {
 				ClassLoader loader = cls.getClassLoader();
 				return loader;
 			} catch (ClassNotFoundException e) {
-				Throwables.propagate(e);
+				throw new RuntimeException(e);
 			}
 		}
 		return null;
