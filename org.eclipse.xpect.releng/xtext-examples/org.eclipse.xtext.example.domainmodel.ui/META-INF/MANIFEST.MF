@@ -38,4 +38,4 @@ Export-Package: org.eclipse.xtext.example.domainmodel.ui,
  org.eclipse.xtext.example.domainmodel.ui.outline,
  org.eclipse.xtext.example.domainmodel.ui.quickfix,
  org.eclipse.xtext.example.domainmodel.ui.search
-
+Automatic-Module-Name: org.eclipse.xtext.example.domainmodel.ui

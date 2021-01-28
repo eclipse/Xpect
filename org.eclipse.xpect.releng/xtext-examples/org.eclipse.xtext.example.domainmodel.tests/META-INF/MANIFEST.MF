@@ -31,3 +31,4 @@ Import-Package: org.apache.commons.logging,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Activator: org.eclipse.xtext.example.domainmodel.ui.internal.DomainmodelActivator
 Export-Package: org.eclipse.xtext.example.domainmodel
+Automatic-Module-Name: org.eclipse.xtext.example.domainmodel.tests

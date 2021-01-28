@@ -8,3 +8,4 @@ Fragment-Host: org.eclipse.xtext.example.arithmetics.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.xpect.xtext.lib;bundle-version="0.2.0"
 Export-Package: org.eclipse.xtext.example.arithmetics.xpect.tests
+Automatic-Module-Name: org.eclipse.xtext.example.arithmetics.xpect.tests

@@ -24,3 +24,4 @@ Require-Bundle: org.eclipse.xtext;bundle-version="2.4.0",
  org.eclipse.debug.ui;bundle-version="3.7.0",
  org.eclipse.xpect;bundle-version="0.1.0",
  org.eclipse.xpect.ui;bundle-version="0.1.0"
+Automatic-Module-Name: org.eclipse.xpect.doc
