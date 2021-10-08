@@ -1,7 +1,8 @@
 <!-- Copyright (c) 2012-2017 TypeFox GmbH and itemis AG. All rights reserved. 
-	This program and the accompanying materials are made available under the 
-	terms of the Eclipse Public License v1.0 which accompanies this distribution, 
-	and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: 
+	This program and the accompanying materials are made
+	available under the terms of the Eclipse Public License 2.0
+	which is available at https://www.eclipse.org/legal/epl-2.0/
+	SPDX-License-Identifier: EPL-2.0 Contributors:
 	Moritz Eysholdt - Initial contribution and API -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -36,7 +37,7 @@
 	<repositories>
 		<repository>
 			<id>license-feature</id>
-			<url>http://download.eclipse.org/cbi/updates/license/</url>
+			<url>http://download.eclipse.org/cbi/updates/license/2.0.2.v20181016-2210</url>
 			<layout>p2</layout>
 		</repository>
 	</repositories>
@@ -249,8 +250,8 @@
 	<!-- The license xpect is available as. -->
 	<licenses>
 		<license>
-			<name>Eclipse Public License - v 1.0</name>
-			<url>http://www.eclipse.org/legal/epl-v10.html</url>
+			<name>Eclipse Public License - v 2.0</name>
+			<url>https://www.eclipse.org/legal/epl-2.0/</url>
 		</license>
 	</licenses>
 
