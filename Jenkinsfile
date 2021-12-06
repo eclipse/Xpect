@@ -11,6 +11,9 @@
  *******************************************************************************/
 
 timestamps() {
+    properties([
+        pipelineTriggers([cron('H 2 * * *')])
+    ])
     node('centos-7') {
         def javaHome = tool 'temurin-jdk8-latest'
         env.JAVA_HOME = "${javaHome}"
