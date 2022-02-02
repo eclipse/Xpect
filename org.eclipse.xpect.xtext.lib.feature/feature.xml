@@ -32,7 +32,11 @@ Contributors:
    <license url="%licenseURL">
       %license
    </license>
-
+   <requires>
+      <import plugin="io.github.classgraph" version="4.8.35" match="compatible"/>
+      <import plugin="org.hamcrest.core" version="1.3.0" match="compatible"/>
+      <import plugin="org.junit" version="4.11.0" match="compatible"/>
+   </requires>
    <plugin
          id="org.eclipse.xpect"
          download-size="0"
@@ -70,48 +74,6 @@ Contributors:
 
    <plugin
          id="org.eclipse.xpect.xtext.lib.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="io.github.classgraph"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="io.github.classgraph.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.junit"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.junit.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.hamcrest.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.hamcrest.core.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
