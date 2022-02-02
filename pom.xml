@@ -21,7 +21,8 @@
 		<target-platform>eclipse_4_4_2-xtext_2_9_2</target-platform>
 		<xtend-compiler-version>2.9.2</xtend-compiler-version>
 		<tycho-version>1.7.0</tycho-version>
-	</properties>
+	</properties> 
+
 	<build>
 		<plugins>
 			<!-- Don't publish this artifact to Maven repositories. -->
