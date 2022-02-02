@@ -39,7 +39,7 @@ timestamps() {
             }
 
             stage('compile with Eclipse Luna and Xtext 2.9.2') {
-                sh "${mvnHome}/bin/mvn -P!tests -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean install"
+                sh "${mvnHome}/bin/mvn -P!tests -Declipsesign=true -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean install"
                 archive 'org.eclipse.xpect.releng/p2-repository/target/repository/**/*.*,org.eclipse.xpect.releng/p2-repository/target/org.eclipse.xpect.repository-*.zip'
             }
 
@@ -96,7 +96,7 @@ timestamps() {
                             echo -e "5\ny\n" | gpg --batch --command-fd 0 --expert --edit-key $fpr trust;
                         done
                         '''
-                        sh "${mvnHome}/bin/mvn -P!tests -P!xtext-examples  -P maven-publish -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean deploy"
+                        sh "${mvnHome}/bin/mvn -P!tests -P!xtext-examples -P maven-publish -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean deploy"
                     }
                     
                 }

@@ -21,7 +21,7 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.xpect.XpectInjectorProvider;
+import org.eclipse.xpect.tests.XpectInjectorProvider;
 import org.eclipse.xpect.XpectJavaModel;
 import org.eclipse.xpect.ui.XpectPluginActivator;
 import org.eclipse.xpect.util.XpectJavaModelManager;
