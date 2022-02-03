@@ -40,7 +40,7 @@ timestamps() {
 
             stage('compile with Eclipse Luna and Xtext 2.9.2') {
                 sh "${mvnHome}/bin/mvn -P!tests -Declipsesign=true -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean install"
-                archive 'org.eclipse.xpect.releng/p2-repository/target/repository/**/*.*,org.eclipse.xpect.releng/p2-repository/target/org.eclipse.xpect.repository-*.zip'
+                archiveArtifacts artifacts: 'org.eclipse.xpect.releng/p2-repository/target/repository/**/*.*,org.eclipse.xpect.releng/p2-repository/target/org.eclipse.xpect.repository-*.zip'
             }
 
             wrap([$class: 'Xvnc', useXauthority: true]) {
