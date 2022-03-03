@@ -13,14 +13,11 @@
 package org.eclipse.xpect.tests.text
 
 import java.util.List
-import org.junit.Assert
-import org.junit.Test
-import org.eclipse.xpect.text.ITextDifferencer.ISegment
-import org.eclipse.xpect.text.ITextDifferencer.ITextDiffConfig
-import org.eclipse.xpect.text.StringEndsSimilarityFunction
-import org.eclipse.xpect.text.TextDifferencer
-import org.junit.Ignore
 import org.eclipse.xpect.text.TextDiffToString
+import org.eclipse.xpect.text.TextDifferencer
+import org.junit.Assert
+import org.junit.Ignore
+import org.junit.Test
 
 class TextDifferencerTest {
 	@Test @Ignore def void testEqual() {
@@ -143,20 +140,4 @@ class TextDifferencerTest {
 	def operator_tripleEquals(Object o1, Object o2) {
 		Assert.assertEquals(o2.toString.trim, o1.toString.trim)
 	}
-}
-
-class TextDiffConfig implements ITextDiffConfig<String> {
-
-	override isHidden(String token, String segment) {
-		token.toCharArray.forall[Character.isWhitespace(it)]
-	}
-
-	override toSegments(String token) {
-		#[token]
-	}
-
-	override similarity(ISegment object1, ISegment object2) {
-		new StringEndsSimilarityFunction().similarity(object1.toString, object2.toString)
-	}
-
 }

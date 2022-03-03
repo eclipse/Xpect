@@ -32,6 +32,7 @@ Workflow {
 				createEclipseMetaData = true
 			}
 			code = {
+				preferXtendStubs = false
 				encoding = "UTF-8"
 				fileHeader = 
 "/*******************************************************************************

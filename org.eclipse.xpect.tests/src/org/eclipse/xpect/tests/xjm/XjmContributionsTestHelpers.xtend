@@ -12,45 +12,8 @@
 
 package org.eclipse.xpect.tests.xjm
 
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
-import org.junit.Ignore
-import org.junit.Test
 import org.eclipse.xpect.XpectImport
-import org.eclipse.xpect.XpectReplace
 import org.eclipse.xpect.runner.Xpect
-import org.eclipse.xpect.setup.XpectSetupFactory
-
-class XjmContributionsTest extends AbstractXjmTest {
-
-	@Test def void simple() {
-		assertXjm(Simple1)
-	}
-
-	@Test def void transitiveImport() {
-		assertXjm(TransitiveImport)
-	}
-
-	@Test def void methodType() {
-		assertXjm(MethodType)
-	}
-
-	@Test def void methodAnnotation() {
-		assertXjm(MethodAnnotation)
-	}
-
-	@Ignore @Test def void annotationType() {
-		assertXjm(AnnotationType)
-	}
-
-	@Test def void replace1() {
-		assertXjm(Replacement1)
-	}
-	
-	@Test def void replace2() {
-		assertXjm(Replacement2)
-	}
-}
 
 @XpectImport(Contribution1)
 class Simple1 {
@@ -64,10 +27,6 @@ class Simple1 {
 	'''
 }
 
-@XpectSetupFactory
-class Contribution1 {
-}
-
 @XpectImport(ContributionWithChild)
 class TransitiveImport {
 	override toString() '''
@@ -79,11 +38,6 @@ class TransitiveImport {
 		  }
 		}
 	'''
-}
-
-@XpectSetupFactory
-@XpectImport(Contribution1)
-class ContributionWithChild {
 }
 
 class MethodType {
@@ -120,11 +74,6 @@ class MethodAnnotation {
 		  }
 		}
 	'''
-}
-
-@Retention(RetentionPolicy.RUNTIME)
-@XpectImport(Contribution1)
-annotation AnnotationWithImport {
 }
 
 class AnnotationType {
@@ -168,9 +117,4 @@ class Replacement2 {
 		  }
 		}
 	'''
-}
-
-@XpectSetupFactory
-@XpectReplace(Contribution1)
-class Contribution1Replacement extends Contribution1 {
 }

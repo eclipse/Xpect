@@ -12,16 +12,12 @@
 
 package org.eclipse.xpect.tests.state;
 
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
 import org.junit.Test
-import org.eclipse.xpect.state.Creates
-import org.eclipse.xpect.state.XpectStateAnnotation
 
 import static org.eclipse.xpect.tests.TestUtil.*
 import static org.eclipse.xpect.tests.state.StateTestUtil.*
 
-class AnlyzedConfigurationTest {
+class AnalyzedConfigurationTest {
 
 	@Test
 	def void testSimple() {
@@ -291,66 +287,4 @@ class AnlyzedConfigurationTest {
 		assertEquals(expected, actual);
 	}
 
-}
-
-@XpectStateAnnotation
-@Retention(RetentionPolicy.RUNTIME)
-annotation MyAnnotaion1 {
-}
-
-class Singleton1 {
-	@Creates()
-	def StringBuffer getBuffer() {
-		new StringBuffer("buffer")
-	}
-}
-
-class Singleton2 {
-
-	val String param;
-
-	new(@MyAnnotaion1 String param) {
-		this.param = param;
-	}
-
-	@Creates(Annotation)
-	def StringBuffer getBuffer() {
-		return new StringBuffer("buffer " + param);
-	}
-}
-
-class MultiConstructor {
-	val String value
-
-	new(CharSequence i) {
-		value = i.toString
-	}
-
-	new() {
-		value = "default"
-	}
-
-	new(String value) {
-		this.value = value
-	}
-
-	@Creates
-	def Object get() {
-		value
-	}
-}
-
-@XpectStateAnnotation
-@Retention(RetentionPolicy.RUNTIME)
-annotation Annotation {
-}
-
-class TypeParam<T extends CharSequence> {
-	new(Class<T> type) {
-	}
-
-	@Creates
-	def T get() {
-		null
-	}
 }
