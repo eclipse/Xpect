@@ -34,6 +34,7 @@ timestamps() {
                        pwd
                        ls -la
                        ${mvnHome}/bin/mvn -v
+                       ${javaHome}/bin/java -version
                    """
                 echo("===================================")
             }
