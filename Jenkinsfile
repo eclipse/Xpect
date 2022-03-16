@@ -17,7 +17,7 @@ timestamps() {
     node('centos-7') {
         def javaHome = tool 'temurin-jdk8-latest'
         env.JAVA_HOME = "${javaHome}"
-        def mvnHome = tool 'apache-maven-3.8.4'
+        def mvnHome = tool 'apache-maven-3.8.5'
         def mvnParams = '--batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false'
         timeout(time: 1, unit: 'HOURS') {
             stage('prepare workspace') {
