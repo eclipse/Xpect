@@ -48,13 +48,15 @@ public class IFileUtil {
 	}
 
 	public static IFolder createFolder(IContainer container, String name) {
-		IFolder file = container.getFolder(new Path(name));
+		IFolder folder = container.getFolder(new Path(name));
 		try {
-			file.create(true, true, new NullProgressMonitor());
+			if (!folder.exists()) {
+				folder.create(true, true, new NullProgressMonitor());
+			}
 		} catch (CoreException e) {
 			throw new RuntimeException(e);
 		}
-		return file;
+		return folder;
 	}
 
 	public static IContainer findFolder(IContainer container, URI localURI) {
