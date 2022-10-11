@@ -82,10 +82,11 @@ Workflow {
 			fragment = exporting.QualifiedNamesFragment {}
 			
 			// testing API
-			fragment = junit.Junit4Fragment {}
+//			fragment = junit.Junit4Fragment {
+//			}
 
-			// formatter API 
-			fragment = formatting2.Formatter2Fragment {}
+//			// formatter API 
+//			fragment = formatting2.Formatter2Fragment {}
 
 			// labeling API 
 			fragment = labeling.LabelProviderFragment {}
@@ -115,7 +116,9 @@ Workflow {
 
 			// Xbase support
 			fragment = types.TypesGeneratorFragment {}
-			fragment = xbase.XbaseGeneratorFragment {}
+			fragment = xbase.XbaseGeneratorFragment {
+				generateXtendInferrer = false
+			}
 			
 			// Code generator
 			fragment = generator.GeneratorFragment {

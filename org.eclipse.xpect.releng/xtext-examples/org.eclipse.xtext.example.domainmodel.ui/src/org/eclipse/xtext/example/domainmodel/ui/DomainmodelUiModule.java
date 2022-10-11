@@ -43,4 +43,11 @@ public class DomainmodelUiModule extends AbstractDomainmodelUiModule {
 		binder.bind(IOutlineContribution.class).annotatedWith(Names.named("FilterOperationsContribution")).to(FilterOperationsContribution.class);
 	} 
 	
+	// contributed by org.eclipse.xtext.generator.formatting2.Formatter2Fragment
+	@Override
+	public Class<? extends org.eclipse.xtext.ui.editor.formatting.IContentFormatterFactory> bindIContentFormatterFactory() {
+		return org.eclipse.xtext.ui.editor.formatting2.ContentFormatterFactory.class;
+	}
+
+	
 }
