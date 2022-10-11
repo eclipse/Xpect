@@ -17,6 +17,7 @@ timestamps() {
     node('centos-8') {
         def javaHome = tool 'temurin-jdk8-latest'
         env.JAVA_HOME = "${javaHome}"
+        def java11Home = tool 'temurin-jdk11-latest'
         def mvnHome = tool 'apache-maven-3.8.6'
         def mvnParams = '--batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false'
         timeout(time: 1, unit: 'HOURS') {
@@ -64,7 +65,7 @@ timestamps() {
 
                 stage('test with Eclipse 2020-06 and Xtext nighly') {
                     try{
-                        sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_2020_06-xtext_nightly ${mvnParams} clean integration-test"
+                        sh "JAVA_HOME=${java11Home} ${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_2020_06-xtext_nightly ${mvnParams} clean integration-test"
                     }finally {
                         junit '**/TEST-*.xml'
                     }
