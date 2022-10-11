@@ -12,9 +12,17 @@
 package org.eclipse.xpect.tests.xjm;
 
 import org.eclipse.xpect.XpectImport;
-import org.eclipse.xpect.setup.XpectSetupFactory;
 
-@XpectSetupFactory
 @XpectImport(Contribution1.class)
-public class ContributionWithChild {
+public class Simple1 {
+  @Override
+  public String toString() {
+    return  "\n" +
+			"suite org.eclipse.xpect.tests.xjm.Simple1 {\n" +
+			"  test org.eclipse.xpect.tests.xjm.Simple1 {} // Imports: Contribution1\n" +
+			"  contributionsFor @XpectSetupFactory {\n" +
+			"    org.eclipse.xpect.tests.xjm.Contribution1 ImportedBy:Simple1\n" +
+			"  }\n" +
+			"}\n";
+  }
 }

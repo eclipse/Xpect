@@ -16,6 +16,5 @@ import org.eclipse.xpect.setup.XpectSetupFactory;
 
 @XpectSetupFactory
 @XpectReplace(Contribution1.class)
-@SuppressWarnings("all")
 public class Contribution1Replacement extends Contribution1 {
 }
