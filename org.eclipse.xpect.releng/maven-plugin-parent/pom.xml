@@ -148,15 +148,15 @@
 			</build>
 		</profile>
 		<profile>
-			<id>eclipse_2020_06-xtext_nightly</id>
+			<id>eclipse_2022_03-xtext_nightly</id>
 			<activation>
 				<property>
 					<name>target-platform</name>
-					<value>eclipse_2020_06-xtext_nightly</value>
+					<value>eclipse_2022_03-xtext_nightly</value>
 				</property>
 			</activation>
 			<modules>
-				<module>../target-platforms/eclipse_2020_06-xtext_nightly</module>
+				<module>../target-platforms/eclipse_2022_03-xtext_nightly</module>
 			</modules>
 		</profile>
 		<profile>
