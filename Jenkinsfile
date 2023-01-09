@@ -63,9 +63,9 @@ timestamps() {
                     }
                 }
 
-                stage('test with Eclipse 2020-06 and Xtext nighly') {
+                stage('test with Eclipse 2022-03 and Xtext nighly') {
                     try{
-                        sh "JAVA_HOME=${java11Home} ${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_2020_06-xtext_nightly ${mvnParams} clean integration-test"
+                        sh "JAVA_HOME=${java11Home} ${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtycho-version=2.7.5 -Dtarget-platform=eclipse_2022_03-xtext_nightly ${mvnParams} clean integration-test"
                     }finally {
                         junit '**/TEST-*.xml'
                     }
