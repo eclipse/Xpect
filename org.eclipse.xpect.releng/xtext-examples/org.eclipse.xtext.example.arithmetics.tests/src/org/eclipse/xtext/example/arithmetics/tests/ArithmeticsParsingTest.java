@@ -18,7 +18,7 @@ import org.junit.runner.RunWith;
 import com.google.inject.Inject;
 
 @RunWith(XtextRunner.class)
-@InjectWith(ArithmeticsInjectorProvider.class)
+@InjectWith(org.eclipse.xtext.example.arithmetics.tests.PatchedArithmeticsInjectorProvider.class)
 public class ArithmeticsParsingTest {
   @Inject
   private ParseHelper<org.eclipse.xtext.example.arithmetics.arithmetics.Module> parseHelper;

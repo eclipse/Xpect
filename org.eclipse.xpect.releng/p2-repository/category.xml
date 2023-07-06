@@ -14,12 +14,12 @@ Contributors:
 		version="0.2.0.qualifier">
 		<category name="Xpect 0.2.0" />
 	</feature>
-	<bundle id="io.github.classgraph" version="4.8.35.qualifier"/>
-	<bundle id="io.github.classgraph.source" version="4.8.35.qualifier"/>
-	<bundle id="org.hamcrest.core" version="1.3.0.qualifier"/>
-	<bundle id="org.hamcrest.core.source" version="1.3.0.qualifier"/>
-	<bundle id="org.junit" version="4.12.0.qualifier"/>
-	<bundle id="org.junit.source" version="4.12.0.qualifier"/>
+	<bundle id="io.github.classgraph" version="0.0.0"/>
+	<bundle id="io.github.classgraph.source" version="0.0.0"/>
+	<bundle id="org.hamcrest.core" version="0.0.0"/>
+	<bundle id="org.hamcrest.core.source" version="0.0.0"/>
+	<bundle id="org.junit" version="0.0.0"/>
+	<bundle id="org.junit.source" version="0.0.0"/>
 	<category-def name="Xpect 0.2.0" label="Xpect 0.2.0">
 		<description>
 			Tests for Xtext Languages

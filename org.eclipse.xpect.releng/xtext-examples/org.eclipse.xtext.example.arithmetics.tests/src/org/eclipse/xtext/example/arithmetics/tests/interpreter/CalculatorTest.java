@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.example.arithmetics.arithmetics.Expression;
 import org.eclipse.xtext.example.arithmetics.interpreter.Calculator;
-import org.eclipse.xtext.example.arithmetics.tests.ArithmeticsInjectorProvider;
+import org.eclipse.xtext.example.arithmetics.tests.PatchedArithmeticsInjectorProvider;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.junit4.util.ParseHelper;
@@ -25,7 +25,7 @@ import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 
 @RunWith(XtextRunner.class)
-@InjectWith(ArithmeticsInjectorProvider.class)
+@InjectWith(PatchedArithmeticsInjectorProvider.class)
 public class CalculatorTest {
   @Inject
   private ParseHelper<org.eclipse.xtext.example.arithmetics.arithmetics.Module> parseHelper;
