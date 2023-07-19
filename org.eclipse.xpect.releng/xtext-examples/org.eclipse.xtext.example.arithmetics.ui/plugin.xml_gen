@@ -26,11 +26,11 @@
 		<handler
 			class="org.eclipse.xtext.example.arithmetics.ui.ArithmeticsExecutableExtensionFactory:org.eclipse.xtext.ui.editor.handler.ValidateActionHandler"
 			commandId="org.eclipse.xtext.example.arithmetics.Arithmetics.validate">
-		<activeWhen>
-			<reference
+			<activeWhen>
+				<reference
 					definitionId="org.eclipse.xtext.example.arithmetics.Arithmetics.Editor.opened">
-			</reference>
-		</activeWhen>
+				</reference>
+			</activeWhen>
 		</handler>
 		<!-- copy qualified name -->
 		<handler
@@ -58,20 +58,20 @@
 			<and>
 				<reference definitionId="isActiveEditorAnInstanceOfXtextEditor"/>
 				<with variable="activeEditor">
-					<test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName" 
-						value="org.eclipse.xtext.example.arithmetics.Arithmetics" 
+					<test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName"
+						value="org.eclipse.xtext.example.arithmetics.Arithmetics"
 						forcePluginActivation="true"/>
-				</with>		
+				</with>
 			</and>
 		</definition>
 		<definition id="org.eclipse.xtext.example.arithmetics.Arithmetics.XtextEditor.opened">
 			<and>
 				<reference definitionId="isXtextEditorActive"/>
 				<with variable="activeEditor">
-					<test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName" 
-						value="org.eclipse.xtext.example.arithmetics.Arithmetics" 
+					<test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName"
+						value="org.eclipse.xtext.example.arithmetics.Arithmetics"
 						forcePluginActivation="true"/>
-				</with>		
+				</with>
 			</and>
 		</definition>
 	</extension>
@@ -119,42 +119,42 @@
 	</extension>
 	<extension
 		point="org.eclipse.ui.commands">
-	<command
+		<command
 			description="Trigger expensive validation"
 			id="org.eclipse.xtext.example.arithmetics.Arithmetics.validate"
 			name="Validate">
-	</command>
-	<!-- copy qualified name -->
-	<command
+		</command>
+		<!-- copy qualified name -->
+		<command
 			id="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName"
 			categoryId="org.eclipse.ui.category.edit"
 			description="Copy the qualified name for the selected element"
 			name="Copy Qualified Name">
-	</command>
-	<command
+		</command>
+		<command
 			id="org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedName"
 			categoryId="org.eclipse.ui.category.edit"
 			description="Copy the qualified name for the selected element"
 			name="Copy Qualified Name">
-	</command>
+		</command>
 	</extension>
 	<extension point="org.eclipse.ui.menus">
 		<menuContribution
 			locationURI="popup:#TextEditorContext?after=group.edit">
-			 <command
-				 commandId="org.eclipse.xtext.example.arithmetics.Arithmetics.validate"
-				 style="push"
-				 tooltip="Trigger expensive validation">
-			<visibleWhen checkEnabled="false">
-				<reference
-					definitionId="org.eclipse.xtext.example.arithmetics.Arithmetics.Editor.opened">
-				</reference>
-			</visibleWhen>
-		</command>
+			<command
+				commandId="org.eclipse.xtext.example.arithmetics.Arithmetics.validate"
+				style="push"
+				tooltip="Trigger expensive validation">
+				<visibleWhen checkEnabled="false">
+					<reference
+						definitionId="org.eclipse.xtext.example.arithmetics.Arithmetics.Editor.opened">
+					</reference>
+				</visibleWhen>
+			</command>
 		</menuContribution>
 		<!-- copy qualified name -->
 		<menuContribution locationURI="popup:#TextEditorContext?after=copy">
-			<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName" 
+			<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName"
 				style="push" tooltip="Copy Qualified Name">
 				<visibleWhen checkEnabled="false">
 					<reference definitionId="org.eclipse.xtext.example.arithmetics.Arithmetics.Editor.opened" />
@@ -170,7 +170,7 @@
 			</command>
 		</menuContribution>
 		<menuContribution locationURI="popup:org.eclipse.xtext.ui.outline?after=additions">
-			<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedName" 
+			<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedName"
 				style="push" tooltip="Copy Qualified Name">
 				<visibleWhen checkEnabled="false">
 					<and>
@@ -203,6 +203,15 @@
 				</reference>
 			</activeWhen>
 		</handler>
+	</extension>
+	<extension point="org.eclipse.core.contenttype.contentTypes">
+		<content-type
+			base-type="org.eclipse.core.runtime.text"
+			file-extensions="calc"
+			id="org.eclipse.xtext.example.arithmetics.Arithmetics.contenttype"
+			name="Arithmetics File"
+			priority="normal">
+		</content-type>
 	</extension>
 	<!-- adding resource factories -->
 	<extension
@@ -240,58 +249,10 @@
 		<super type="org.eclipse.xtext.ui.check.expensive"/>
 		<persistent value="true"/>
 	</extension>
-	<extension point="org.eclipse.xtext.builder.participant">
-		<participant
-			class="org.eclipse.xtext.example.arithmetics.ui.ArithmeticsExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant"
-			fileExtensions="calc"/>
-	</extension>
-	<extension point="org.eclipse.ui.preferencePages">
-		<page
-			category="org.eclipse.xtext.example.arithmetics.Arithmetics"
-			class="org.eclipse.xtext.example.arithmetics.ui.ArithmeticsExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
-			id="org.eclipse.xtext.example.arithmetics.Arithmetics.compiler.preferencePage"
-			name="Compiler">
-			<keywordReference id="org.eclipse.xtext.example.arithmetics.ui.keyword_Arithmetics"/>
-		</page>
-	</extension>
-	<extension point="org.eclipse.ui.propertyPages">
-		<page
-			category="org.eclipse.xtext.example.arithmetics.Arithmetics"
-			class="org.eclipse.xtext.example.arithmetics.ui.ArithmeticsExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
-			id="org.eclipse.xtext.example.arithmetics.Arithmetics.compiler.propertyPage"
-			name="Compiler">
-			<keywordReference id="org.eclipse.xtext.example.arithmetics.ui.keyword_Arithmetics"/>
-			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
-			</enabledWhen>
-			<filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
-		</page>
-	</extension>
-	<extension point="org.eclipse.ui.menus">
-		<menuContribution locationURI="popup:#TextEditorContext?after=xtext.ui.openDeclaration">
-			<command
-				commandId="org.eclipse.xtext.ui.OpenGeneratedFileCommand"
-				id="org.eclipse.xtext.example.arithmetics.Arithmetics.OpenGeneratedCode"
-				style="push">
-				<visibleWhen checkEnabled="false">
-					<reference definitionId="org.eclipse.xtext.example.arithmetics.Arithmetics.Editor.opened" />
-				</visibleWhen>
-			</command>
-		</menuContribution>
-	</extension>
-	<extension point="org.eclipse.ui.handlers">
-		<handler
-			class="org.eclipse.xtext.example.arithmetics.ui.ArithmeticsExecutableExtensionFactory:org.eclipse.xtext.ui.generator.trace.OpenGeneratedFileHandler"
-			commandId="org.eclipse.xtext.ui.OpenGeneratedFileCommand">
-			<activeWhen>
-				<reference definitionId="org.eclipse.xtext.example.arithmetics.Arithmetics.Editor.opened" />
-			</activeWhen>
-		</handler>
-	</extension>
 	<!-- Quick Outline -->
 	<extension
 		point="org.eclipse.ui.handlers">
-		<handler 
+		<handler
 			class="org.eclipse.xtext.example.arithmetics.ui.ArithmeticsExecutableExtensionFactory:org.eclipse.xtext.ui.editor.outline.quickoutline.ShowQuickOutlineActionHandler"
 			commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline">
 			<activeWhen>
@@ -351,7 +312,7 @@
 	</extension>
 	<!-- Rename Refactoring -->
 	<extension point="org.eclipse.ui.handlers">
-		<handler 
+		<handler
 			class="org.eclipse.xtext.example.arithmetics.ui.ArithmeticsExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.DefaultRenameElementHandler"
 			commandId="org.eclipse.xtext.ui.refactoring.RenameElement">
 			<activeWhen>
@@ -388,12 +349,18 @@
 			class="org.eclipse.xtext.example.arithmetics.ui.ArithmeticsExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
 			extensions="calc">
 		</viewer>
+		<contentTypeBinding
+			contentTypeId="org.eclipse.xtext.example.arithmetics.Arithmetics.contenttype"
+			contentViewerId="org.eclipse.xtext.example.arithmetics.Arithmetics.compare.contentViewers" />
 	</extension>
 	<extension point="org.eclipse.compare.contentMergeViewers">
 		<viewer id="org.eclipse.xtext.example.arithmetics.Arithmetics.compare.contentMergeViewers"
 			class="org.eclipse.xtext.example.arithmetics.ui.ArithmeticsExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
 			extensions="calc" label="Arithmetics Compare">
 		</viewer>
+		<contentTypeBinding
+			contentTypeId="org.eclipse.xtext.example.arithmetics.Arithmetics.contenttype"
+			contentMergeViewerId="org.eclipse.xtext.example.arithmetics.Arithmetics.compare.contentMergeViewers" />
 	</extension>
 	<extension point="org.eclipse.ui.editors.documentProviders">
 		<provider id="org.eclipse.xtext.example.arithmetics.Arithmetics.editors.documentProviders"
@@ -406,5 +373,23 @@
 			extension="calc"
 			type="text">
 		</fileTypes>
+	</extension>
+	<!-- code mining -->
+	<extension point="org.eclipse.ui.workbench.texteditor.codeMiningProviders">
+		<codeMiningProvider
+			class="org.eclipse.xtext.example.arithmetics.ui.ArithmeticsExecutableExtensionFactory:org.eclipse.jface.text.codemining.ICodeMiningProvider"
+			id="org.eclipse.xtext.example.arithmetics.Arithmetics.CodeMiningProvider"
+			label="Arithmetics Codemining">
+			<enabledWhen>
+				<with variable="editorInput">
+					<adapt type="org.eclipse.core.resources.IFile">
+						<test
+							property="org.eclipse.core.resources.contentTypeId"
+							value="org.eclipse.xtext.example.arithmetics.Arithmetics.contenttype">
+						</test>
+					</adapt>
+				</with>
+			</enabledWhen>
+		</codeMiningProvider>
 	</extension>
 </plugin>

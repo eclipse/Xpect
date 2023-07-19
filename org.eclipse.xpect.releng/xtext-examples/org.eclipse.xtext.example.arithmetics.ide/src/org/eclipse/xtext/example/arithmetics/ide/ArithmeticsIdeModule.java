@@ -6,15 +6,11 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  *******************************************************************************/
-package org.eclipse.xtext.example.arithmetics;
+package org.eclipse.xtext.example.arithmetics.ide;
 
 
 /**
- * Initialization support for running Xtext languages without Equinox extension registry.
+ * Use this class to register ide components.
  */
-public class ArithmeticsStandaloneSetup extends ArithmeticsStandaloneSetupGenerated {
-
-	public static void doSetup() {
-		new ArithmeticsStandaloneSetup().createInjectorAndDoEMFRegistration();
-	}
+public class ArithmeticsIdeModule extends AbstractArithmeticsIdeModule {
 }
