@@ -8,35 +8,39 @@ Bundle-ClassPath: .
 Bundle-SymbolicName: org.eclipse.xpect;singleton:=true
 Automatic-Module-Name: org.eclipse.xpect
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.apache.log4j;bundle-version="1.2.0";visibility:=reexport,
+Require-Bundle: org.eclipse.xpect.mwe2;bundle-version="0.2.0",
+ org.apache.log4j;bundle-version="1.2.0";visibility:=reexport,
  org.junit;bundle-version="4.11.0";visibility:=reexport,
  org.antlr.runtime;bundle-version="3.2.0",
- org.eclipse.xtext;bundle-version="2.9.2";visibility:=reexport,
- org.eclipse.xtext.util;bundle-version="2.9.2";visibility:=reexport,
+ org.eclipse.xtext;bundle-version="2.31.0";visibility:=reexport,
+ org.eclipse.xtext.util;bundle-version="2.31.0";visibility:=reexport,
  org.eclipse.emf.ecore;bundle-version="2.7.0";visibility:=reexport,
  org.eclipse.emf.common;bundle-version="2.7.0";visibility:=reexport,
- org.eclipse.xtext.common.types;bundle-version="2.9.2";visibility:=reexport,
+ org.eclipse.xtext.common.types;bundle-version="2.31.0";visibility:=reexport,
  org.eclipse.xtext.generator;resolution:=optional,
  org.apache.commons.logging;bundle-version="1.0.4";resolution:=optional,
  org.eclipse.emf.codegen.ecore;resolution:=optional,
  org.eclipse.emf.mwe.utils;resolution:=optional,
  org.eclipse.emf.mwe2.launch;resolution:=optional,
  org.eclipse.emf.mwe2.lib;resolution:=optional,
- de.itemis.statefullexer;bundle-version="1.0.0";resolution:=optional,
- org.eclipse.xtext.ecore;bundle-version="2.9.2";resolution:=optional,
+ org.eclipse.xtext.ecore;bundle-version="2.31.0";resolution:=optional,
  org.objectweb.asm;bundle-version="[3.0.0,10.0.0)";resolution:=optional,
  org.eclipse.equinox.common;bundle-version="3.0.0";resolution:=optional,
  org.eclipse.core.runtime;bundle-version="3.0.0";resolution:=optional,
  io.github.classgraph;bundle-version="4.8.35";visibility:=reexport,
- org.eclipse.xtext.xbase.lib
+ org.eclipse.xtext.xbase.lib;bundle-version="2.31.0",
+ de.itemis.statefullexer;bundle-version="1.0.0"
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.xpect,
+ org.eclipse.xpect.model,
  org.eclipse.xpect.expectation,
- org.eclipse.xpect.expectation.impl;x-friends:="org.eclipse.xpect.xtext.lib,
- org.eclipse.xpect.tests",
+ org.eclipse.xpect.expectation.impl;
+  x-friends:="org.eclipse.xpect.xtext.lib,
+   org.eclipse.xpect.tests",
  org.eclipse.xpect.formatting,
- org.eclipse.xpect.lexer;x-friends:="org.eclipse.xpect.tests",
+ org.eclipse.xpect.lexer;
+  x-friends:="org.eclipse.xpect.tests",
  org.eclipse.xpect.lib,
  org.eclipse.xpect.parameter,
  org.eclipse.xpect.parser.antlr,

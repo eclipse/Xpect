@@ -19,7 +19,7 @@ Require-Bundle: org.eclipse.xpect;bundle-version="[0.2.0,0.2.1)";visibility:=ree
  org.eclipse.compare,
  org.eclipse.jdt.core;bundle-version="3.7.0"
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Activator: org.eclipse.xpect.ui.XpectPluginActivator
 Export-Package: org.eclipse.xpect.ui,
  org.eclipse.xpect.ui.contentassist,
