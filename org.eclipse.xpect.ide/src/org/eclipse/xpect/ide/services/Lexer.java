@@ -10,13 +10,13 @@
  *   Moritz Eysholdt - Initial contribution and API
  *******************************************************************************/
 
-package org.eclipse.xpect.ui.services;
+package org.eclipse.xpect.ide.services;
 
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 
-public abstract class Lexer extends org.eclipse.xtext.ui.editor.contentassist.antlr.internal.Lexer {
+public abstract class Lexer extends org.eclipse.xtext.ide.editor.contentassist.antlr.internal.Lexer {
 	public Lexer() {
 		super();
 	}
