@@ -23,6 +23,7 @@
 
 	<modules>
 		<module>../../org.eclipse.xpect</module>
+		<module>../../org.eclipse.xpect.ide</module>
 		<module>../../org.eclipse.xpect.ui</module>
 		<module>../../org.eclipse.xpect.ui.junit</module>
 		<module>../../org.eclipse.xpect.xtext.lib</module>
