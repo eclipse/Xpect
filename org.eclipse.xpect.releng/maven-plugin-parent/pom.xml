@@ -22,6 +22,7 @@
 	</properties>
 
 	<modules>
+		<module>../../org.eclipse.xpect.mwe2</module>
 		<module>../../org.eclipse.xpect</module>
 		<module>../../org.eclipse.xpect.ide</module>
 		<module>../../org.eclipse.xpect.ui</module>
