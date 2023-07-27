@@ -15,9 +15,8 @@ timestamps() {
         pipelineTriggers([cron('H 2 * * *')])
     ])
     node('centos-8') {
-        def javaHome = tool 'temurin-jdk8-latest'
+        def javaHome = tool 'temurin-jdk11-latest'
         env.JAVA_HOME = "${javaHome}"
-        def java11Home = tool 'temurin-jdk11-latest'
         def mvnHome = tool 'apache-maven-3.8.6'
         def mvnParams = '--batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false'
         timeout(time: 1, unit: 'HOURS') {
@@ -40,28 +39,12 @@ timestamps() {
                 echo("===================================")
             }
 
-            stage('compile with Eclipse Luna and Xtext 2.9.2') {
-                sh "${mvnHome}/bin/mvn -P!tests -Declipsesign=true -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean install"
+            stage('compile with Eclipse 2023-03 and Xtext 2.31.0') {
+                sh "${mvnHome}/bin/mvn -P!tests -Declipsesign=true -Dtarget-platform=eclipse_2023_03-xtext_2_31_0 ${mvnParams} clean install"
                 archiveArtifacts artifacts: 'org.eclipse.xpect.releng/p2-repository/target/repository/**/*.*,org.eclipse.xpect.releng/p2-repository/target/org.eclipse.xpect.repository-*.zip'
             }
 
             wrap([$class: 'Xvnc', useXauthority: true]) {
-
-                stage('test with Eclipse Luna and Xtext 2.9.2') {
-                    try{
-                        sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean integration-test"
-                    }finally{
-                        junit '**/TEST-*.xml'
-                    }
-                }
-
-                stage('test with Eclipse Mars and Xtext 2.14') {
-                    try{
-                        sh "${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtarget-platform=eclipse_4_5_0-xtext_2_14_0 ${mvnParams} clean integration-test"
-                    }finally {
-                        junit '**/TEST-*.xml'
-                    }
-                }
 
                 stage('test with Eclipse 2022-12 and Xtext nighly') {
                     try{
@@ -83,7 +66,7 @@ timestamps() {
                             echo -e "5\ny\n" | gpg --batch --command-fd 0 --expert --edit-key $fpr trust;
                         done
                         '''
-                        sh "${mvnHome}/bin/mvn -P!tests -P maven-publish -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean deploy"
+                        sh "${mvnHome}/bin/mvn -P!tests -P maven-publish -Dtarget-platform=eclipse_2023_03-xtext_2_31_0 ${mvnParams} clean deploy"
                     }
                     
                 }
@@ -98,7 +81,7 @@ timestamps() {
                             echo -e "5\ny\n" | gpg --batch --command-fd 0 --expert --edit-key $fpr trust;
                         done
                         '''
-                        sh "${mvnHome}/bin/mvn -P!tests -P!xtext-examples -P maven-publish -Dtarget-platform=eclipse_4_4_2-xtext_2_9_2 ${mvnParams} clean deploy"
+                        sh "${mvnHome}/bin/mvn -P!tests -P!xtext-examples -P maven-publish -Dtarget-platform=eclipse_2023_03-xtext_2_31_0 ${mvnParams} clean deploy"
                     }
                     
                 }
