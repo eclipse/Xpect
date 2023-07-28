@@ -60,6 +60,7 @@
 				<module>org.eclipse.xpect.releng/xtext-examples/org.eclipse.xtext.example.arithmetics.ide</module>
 				<module>org.eclipse.xpect.releng/xtext-examples/org.eclipse.xtext.example.arithmetics.ui</module>
 				<module>org.eclipse.xpect.releng/xtext-examples/org.eclipse.xtext.example.domainmodel</module>
+				<module>org.eclipse.xpect.releng/xtext-examples/org.eclipse.xtext.example.domainmodel.ide</module>
 				<module>org.eclipse.xpect.releng/xtext-examples/org.eclipse.xtext.example.domainmodel.ui</module>
 			</modules>
 		</profile>
