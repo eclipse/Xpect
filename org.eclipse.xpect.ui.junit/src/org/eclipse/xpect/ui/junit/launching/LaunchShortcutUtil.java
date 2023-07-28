@@ -50,7 +50,7 @@ public class LaunchShortcutUtil {
 
 		String testName = getLaunchConfigTitle(element);
 
-		String testKindId = TestKindRegistry.JUNIT4_TEST_KIND_ID;
+		String testKindId = TestKindRegistry.JUNIT5_TEST_KIND_ID;
 
 		ILaunchConfigurationType configType = getLaunchManager().getLaunchConfigurationType(launchConfigurationTypeId);
 		ILaunchConfigurationWorkingCopy wc = configType.newInstance(null, getLaunchManager().generateLaunchConfigurationName(testName));

@@ -3,15 +3,16 @@
  */
 package org.eclipse.xpect.tests;
 
-import org.eclipse.xtext.junit4.IInjectorProvider;
+import org.eclipse.xpect.ui.internal.XpectActivator;
+import org.eclipse.xtext.testing.IInjectorProvider;
 
 import com.google.inject.Injector;
 
 public class XpectUiInjectorProvider implements IInjectorProvider {
-	
+
 	@Override
 	public Injector getInjector() {
-		return org.eclipse.xpect.ui.internal.XpectActivator.getInstance().getInjector("org.eclipse.xpect.Xpect");
+		return XpectActivator.getInstance().getInjector("org.eclipse.xpect.Xpect");
 	}
-	
+
 }

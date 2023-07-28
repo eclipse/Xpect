@@ -8,19 +8,19 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xpect,
  org.eclipse.xpect.ui,
  org.eclipse.core.runtime,
- org.eclipse.xtext.junit4,
+ org.eclipse.xtext.testing,
+ org.eclipse.xtext.xbase.testing,
  org.eclipse.ui.workbench;resolution:=optional,
  org.eclipse.xtend.lib,
  com.google.guava,
  org.eclipse.xtext.xbase.lib;bundle-version="2.31.0",
- org.objectweb.asm;bundle-version="[3.0.0,10.0.0)";resolution:=optional
+ org.objectweb.asm;bundle-version="[3.0.0,10.0.0)";resolution:=optional,
+ org.eclipse.xtext.ui.testing,
+ org.eclipse.xtext.xbase.ui.testing
 Import-Package: org.apache.log4j,
- org.junit;version="4.5.0",
- org.junit.runner;version="4.5.0",
- org.junit.runner.manipulation;version="4.5.0",
- org.junit.runner.notification;version="4.5.0",
- org.junit.runners;version="4.5.0",
- org.junit.runners.model;version="4.5.0",
- org.hamcrest.core
+ org.hamcrest.core,
+ org.junit.jupiter.api;version="[5.1.0,6.0.0)",
+ org.junit.jupiter.api.extension;version="[5.1.0,6.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.eclipse.xpect.tests
+Export-Package: org.eclipse.xpect.tests;x-internal=true

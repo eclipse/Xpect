@@ -14,8 +14,6 @@ package org.eclipse.xpect.tests.xjm;
 
 import java.lang.reflect.Constructor;
 
-import org.eclipse.xtext.junit4.InjectWith;
-import org.eclipse.xtext.junit4.XtextRunner;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -25,6 +23,8 @@ import org.eclipse.xpect.tests.XpectInjectorProvider;
 import org.eclipse.xpect.XpectJavaModel;
 import org.eclipse.xpect.ui.XpectPluginActivator;
 import org.eclipse.xpect.util.XpectJavaModelManager;
+import org.eclipse.xtext.testing.InjectWith;
+import org.eclipse.xtext.testing.XtextRunner;
 
 @InjectWith(XpectInjectorProvider.class)
 @RunWith(XtextRunner.class)
