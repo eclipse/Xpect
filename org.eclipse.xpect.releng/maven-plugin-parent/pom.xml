@@ -19,6 +19,7 @@
 		<xtextVersion>2.31.0</xtextVersion>
 		<tycho-version>2.7.5</tycho-version>
 		<target-platform-version>0.2.0-SNAPSHOT</target-platform-version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<modules>
