@@ -46,9 +46,9 @@ timestamps() {
 
             wrap([$class: 'Xvnc', useXauthority: true]) {
 
-                stage('test with Eclipse 2022-12 and Xtext nighly') {
+                stage('test with Eclipse 2023-06 and Xtext nighly') {
                     try{
-                        sh "JAVA_HOME=${java11Home} ${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtycho-version=2.7.5 -Dtarget-platform=eclipse_2022_12-xtext_nightly ${mvnParams} clean integration-test"
+                        sh "JAVA_HOME=${java11Home} ${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtycho-version=2.7.5 -Dtarget-platform=eclipse_2023_06-xtext_nightly ${mvnParams} clean integration-test"
                     }finally {
                         junit '**/TEST-*.xml'
                     }
