@@ -16,8 +16,7 @@ import com.google.common.collect.Multimap
 import java.util.List
 import java.util.Set
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtend.lib.Data
-import org.eclipse.xtend.lib.Property
+import org.eclipse.xtend.lib.annotations.Data
 import org.eclipse.xtext.AbstractElement
 import org.eclipse.xtext.AbstractRule
 import org.eclipse.xtext.Grammar
@@ -26,17 +25,17 @@ import org.eclipse.xtext.ParserRule
 import org.eclipse.xtext.RuleCall
 import org.eclipse.xtext.TerminalRule
 import org.eclipse.xtext.grammaranalysis.impl.CfgAdapter
+import org.eclipse.xtext.grammaranalysis.impl.GrammarElementTitleSwitch
 import org.eclipse.xtext.util.formallang.FollowerFunctionImpl
 import org.eclipse.xtext.util.formallang.NfaFactory
 import org.eclipse.xtext.util.formallang.NfaUtil
 import org.eclipse.xtext.util.formallang.Pda
 import org.eclipse.xtext.util.formallang.PdaFactory
-import org.eclipse.xtext.xbase.lib.Pair
 
 import static extension org.eclipse.xpect.mwe2.statefullexer.Util.*
 import static extension org.eclipse.xtext.EcoreUtil2.*
 import static extension org.eclipse.xtext.GrammarUtil.*
-import org.eclipse.xtext.grammaranalysis.impl.GrammarElementTitleSwitch
+import org.eclipse.xtend.lib.annotations.Accessors
 
 class LexerStatesProvider implements ILexerStatesProvider {
 	
@@ -111,7 +110,7 @@ class LexerStatesProvider implements ILexerStatesProvider {
 //		new LexerStateNfa( /* owner2terminal, */start, start)
 //	}
 	
-	def private createLexerState(NfaWithGroups<LexicalGroup, TokenNFA$TokenNfaState<AbstractElement>> nfa) {
+	def private createLexerState(NfaWithGroups<LexicalGroup, TokenNFA.TokenNfaState<AbstractElement>> nfa) {
 		var i = 1
 		val states = <LexicalGroup, LexerState>newLinkedHashMap()
 		for(g : nfa.allGroups) {
@@ -121,8 +120,8 @@ class LexerStatesProvider implements ILexerStatesProvider {
 			for(h :g.hidden)	
 				s.elements.add(h)
 		}
-		val consumed = <TokenNFA$TokenNfaState<AbstractElement>>newHashSet()
-		val visited = <Pair<LexicalGroup,TokenNFA$TokenNfaState<AbstractElement>>>newHashSet()
+		val consumed = <TokenNFA.TokenNfaState<AbstractElement>>newHashSet()
+		val visited = <Pair<LexicalGroup,TokenNFA.TokenNfaState<AbstractElement>>>newHashSet()
 		val all = new NfaUtil().collect(nfa) 
 		for(from : all) 
 			for(to : nfa.getFollowers(from)) 
@@ -195,22 +194,22 @@ class LexerStatesProvider implements ILexerStatesProvider {
 		result
 	}
 	
-	def Pda<TokenPDA$TokenPDAState<AbstractElement>, RuleCall> getPda(Grammar grammar) {
+	def Pda<TokenPDA.TokenPDAState<AbstractElement>, RuleCall> getPda(Grammar grammar) {
 		val cfg = new StatesCfgAdapter(grammar)
 		val ff = new FollowerFunctionImpl(cfg).setFilter[it instanceof Keyword || it instanceof RuleCall]
-		val pdaFact = new TokenPDA$TokenPDAFactory<AbstractElement, RuleCall>() 
+		val pdaFact = new TokenPDA.TokenPDAFactory<AbstractElement, RuleCall>() 
 		pdaFact.stateFormatter = new GrammarElementTitleSwitch().showQualified.showAssignments
-		val pdaFact2 = pdaFact as PdaFactory<Pda<TokenPDA$TokenPDAState<AbstractElement>, RuleCall>, TokenPDA$TokenPDAState<AbstractElement>, RuleCall, AbstractElement>
+		val pdaFact2 = pdaFact as PdaFactory<Pda<TokenPDA.TokenPDAState<AbstractElement>, RuleCall>, TokenPDA.TokenPDAState<AbstractElement>, RuleCall, AbstractElement>
 		val pda = new PdaUtil2().create(cfg, ff, pdaFact2)
 		pda
 	}
 	
-	def NfaWithGroups<LexicalGroup, TokenNFA$TokenNfaState<AbstractElement>> getNfa(Grammar grammar) {
+	def NfaWithGroups<LexicalGroup, TokenNFA.TokenNfaState<AbstractElement>> getNfa(Grammar grammar) {
 		val pda = getPda(grammar)
-		val fact =  new TokenGroupNFA$TokenGroupNfaFactory<LexicalGroup, AbstractElement>() as NfaFactory<NfaWithGroups<LexicalGroup, TokenNFA$TokenNfaState<AbstractElement>>, TokenNFA$TokenNfaState<AbstractElement>, AbstractElement>
+		val fact =  new TokenGroupNFA.TokenGroupNfaFactory<LexicalGroup, AbstractElement>() as NfaFactory<NfaWithGroups<LexicalGroup, TokenNFA.TokenNfaState<AbstractElement>>, TokenNFA.TokenNfaState<AbstractElement>, AbstractElement>
 		val traverser = new LaxicalGroupsTraverser(new LexicalGroup(grammar.rules.get(0), grammar.hidden))
-		val filter = [TokenPDA$TokenPDAState<AbstractElement> s | !s.token.parserRuleCall ]
-		val token = [TokenPDA$TokenPDAState<AbstractElement> s | s.token ] 
+		val filter = [TokenPDA.TokenPDAState<AbstractElement> s | !s.token.parserRuleCall ]
+		val token = [TokenPDA.TokenPDAState<AbstractElement> s | s.token ] 
 		val nfa = new NfaUtil2().create(pda, traverser, filter, token, fact)
 		nfa
 	}
@@ -234,12 +233,15 @@ class StatesCfgAdapter extends CfgAdapter {
 }
 
 class LexicalGroup {
-	@Property val AbstractRule group
-	@Property val Set<AbstractRule> hidden
+	@Accessors
+	val AbstractRule group
+	
+	@Accessors
+	val Set<AbstractRule> hidden
 	
 	new (AbstractRule group, Set<AbstractRule> hidden) {
-		this._group = group 
-		this._hidden = hidden 
+		this.group = group 
+		this.hidden = hidden 
 	}
 	
 	override hashCode() {
@@ -250,7 +252,7 @@ class LexicalGroup {
 		if(obj == null || ^class != obj.^class)
 			return false;
 		val other = obj as LexicalGroup
-		_group == other._group 
+		group == other.group 
 	}
 	
 	override toString() {
@@ -259,21 +261,26 @@ class LexicalGroup {
 } 
 
 class LaxicalGroupsTraverserItem  {
-	@Property val LaxicalGroupsTraverserItem parent
-	@Property val RuleCall item
-	@Property val LexicalGroup group
+	@Accessors
+	val LaxicalGroupsTraverserItem parent
+	
+	@Accessors
+	val RuleCall item
+	
+	@Accessors
+	val LexicalGroup group
 
 	new(LexicalGroup group) {
-		this._parent = null
-		this._item = null
-		this._group = group
+		this.parent = null
+		this.item = null
+		this.group = group
 	}
 
 	new(LaxicalGroupsTraverserItem parent, RuleCall item, LexicalGroup group) {
 		super();
-		this._parent = parent;
-		this._item = item;
-		this._group = group
+		this.parent = parent;
+		this.item = item;
+		this.group = group
 	}
 
 	def LaxicalGroupsTraverserItem push(RuleCall item) {
@@ -307,21 +314,21 @@ class LaxicalGroupsTraverserItem  {
 	}
 }
 
-@Data class LaxicalGroupsTraverser implements GroupingTraverser<Pda<TokenPDA$TokenPDAState<AbstractElement>, RuleCall>, TokenPDA$TokenPDAState<AbstractElement>, LaxicalGroupsTraverserItem, LexicalGroup> {
+@Data class LaxicalGroupsTraverser implements GroupingTraverser<Pda<TokenPDA.TokenPDAState<AbstractElement>, RuleCall>, TokenPDA.TokenPDAState<AbstractElement>, LaxicalGroupsTraverserItem, LexicalGroup> {
 	val LexicalGroup group
 	
 	override getGroup(LaxicalGroupsTraverserItem result) {
 		result.group
 	}
 			
-	override enter(Pda<TokenPDA$TokenPDAState<AbstractElement>,RuleCall> pda, TokenPDA$TokenPDAState<AbstractElement> state, LaxicalGroupsTraverserItem previous) {
+	override enter(Pda<TokenPDA.TokenPDAState<AbstractElement>,RuleCall> pda, TokenPDA.TokenPDAState<AbstractElement> state, LaxicalGroupsTraverserItem previous) {
 		var RuleCall item;
 		if ((item = pda.getPush(state)) != null)
 			return previous.push(item)
 		if ((item = pda.getPop(state)) != null)
 			return previous.pop(item)
 		if (previous == null)
-			return new LaxicalGroupsTraverserItem(_group) 
+			return new LaxicalGroupsTraverserItem(group) 
 		return previous;
 	}
 			
@@ -353,19 +360,19 @@ class Util {
 	}
 }
 
-@Data class LexerStateNfa implements ILexerStatesProvider$ILexerStates {
-	ILexerStatesProvider$ILexerState start
-	ILexerStatesProvider$ILexerState stop
+@Data class LexerStateNfa implements ILexerStatesProvider.ILexerStates {
+	ILexerStatesProvider.ILexerState start
+	ILexerStatesProvider.ILexerState stop
 	
-	override getOutgoingTransitions(ILexerStatesProvider$ILexerState state) {
+	override getOutgoingTransitions(ILexerStatesProvider.ILexerState state) {
 		state.outgoingTransitions
 	}
 	
-	override getTarget(ILexerStatesProvider$ILexerStateTransition trans) {
+	override getTarget(ILexerStatesProvider.ILexerStateTransition trans) {
 		trans.target
 	}
 	
-	override getFollowers(ILexerStatesProvider$ILexerState state) {
+	override getFollowers(ILexerStatesProvider.ILexerState state) {
 		state.outgoingTransitions?.map[target]
 	}
 	
@@ -393,10 +400,10 @@ class Util {
 	
 }
 
-@Data class LexerState implements ILexerStatesProvider$ILexerState {
+@Data class LexerState implements ILexerStatesProvider.ILexerState {
 	int ID
 	String name
-	List<ILexerStatesProvider$ILexerStateTransition> outgoingTransitions
+	List<ILexerStatesProvider.ILexerStateTransition> outgoingTransitions
 	Set<EObject> elements
 	
 	override toString() {
@@ -413,10 +420,10 @@ class Util {
 	
 } 
 
-@Data class LexerStateTransition implements ILexerStatesProvider$ILexerStateTransition {
+@Data class LexerStateTransition implements ILexerStatesProvider.ILexerStateTransition {
 	AbstractElement element
-	ILexerStatesProvider$ILexerState source
-	ILexerStatesProvider$ILexerState target
+	ILexerStatesProvider.ILexerState source
+	ILexerStatesProvider.ILexerState target
 	
 	override toString() {
 		val t = token

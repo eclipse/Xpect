@@ -12,6 +12,8 @@
 
 package org.eclipse.xpect.registry;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
@@ -41,10 +43,8 @@ public class FileExtensionRegistrar {
 				return languageInfo.getInjector().getInstance(loaded);
 			} else {
 				try {
-					return loaded.newInstance();
-				} catch (InstantiationException e) {
-					throw new RuntimeException(e);
-				} catch (IllegalAccessException e) {
+					return loaded.getDeclaredConstructor().newInstance();
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 					throw new RuntimeException(e);
 				}
 			}

@@ -19,14 +19,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import org.apache.log4j.Logger;
+import org.eclipse.xpect.util.ClasspathUtil;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
-import org.eclipse.xpect.util.ClasspathUtil;
 
 import com.google.common.base.Function;
 import com.google.common.collect.HashMultimap;
@@ -163,7 +165,9 @@ public class StandaloneExtensionRegistry implements IExtensionInfo.Registry {
 	private Multimap<String, IExtensionInfo> collectExtensions() {
 		Multimap<String, IExtensionInfo> result = HashMultimap.create();
 		try {
-			XMLReader reader = XMLReaderFactory.createXMLReader();
+			SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+			SAXParser parser = parserFactory.newSAXParser();
+			XMLReader reader = parser.getXMLReader();
 			for (URL url : ClasspathUtil.findResources("plugin.xml", "fragment.xml")) {
 				reader.setContentHandler(new PluginXMLContentHandler(url, result));
 				InputStream openStream = null;
@@ -185,7 +189,9 @@ public class StandaloneExtensionRegistry implements IExtensionInfo.Registry {
 	private Multimap<String, IExtensionInfo> collectExtensions(URL url, InputStream in) {
 		Multimap<String, IExtensionInfo> result = HashMultimap.create();
 		try {
-			XMLReader reader = XMLReaderFactory.createXMLReader();
+			SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+			SAXParser parser = parserFactory.newSAXParser();
+			XMLReader reader = parser.getXMLReader();
 			reader.setContentHandler(new PluginXMLContentHandler(url, result));
 			reader.parse(new InputSource(in));
 		} catch (Throwable e) {

@@ -248,12 +248,10 @@ public class JvmAnnotationUtil {
 				Class<?> adapter = IJavaReflectAccess.INSTANCE.getRawType(ref.getType());
 				if (adapter != null) {
 					try {
-						Object instance = adapter.newInstance();
+						Object instance = adapter.getDeclaredConstructor().newInstance();
 						if (expected.isInstance(instance))
 							result.add((T) instance);
-					} catch (InstantiationException e) {
-						logger.error(e);
-					} catch (IllegalAccessException e) {
+					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 						logger.error(e);
 					}
 				}

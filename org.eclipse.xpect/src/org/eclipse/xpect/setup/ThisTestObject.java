@@ -14,6 +14,7 @@ package org.eclipse.xpect.setup;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.xpect.XpectImport;
 import org.eclipse.xpect.setup.ThisTestObject.TestObjectSetup;
@@ -35,8 +36,8 @@ public @interface ThisTestObject {
 		}
 
 		@Creates(ThisTestObject.class)
-		public Object createTestInstance() throws InstantiationException, IllegalAccessException {
-			return this.testClass.newInstance();
+		public Object createTestInstance() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+			return this.testClass.getDeclaredConstructor().newInstance();
 		}
 
 		protected Class<?> getTestClass() {

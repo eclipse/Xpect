@@ -99,10 +99,10 @@ Contributors:
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.16</version>
 				<configuration>
-					<systemProperties>
+					<systemPropertyVariables>
 						<xpectTestTitlePostfix>.${target-platform}</xpectTestTitlePostfix>
 						<xpectTestTitleShowEnvironment>true</xpectTestTitleShowEnvironment>
-					</systemProperties>
+					</systemPropertyVariables>
 					<reportsDirectory>${project.build.directory}/surefire-reports-standalone</reportsDirectory>
 				</configuration>
 				<executions>
