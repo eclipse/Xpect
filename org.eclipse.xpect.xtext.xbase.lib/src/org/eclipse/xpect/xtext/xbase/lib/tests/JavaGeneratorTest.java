@@ -14,15 +14,6 @@ package org.eclipse.xpect.xtext.xbase.lib.tests;
 
 import java.util.Map;
 
-import org.eclipse.xtext.generator.GeneratorContext;
-import org.eclipse.xtext.generator.GeneratorDelegate;
-import org.eclipse.xtext.generator.IGeneratorContext;
-import org.eclipse.xtext.resource.XtextResource;
-import org.eclipse.xtext.util.JavaVersion;
-import org.eclipse.xtext.xbase.compiler.OnTheFlyJavaCompiler2;
-import org.eclipse.xtext.xbase.compiler.RegisteringFileSystemAccess;
-import org.eclipse.xtext.xbase.compiler.RegisteringFileSystemAccess.GeneratedFile;
-import org.junit.runner.RunWith;
 import org.eclipse.xpect.XpectImport;
 import org.eclipse.xpect.expectation.IStringExpectation;
 import org.eclipse.xpect.expectation.StringExpectation;
@@ -34,6 +25,15 @@ import org.eclipse.xpect.xtext.lib.setup.ThisResource;
 import org.eclipse.xpect.xtext.lib.setup.XtextStandaloneSetup;
 import org.eclipse.xpect.xtext.lib.setup.XtextWorkspaceSetup;
 import org.eclipse.xpect.xtext.lib.util.InMemoryFileSystemAccessFormatter;
+import org.eclipse.xtext.generator.GeneratorContext;
+import org.eclipse.xtext.generator.GeneratorDelegate;
+import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.util.JavaVersion;
+import org.eclipse.xtext.xbase.testing.OnTheFlyJavaCompiler2;
+import org.eclipse.xtext.xbase.testing.RegisteringFileSystemAccess;
+import org.eclipse.xtext.xbase.testing.RegisteringFileSystemAccess.GeneratedFile;
+import org.junit.runner.RunWith;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;

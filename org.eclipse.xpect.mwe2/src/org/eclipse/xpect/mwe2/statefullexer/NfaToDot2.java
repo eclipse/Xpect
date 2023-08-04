@@ -19,7 +19,6 @@ import com.google.common.base.Functions;
 @SuppressWarnings("restriction")
 public class NfaToDot2 extends GraphvizDotBuilder2 {
 
-	@SuppressWarnings("unchecked")
 	protected Edge create(Props result, Nfa<Object> nfa, Object from, Object to) {
 		Edge edge = new Edge(from, to);
 		if (nfa instanceof NfaWithTransitions<?, ?>) {

@@ -11,11 +11,10 @@
  *******************************************************************************/
 package org.eclipse.xpect.mwe2.statefullexer
 
-import com.google.common.collect.LinkedHashMultimap
-import com.google.common.collect.Multimap
 import java.util.List
 import java.util.Set
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtend.lib.annotations.Data
 import org.eclipse.xtext.AbstractElement
 import org.eclipse.xtext.AbstractRule
@@ -33,9 +32,7 @@ import org.eclipse.xtext.util.formallang.Pda
 import org.eclipse.xtext.util.formallang.PdaFactory
 
 import static extension org.eclipse.xpect.mwe2.statefullexer.Util.*
-import static extension org.eclipse.xtext.EcoreUtil2.*
 import static extension org.eclipse.xtext.GrammarUtil.*
-import org.eclipse.xtend.lib.annotations.Accessors
 
 class LexerStatesProvider implements ILexerStatesProvider {
 	
@@ -142,7 +139,7 @@ class LexerStatesProvider implements ILexerStatesProvider {
 					} 
 				}
 		for(from : all) 
-			if(from.token != null && !consumed.contains(from)) {
+			if(from.token !== null && !consumed.contains(from)) {
 				val fromGroup = nfa.getGroupFromState(from)
 				states.get(fromGroup).elements.add(from.token)
 			}
@@ -157,41 +154,6 @@ class LexerStatesProvider implements ILexerStatesProvider {
 			grammar.usedGrammars.get(0).hidden
 		else 
 			<AbstractRule>newLinkedHashSet()
-	}
-	
-	def private Multimap<AbstractRule, EObject> getTerminalOwner(Grammar grammar) {
-		val result = LinkedHashMultimap::<AbstractRule, EObject>create()
-		val startrule = grammar.allParserRules.get(0)
-		val starthidden = grammar.hidden
-		collectTerminalOwner(startrule, startrule, result, starthidden.toList, newHashSet)
-		result
-	}
-	
-	def private void collectTerminalOwner(AbstractRule rule, AbstractRule owner, Multimap<AbstractRule, EObject> owner2terminal, List<AbstractRule> hidden, Set<Pair<AbstractRule, AbstractRule>> visited) {
-		val matches = rule.space
-		val newOwner = if(matches) rule else owner
-		if(!visited.add(rule -> owner)) 
-			return;
-		val definesHidden = rule instanceof ParserRule && (rule as ParserRule).definesHiddenTokens
-		val newHidden = if(definesHidden) (rule as ParserRule).hiddenTokens else hidden
-		if(matches || definesHidden)
-			for(h:newHidden)
-				owner2terminal.put(newOwner, h)
-		for(e:rule.eAllContentsAsList)
-			switch(e) {
-				Keyword: owner2terminal.put(newOwner, e)
-				RuleCall case e.rule instanceof TerminalRule: owner2terminal.put(newOwner, e)
-				RuleCall: collectTerminalOwner(e.rule, newOwner, owner2terminal, newHidden, visited)
-			}
-	}
-	
-	def private Multimap<AbstractElement, AbstractElement> getFollowerMap(Grammar grammar) {
-		val nfa = grammar.nfa
-		val result = LinkedHashMultimap::<AbstractElement, AbstractElement>create()
-		for(e: new NfaUtil().collect(nfa))
-			for(f:nfa.getFollowers(e))
-				result.put(e.token, f.token)
-		result
 	}
 	
 	def Pda<TokenPDA.TokenPDAState<AbstractElement>, RuleCall> getPda(Grammar grammar) {
@@ -249,7 +211,7 @@ class LexicalGroup {
 	}
 	
 	override equals(Object obj) {
-		if(obj == null || ^class != obj.^class)
+		if(obj === null || ^class != obj.^class)
 			return false;
 		val other = obj as LexicalGroup
 		group == other.group 
@@ -286,7 +248,7 @@ class LaxicalGroupsTraverserItem  {
 	def LaxicalGroupsTraverserItem push(RuleCall item) {
 		var count = 0;
 		var current = this;
-		while (current != null) {
+		while (current !== null) {
 			if (current.item == item)
 				count = count + 1
 			current = current.parent;
@@ -308,7 +270,7 @@ class LaxicalGroupsTraverserItem  {
 	}
 
 	def LaxicalGroupsTraverserItem pop(RuleCall item) {
-		if (parent == null || this.item != item)
+		if (parent === null || this.item != item)
 			return null;
 		return parent;
 	}
@@ -323,17 +285,17 @@ class LaxicalGroupsTraverserItem  {
 			
 	override enter(Pda<TokenPDA.TokenPDAState<AbstractElement>,RuleCall> pda, TokenPDA.TokenPDAState<AbstractElement> state, LaxicalGroupsTraverserItem previous) {
 		var RuleCall item;
-		if ((item = pda.getPush(state)) != null)
+		if ((item = pda.getPush(state)) !== null)
 			return previous.push(item)
-		if ((item = pda.getPop(state)) != null)
+		if ((item = pda.getPop(state)) !== null)
 			return previous.pop(item)
-		if (previous == null)
+		if (previous === null)
 			return new LaxicalGroupsTraverserItem(group) 
 		return previous;
 	}
 			
 	override isSolution(LaxicalGroupsTraverserItem result) {
-		return result.parent == null;
+		return result.parent === null;
 	}
 }
 

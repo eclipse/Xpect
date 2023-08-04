@@ -12,6 +12,6 @@ Require-Bundle: org.eclipse.xpect,
  org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.xpect.ide.contentassist.antlr,
- org.eclipse.xpect.ide.contentassist.antlr.internal,
  org.eclipse.xpect.ide.contentassist.antlr.lexer,
- org.eclipse.xpect.lexer
+ org.eclipse.xpect.lexer,
+ org.eclipse.xpect.ide.contentassist.antlr.internal

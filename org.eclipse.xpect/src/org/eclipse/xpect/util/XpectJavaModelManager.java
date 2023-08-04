@@ -36,7 +36,7 @@ public class XpectJavaModelManager {
 		XtextResourceSet rs = new XtextResourceSet();
 		ClassLoader classLoader = clazz.getClassLoader();
 		rs.setClasspathURIContext(classLoader);
-		new ClasspathTypeProvider(classLoader, rs, null);
+		new ClasspathTypeProvider(classLoader, rs, null, null);
 		JvmTypeReference typeReference = getTypeReferences().getTypeForName(clazz, rs);
 		return createJavaModel(rs, (JvmDeclaredType) typeReference.getType());
 	}

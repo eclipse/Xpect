@@ -9,30 +9,23 @@ Bundle-SymbolicName: org.eclipse.xpect;singleton:=true
 Automatic-Module-Name: org.eclipse.xpect
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xpect.mwe2;bundle-version="0.2.0",
- org.apache.log4j;bundle-version="1.2.0";visibility:=reexport,
- org.junit;bundle-version="4.11.0";visibility:=reexport,
- org.antlr.runtime;bundle-version="3.2.0",
- org.eclipse.xtext;bundle-version="2.31.0";visibility:=reexport,
- org.eclipse.xtext.util;bundle-version="2.31.0";visibility:=reexport,
- org.eclipse.emf.ecore;bundle-version="2.7.0";visibility:=reexport,
- org.eclipse.emf.common;bundle-version="2.7.0";visibility:=reexport,
- org.eclipse.xtext.common.types;bundle-version="2.31.0";visibility:=reexport,
- org.eclipse.xtext.generator;resolution:=optional,
- org.apache.commons.logging;bundle-version="1.0.4";resolution:=optional,
- org.eclipse.emf.codegen.ecore;resolution:=optional,
- org.eclipse.emf.mwe.utils;resolution:=optional,
- org.eclipse.emf.mwe2.launch;resolution:=optional,
- org.eclipse.emf.mwe2.lib;resolution:=optional,
- org.eclipse.xtext.ecore;bundle-version="2.31.0";resolution:=optional,
- org.objectweb.asm;bundle-version="[3.0.0,10.0.0)";resolution:=optional,
- org.eclipse.equinox.common;bundle-version="3.0.0";resolution:=optional,
- org.eclipse.core.runtime;bundle-version="3.0.0";resolution:=optional,
+ org.eclipse.xtext,
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.16.0",
+ org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ org.eclipse.xtext.util,
+ org.eclipse.emf.common,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
+ org.apache.log4j;bundle-version="1.2.24",
  io.github.classgraph;bundle-version="4.8.35";visibility:=reexport,
- org.eclipse.xtext.xbase.lib;bundle-version="2.31.0"
-Import-Package: org.apache.log4j
+ org.junit;bundle-version="4.11.0";visibility:=reexport,
+ org.eclipse.xtext.common.types;visibility:=reexport,
+ org.apache.log4j;bundle-version="1.2.0";visibility:=reexport,
+ org.objectweb.asm;bundle-version="[9.5.0,9.6.0)";resolution:=optional
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.xpect,
- org.eclipse.xpect.model,
  org.eclipse.xpect.expectation,
  org.eclipse.xpect.expectation.impl;
   x-friends:="org.eclipse.xpect.xtext.lib,
@@ -41,6 +34,7 @@ Export-Package: org.eclipse.xpect,
  org.eclipse.xpect.lexer;
   x-friends:="org.eclipse.xpect.tests",
  org.eclipse.xpect.lib,
+ org.eclipse.xpect.model,
  org.eclipse.xpect.parameter,
  org.eclipse.xpect.parser.antlr,
  org.eclipse.xpect.parser.antlr.internal,
@@ -55,3 +49,4 @@ Export-Package: org.eclipse.xpect,
  org.eclipse.xpect.text,
  org.eclipse.xpect.util,
  org.eclipse.xpect.validation
+Import-Package: org.apache.log4j
