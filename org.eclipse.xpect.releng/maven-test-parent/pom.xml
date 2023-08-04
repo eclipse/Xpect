@@ -112,30 +112,6 @@ Contributors:
 
 	<profiles>
 		<profile>
-			<id>eclipse_4_5_0-xtext_2_14_0</id>
-			<activation>
-				<property>
-					<name>target-platform</name>
-					<value>eclipse_4_5_0-xtext_2_14_0</value>
-				</property>
-			</activation>
-			<modules>
-				<module>../target-platforms/eclipse_4_5_0-xtext_2_14_0</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>eclipse_4_4_2-xtext_2_9_2</id>
-			<activation>
-				<property>
-					<name>target-platform</name>
-					<value>eclipse_4_4_2-xtext_2_9_2</value>
-				</property>
-			</activation>
-			<modules>
-				<module>../target-platforms/eclipse_4_4_2-xtext_2_9_2</module>
-			</modules>
-		</profile>
-		<profile>
 			<id>osx</id>
 			<activation>
 				<os>
