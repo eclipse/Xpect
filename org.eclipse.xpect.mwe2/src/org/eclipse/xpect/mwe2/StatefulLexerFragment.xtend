@@ -12,9 +12,8 @@
  *******************************************************************************/
 package org.eclipse.xpect.mwe2
 
-import de.itemis.statefullexer.ILexerStatesProvider
-import de.itemis.statefullexer.LexerStatesProvider
-import de.itemis.statefullexer.Token
+import org.eclipse.xpect.mwe2.statefullexer.ILexerStatesProvider
+import org.eclipse.xpect.mwe2.statefullexer.LexerStatesProvider
 import java.util.Set
 import org.eclipse.xtend.lib.annotations.Data
 import org.eclipse.xtend2.lib.StringConcatenationClient
@@ -259,7 +258,7 @@ class StatefulLexerFragment extends ExternalAntlrLexerFragment {
 	'''
 }
 
-@Data class TokenNew {
+@Data class Token {
 	Set<ILexerStatesProvider.ILexerState> sources
 	Object token
 	ILexerStatesProvider.ILexerState target
