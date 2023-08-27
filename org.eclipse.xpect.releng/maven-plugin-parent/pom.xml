@@ -11,14 +11,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.xpect</groupId>
 	<artifactId>org.eclipse.xpect.parent</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
 		<target-platform>eclipse_2023_03-xtext_2_31_0</target-platform>
 		<xtextVersion>2.31.0</xtextVersion>
 		<tycho-version>2.7.5</tycho-version>
-		<target-platform-version>0.2.0-SNAPSHOT</target-platform-version>
+		<target-platform-version>0.3.0-SNAPSHOT</target-platform-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 

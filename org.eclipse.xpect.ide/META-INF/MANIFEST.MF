@@ -3,7 +3,7 @@ Automatic-Module-Name: org.eclipse.xpect.ide
 Bundle-ManifestVersion: 2
 Bundle-Name: org.eclipse.xpect.ide
 Bundle-Vendor: %providerName
-Bundle-Version: 0.2.0.qualifier
+Bundle-Version: 0.3.0.qualifier
 Bundle-SymbolicName: org.eclipse.xpect.ide; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xpect,

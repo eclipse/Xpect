@@ -2,18 +2,18 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Lib
 Bundle-SymbolicName: org.eclipse.xpect.xtext.xbase.lib
-Bundle-Version: 0.2.0.qualifier
+Bundle-Version: 0.3.0.qualifier
 Bundle-Vendor: %providerName
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.7.0";visibility:=reexport,
  org.eclipse.core.resources;bundle-version="3.7.0";visibility:=reexport,
- org.eclipse.xpect;bundle-version="[0.2.0,0.2.1)";visibility:=reexport,
- org.eclipse.xpect.ui;bundle-version="[0.2.0,0.2.1)";visibility:=reexport,
+ org.eclipse.xpect;bundle-version="[0.3.0,0.3.1)";visibility:=reexport,
+ org.eclipse.xpect.ui;bundle-version="[0.3.0,0.3.1)";visibility:=reexport,
  org.eclipse.xtext.xbase,
  org.eclipse.xtext.ui;visibility:=reexport,
  org.eclipse.jdt.core;bundle-version="3.7.0";visibility:=reexport,
  org.eclipse.ui.ide;bundle-version="3.7.0";visibility:=reexport,
- org.eclipse.xpect.xtext.lib;bundle-version="[0.2.0,0.2.1)",
+ org.eclipse.xpect.xtext.lib;bundle-version="[0.3.0,0.3.1)",
  org.eclipse.xtext.xbase.junit,
  org.eclipse.xtext.xbase.testing;bundle-version="2.31.0"
 Export-Package: org.eclipse.xpect.xtext.xbase.lib,
