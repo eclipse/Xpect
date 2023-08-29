@@ -16,6 +16,7 @@ timestamps() {
     ])
     node('centos-8') {
         def javaHome = tool 'temurin-jdk11-latest'
+        def java17Home = tool 'temurin-jdk17-latest'
         env.JAVA_HOME = "${javaHome}"
         def mvnHome = tool 'apache-maven-3.8.6'
         def mvnParams = '--batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false'
@@ -39,16 +40,17 @@ timestamps() {
                 echo("===================================")
             }
 
-            stage('compile with Eclipse 2023-03 and Xtext 2.31.0') {
-                sh "${mvnHome}/bin/mvn -P!tests -Declipsesign=true -Dtarget-platform=eclipse_2023_03-xtext_2_31_0 ${mvnParams} clean install"
-                archiveArtifacts artifacts: 'org.eclipse.xpect.releng/p2-repository/target/repository/**/*.*,org.eclipse.xpect.releng/p2-repository/target/org.eclipse.xpect.repository-*.zip'
+            wrap([$class: 'Xvnc', useXauthority: true]) {
+                stage('compile with Eclipse 2023-03 and Xtext 2.31.0') {
+                    sh "${mvnHome}/bin/mvn -P!tests -Declipsesign=true -Dtarget-platform=eclipse_2023_03-xtext_2_31_0 ${mvnParams} clean install"
+                    archiveArtifacts artifacts: 'org.eclipse.xpect.releng/p2-repository/target/repository/**/*.*,org.eclipse.xpect.releng/p2-repository/target/org.eclipse.xpect.repository-*.zip'
+                }
             }
 
             wrap([$class: 'Xvnc', useXauthority: true]) {
-
-                stage('test with Eclipse 2023-06 and Xtext nighly') {
+                stage('test with Eclipse 2023-09 and Xtext nighly') {
                     try{
-                        sh "JAVA_HOME=${java11Home} ${mvnHome}/bin/mvn -P!plugins -P!xtext-examples -Dtycho-version=2.7.5 -Dtarget-platform=eclipse_2023_06-xtext_nightly ${mvnParams} clean integration-test"
+                        sh "JAVA_HOME=${java17Home} ${mvnHome}/bin/mvn -P!xtext-examples -Dtycho-version=2.7.5 -Dtarget-platform=eclipse_2023_09-xtext_nightly ${mvnParams} clean integration-test"
                     }finally {
                         junit '**/TEST-*.xml'
                     }
