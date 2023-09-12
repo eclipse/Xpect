@@ -27,13 +27,13 @@ public class JUnitJavaElementDelegate implements IAdaptable {
 	private String name = null;
 	private IResource resource = null;
 
-	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
+	public <T> T getAdapter(Class<T> adapter) {
 		if (getClass().equals(adapter))
-			return this;
+			return adapter.cast(this);
 		if (IJavaElement.class.equals(adapter))
-			return javaElement;
+			return adapter.cast(javaElement);
 		if (Description.class.equals(adapter))
-			return description;
+			return adapter.cast(description);
 		return null;
 	}
 
