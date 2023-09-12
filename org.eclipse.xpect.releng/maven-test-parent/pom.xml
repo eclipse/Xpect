@@ -14,13 +14,13 @@ Contributors:
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.xpect</groupId>
 	<artifactId>org.eclipse.xpect.test.parent</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<parent>
 		<groupId>org.eclipse.xpect</groupId>
 		<artifactId>org.eclipse.xpect.parent</artifactId>
-		<version>0.2.0-SNAPSHOT</version>
+		<version>0.3.0-SNAPSHOT</version>
 		<relativePath>../maven-plugin-parent/</relativePath>
 	</parent>
 
@@ -49,10 +49,10 @@ Contributors:
 					<artifactId>tycho-surefire-plugin</artifactId>
 					<version>${tycho-version}</version>
 					<configuration>
-						<systemProperties>
+						<systemPropertyVariables>
 							<xpectTestTitlePostfix>.${target-platform}</xpectTestTitlePostfix>
 							<xpectTestTitleShowEnvironment>true</xpectTestTitleShowEnvironment>
-						</systemProperties>
+						</systemPropertyVariables>
 						<reportsDirectory>${project.build.directory}/surefire-reports-plugin</reportsDirectory>
 						<useUIHarness>true</useUIHarness>
 						<useUIThread>true</useUIThread>
@@ -81,12 +81,12 @@ Contributors:
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.16</version>
+					<version>3.1.2</version>
 					<configuration>
-						<systemProperties>
+						<systemPropertyVariables>
 							<xpectTestTitlePostfix>.${target-platform}</xpectTestTitlePostfix>
 							<xpectTestTitleShowEnvironment>true</xpectTestTitleShowEnvironment>
-						</systemProperties>
+						</systemPropertyVariables>
 						<!-- <debugForkedProcess>true</debugForkedProcess> -->
 						<reportsDirectory>${project.build.directory}/surefire-reports-standalone</reportsDirectory>
 					</configuration>
@@ -102,7 +102,7 @@ Contributors:
 						<dependency>
 							<groupId>org.apache.maven.surefire</groupId>
 							<artifactId>surefire-junit47</artifactId>
-							<version>2.16</version>
+							<version>3.1.2</version>
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -111,42 +111,6 @@ Contributors:
 	</build>
 
 	<profiles>
-		<profile>
-			<id>eclipse_2022_03-xtext_nightly</id>
-			<activation>
-				<property>
-					<name>target-platform</name>
-					<value>eclipse_2022_03-xtext_nightly</value>
-				</property>
-			</activation>
-			<modules>
-				<module>../target-platforms/eclipse_2022_03-xtext_nightly</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>eclipse_4_5_0-xtext_2_14_0</id>
-			<activation>
-				<property>
-					<name>target-platform</name>
-					<value>eclipse_4_5_0-xtext_2_14_0</value>
-				</property>
-			</activation>
-			<modules>
-				<module>../target-platforms/eclipse_4_5_0-xtext_2_14_0</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>eclipse_4_4_2-xtext_2_9_2</id>
-			<activation>
-				<property>
-					<name>target-platform</name>
-					<value>eclipse_4_4_2-xtext_2_9_2</value>
-				</property>
-			</activation>
-			<modules>
-				<module>../target-platforms/eclipse_4_4_2-xtext_2_9_2</module>
-			</modules>
-		</profile>
 		<profile>
 			<id>osx</id>
 			<activation>

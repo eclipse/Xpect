@@ -25,8 +25,9 @@ import org.eclipse.xtext.TerminalRule;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.ILeafNode;
 import org.eclipse.xtext.resource.XtextResource;
-import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightedPositionAcceptor;
-import org.eclipse.xtext.ui.editor.syntaxcoloring.ISemanticHighlightingCalculator;
+import org.eclipse.xtext.util.CancelIndicator;
+import org.eclipse.xtext.ide.editor.syntaxcoloring.IHighlightedPositionAcceptor;
+import org.eclipse.xtext.ide.editor.syntaxcoloring.ISemanticHighlightingCalculator;
 import org.eclipse.xpect.XpectFile;
 import org.eclipse.xpect.XpectInvocation;
 import org.eclipse.xpect.parameter.IStatementRelatedRegion;
@@ -58,9 +59,10 @@ public class XtHighlightingCalculator implements ISemanticHighlightingCalculator
 	@Inject(optional = true)
 	private ISemanticHighlightingCalculator original;
 
-	public void provideHighlightingFor(XtextResource resource, IHighlightedPositionAcceptor acceptor) {
+	@Override
+	public void provideHighlightingFor(XtextResource resource, IHighlightedPositionAcceptor acceptor, CancelIndicator cancelIndicator) {
 		if (original != null)
-			original.provideHighlightingFor(resource, acceptor);
+			original.provideHighlightingFor(resource, acceptor, cancelIndicator);
 		provideHighlightingForXpect(resource, acceptor);
 	}
 

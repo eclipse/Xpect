@@ -14,15 +14,15 @@ Contributors:
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.xtext.example.arithmetics</groupId>
 	<artifactId>org.eclipse.xtext.example.arithmetics.xpect.tests</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.3.0-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<properties>
 		<os-jvm-flags />
 		<memory-settings>-Xmx1G</memory-settings>
-		<tycho-version>1.7.0</tycho-version>
-		<target-platform>eclipse_4_4_2-xtext_2_9_2</target-platform>
-		<target-platform-version>0.2.0-SNAPSHOT</target-platform-version>
+		<tycho-version>2.7.5</tycho-version>
+		<target-platform>eclipse_2023_03-xtext_2_31_0</target-platform>
+		<target-platform-version>0.3.0-SNAPSHOT</target-platform-version>
 	</properties>
 
 	<profiles>
@@ -83,6 +83,11 @@ Contributors:
 							<ws>cocoa</ws>
 							<arch>x86_64</arch>
 						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>aarch64</arch>
+						</environment>
 					</environments>
 				</configuration>
 			</plugin>
@@ -92,12 +97,13 @@ Contributors:
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.16</version>
+				<version>3.1.2</version>
 				<configuration>
-					<systemProperties>
+					<failIfNoTests>true</failIfNoTests>
+					<systemPropertyVariables>
 						<xpectTestTitlePostfix>.${target-platform}</xpectTestTitlePostfix>
 						<xpectTestTitleShowEnvironment>true</xpectTestTitleShowEnvironment>
-					</systemProperties>
+					</systemPropertyVariables>
 					<reportsDirectory>${project.build.directory}/surefire-reports-standalone</reportsDirectory>
 				</configuration>
 				<executions>
@@ -109,10 +115,11 @@ Contributors:
 					</execution>
 				</executions>
 				<dependencies>
+					<!-- force to run with JUnit4 -->
 					<dependency>
 						<groupId>org.apache.maven.surefire</groupId>
 						<artifactId>surefire-junit47</artifactId>
-						<version>2.16</version>
+						<version>3.1.2</version>
 					</dependency>
 				</dependencies>
 			</plugin>

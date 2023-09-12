@@ -40,7 +40,7 @@ public class ClasspathOrJdtBasedTypeScopeProviderFactory extends AbstractTypePro
 	private IWorkingCopyOwnerProvider wcProvider;
 
 	protected ClasspathTypeProvider createClasspathTypeProvider(ResourceSet resourceSet) {
-		return new ClasspathTypeProvider(getClassLoader(resourceSet), resourceSet, null /* getIndexedJvmTypeAccess() */);
+		return new ClasspathTypeProvider(getClassLoader(resourceSet), resourceSet, null /* getIndexedJvmTypeAccess() */, null);
 	}
 
 	protected IJdtTypeProvider createJdtTypeProvider(IJavaProject javaProject, ResourceSet resourceSet) {
@@ -51,7 +51,7 @@ public class ClasspathOrJdtBasedTypeScopeProviderFactory extends AbstractTypePro
 			owner = DefaultWorkingCopyOwner.PRIMARY;
 		else
 			owner = wcProvider.getWorkingCopyOwner(javaProject, resourceSet);
-		return new JdtTypeProvider(javaProject, resourceSet, getIndexedJvmTypeAccess(), owner);
+		return new JdtTypeProvider(javaProject, resourceSet, getIndexedJvmTypeAccess(), owner, null);
 	}
 
 	public IJvmTypeProvider createTypeProvider(ResourceSet resourceSet) {
