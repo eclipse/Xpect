@@ -67,23 +67,22 @@ public class JunitJavaElementDelegateAdapterFactory implements IAdapterFactory {
 		return null;
 	}
 
-	public Object getAdapter(Object adaptableObject, @SuppressWarnings("rawtypes") Class adapterType) {
+	public <T> T getAdapter(Object adaptableObject, Class<T> adapterType) {
 		if (adaptableObject instanceof JUnitJavaElementDelegate)
 			return ((JUnitJavaElementDelegate) adaptableObject).getAdapter(adapterType);
 		if (!(JUnitJavaElementDelegate.class.equals(adapterType)))
 			return null;
 
 		if (adaptableObject instanceof IFileEditorInput)
-			return create(((IFileEditorInput) adaptableObject).getFile());
+			return adapterType.cast(create(((IFileEditorInput) adaptableObject).getFile()));
 		if (adaptableObject instanceof IFile)
-			return create((IFile) adaptableObject);
+			return adapterType.cast(create((IFile) adaptableObject));
 		if (adaptableObject instanceof IEditorPart)
-			return create((IEditorPart) adaptableObject);
+			return adapterType.cast(create((IEditorPart) adaptableObject));
 		return null;
 	}
 
-	@SuppressWarnings("rawtypes")
-	public Class[] getAdapterList() {
+	public Class<?>[] getAdapterList() {
 		return new Class[] { JUnitJavaElementDelegate.class };
 	}
 
