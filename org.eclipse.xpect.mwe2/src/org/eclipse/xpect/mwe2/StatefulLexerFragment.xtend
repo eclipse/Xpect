@@ -41,10 +41,6 @@ class StatefulLexerFragment extends ExternalAntlrLexerFragment {
 		// ignore
 	}
 
-	override protected suppressWarnings(IXtextGeneratorFileSystemAccess fsa, TypeReference type) {
-		// ignore
-	}
-
 	override protected normalizeLineDelimiters(IXtextGeneratorFileSystemAccess fsa, TypeReference type) {
 		// ignore
 	}
