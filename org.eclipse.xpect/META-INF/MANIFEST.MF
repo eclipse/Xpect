@@ -8,8 +8,7 @@ Bundle-ClassPath: .
 Bundle-SymbolicName: org.eclipse.xpect;singleton:=true
 Automatic-Module-Name: org.eclipse.xpect
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.xpect.mwe2;bundle-version="0.3.0",
- org.eclipse.xtext,
+Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xbase,
  org.eclipse.equinox.common;bundle-version="3.16.0",
  org.eclipse.core.runtime,
