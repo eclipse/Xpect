@@ -20,8 +20,8 @@ timestamps() {
         env.JAVA_HOME = "${javaHome}"
         def mvnHome = tool 'apache-maven-3.8.6'
         def mvnParams = '--batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false'
-        try {
         timeout(time: 1, unit: 'HOURS') {
+        try {
             stage('prepare workspace') {
                 step([$class: 'WsCleanup'])
                 // we need to live with detached head, or we need to adjust settings:
@@ -89,7 +89,6 @@ timestamps() {
                     
                 }
             }
-        }
         } finally {
             def curResult = currentBuild.currentResult
             def lastResult = 'NEW'
@@ -120,6 +119,7 @@ timestamps() {
                     body: "${lastResult} => ${curResult} ${env.BUILD_URL} | ${env.JOB_NAME}#${env.BUILD_NUMBER}",
                     formattedBody: "<div><font color='${color}'>${lastResult} => ${curResult}</font> | <a href='${env.BUILD_URL}' target='_blank'>${env.JOB_NAME}#${env.BUILD_NUMBER}</a></div>"
             }
+        }
         }
     }
 }
