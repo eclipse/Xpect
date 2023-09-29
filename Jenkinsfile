@@ -28,6 +28,10 @@ timestamps() {
                 // https://issues.jenkins-ci.org/browse/JENKINS-42860
                 checkout scm
             }
+        } finally {
+            postAlways()
+        }
+        try {
             stage('log configuration') {
                 echo("===== checking tools versions =====")
                 sh """\
@@ -40,11 +44,17 @@ timestamps() {
                    """
                 echo("===================================")
             }
-
+        } finally {
+            postAlways()
+        }
             wrap([$class: 'Xvnc', useXauthority: true]) {
+                try {
                 stage('compile with Eclipse 2023-03 and Xtext 2.31.0') {
                     sh "${mvnHome}/bin/mvn -P!tests -Declipsesign=true -Dtarget-platform=eclipse_2023_03-xtext_2_31_0 ${mvnParams} clean install"
                     archiveArtifacts artifacts: 'org.eclipse.xpect.releng/p2-repository/target/repository/**/*.*,org.eclipse.xpect.releng/p2-repository/target/org.eclipse.xpect.repository-*.zip'
+                }
+                } finally {
+                    postAlways()
                 }
             }
 
@@ -54,11 +64,13 @@ timestamps() {
                         sh "JAVA_HOME=${java17Home} ${mvnHome}/bin/mvn -P!xtext-examples -Dtycho-version=2.7.5 -Dtarget-platform=eclipse_2023_09-xtext_nightly ${mvnParams} clean integration-test"
                     }finally {
                         junit '**/TEST-*.xml'
+                        postAlways()
                     }
                 }
             }
 
             if(env.BRANCH_NAME?.toLowerCase() == 'master') {
+                try {
                 stage('deploy') {
                     withCredentials([file(credentialsId: 'secret-subkeys.asc', variable: 'KEYRING')]) {
                         sh '''
@@ -72,6 +84,9 @@ timestamps() {
                         sh "${mvnHome}/bin/mvn -P!tests -P maven-publish -Dtarget-platform=eclipse_2023_03-xtext_2_31_0 ${mvnParams} clean deploy"
                     }
                     
+                }
+                } finally {
+                    postAlways()
                 }
             } else if(env.BRANCH_NAME?.toLowerCase()?.startsWith('release_')) {
                 stage('deploy') {
@@ -89,37 +104,39 @@ timestamps() {
                     
                 }
             }
-        } finally {
-            def curResult = currentBuild.currentResult
-            def lastResult = 'NEW'
-            if (currentBuild.previousBuild != null) {
-                lastResult = currentBuild.previousBuild.result
-            }
-
-            if (curResult != 'SUCCESS' || lastResult != 'SUCCESS') {
-                def color = ''
-                switch (curResult) {
-                    case 'SUCCESS':
-                        color = '#00FF00'
-                        break
-                    case 'UNSTABLE':
-                        color = '#FFFF00'
-                        break
-                    case 'FAILURE':
-                        color = '#FF0000'
-                        break
-                    default: // e.g. ABORTED
-                        color = '#666666'
-                }
-
-                matrixSendMessage https: true,
-                    hostname: 'matrix.eclipse.org',
-                    accessTokenCredentialsId: "matrix-token",
-                    roomId: '!aFWRHMCLJDZBzuNIRD:matrix.eclipse.org',
-                    body: "${lastResult} => ${curResult} ${env.BUILD_URL} | ${env.JOB_NAME}#${env.BUILD_NUMBER}",
-                    formattedBody: "<div><font color='${color}'>${lastResult} => ${curResult}</font> | <a href='${env.BUILD_URL}' target='_blank'>${env.JOB_NAME}#${env.BUILD_NUMBER}</a></div>"
-            }
         }
+    }
+}
+
+
+def postAlways() {
+    def curResult = currentBuild.currentResult
+    def lastResult = 'NEW'
+    if (currentBuild.previousBuild != null) {
+        lastResult = currentBuild.previousBuild.result
+    }
+
+    if (curResult != 'SUCCESS' || lastResult != 'SUCCESS') {
+        def color = ''
+        switch (curResult) {
+            case 'SUCCESS':
+                color = '#00FF00'
+                break
+            case 'UNSTABLE':
+                color = '#FFFF00'
+                break
+            case 'FAILURE':
+                color = '#FF0000'
+                break
+            default: // e.g. ABORTED
+                color = '#666666'
         }
+
+        matrixSendMessage https: true,
+            hostname: 'matrix.eclipse.org',
+            accessTokenCredentialsId: "matrix-token",
+            roomId: '!aFWRHMCLJDZBzuNIRD:matrix.eclipse.org',
+            body: "${lastResult} => ${curResult} ${env.BUILD_URL} | ${env.JOB_NAME}#${env.BUILD_NUMBER}",
+            formattedBody: "<div><font color='${color}'>${lastResult} => ${curResult}</font> | <a href='${env.BUILD_URL}' target='_blank'>${env.JOB_NAME}#${env.BUILD_NUMBER}</a></div>"
     }
 }
