@@ -20,6 +20,7 @@ timestamps() {
         env.JAVA_HOME = "${javaHome}"
         def mvnHome = tool 'apache-maven-3.8.6'
         def mvnParams = '--batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false'
+        try {
         timeout(time: 1, unit: 'HOURS') {
             stage('prepare workspace') {
                 step([$class: 'WsCleanup'])
@@ -87,6 +88,37 @@ timestamps() {
                     }
                     
                 }
+            }
+        }
+        } finally {
+            def curResult = currentBuild.currentResult
+            def lastResult = 'NEW'
+            if (currentBuild.previousBuild != null) {
+                lastResult = currentBuild.previousBuild.result
+            }
+
+            if (curResult != 'SUCCESS' || lastResult != 'SUCCESS') {
+                def color = ''
+                switch (curResult) {
+                    case 'SUCCESS':
+                        color = '#00FF00'
+                        break
+                    case 'UNSTABLE':
+                        color = '#FFFF00'
+                        break
+                    case 'FAILURE':
+                        color = '#FF0000'
+                        break
+                    default: // e.g. ABORTED
+                        color = '#666666'
+                }
+
+                matrixSendMessage https: true,
+                    hostname: 'matrix.eclipse.org',
+                    accessTokenCredentialsId: "matrix-token",
+                    roomId: '!aFWRHMCLJDZBzuNIRD:matrix.eclipse.org',
+                    body: "${lastResult} => ${curResult} ${env.BUILD_URL} | ${env.JOB_NAME}#${env.BUILD_NUMBER}",
+                    formattedBody: "<div><font color='${color}'>${lastResult} => ${curResult}</font> | <a href='${env.BUILD_URL}' target='_blank'>${env.JOB_NAME}#${env.BUILD_NUMBER}</a></div>"
             }
         }
     }
