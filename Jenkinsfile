@@ -70,9 +70,10 @@ timestamps() {
             }
 
             if(env.BRANCH_NAME?.toLowerCase() == 'master') {
-                try {
+                
                 stage('deploy') {
                     withCredentials([file(credentialsId: 'secret-subkeys.asc', variable: 'KEYRING')]) {
+                    try {
                         sh '''
                         rm -r xpect-local-maven-repository
                         gpg --batch --import "${KEYRING}"
@@ -82,12 +83,12 @@ timestamps() {
                         done
                         '''
                         sh "${mvnHome}/bin/mvn -P!tests -P maven-publish -Dtarget-platform=eclipse_2023_03-xtext_2_31_0 ${mvnParams} clean deploy"
+                    } finally {
+                        postAlways()
                     }
-                    
+                    }
                 }
-                } finally {
-                    postAlways()
-                }
+                
             } else if(env.BRANCH_NAME?.toLowerCase()?.startsWith('release_')) {
                 stage('deploy') {
                     withCredentials([file(credentialsId: 'secret-subkeys.asc', variable: 'KEYRING')]) {
