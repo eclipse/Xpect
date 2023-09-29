@@ -20,18 +20,14 @@ timestamps() {
         env.JAVA_HOME = "${javaHome}"
         def mvnHome = tool 'apache-maven-3.8.6'
         def mvnParams = '--batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false'
-        timeout(time: 1, unit: 'HOURS') {
         try {
+        timeout(time: 1, unit: 'HOURS') {
             stage('prepare workspace') {
                 step([$class: 'WsCleanup'])
                 // we need to live with detached head, or we need to adjust settings:
                 // https://issues.jenkins-ci.org/browse/JENKINS-42860
                 checkout scm
             }
-        } finally {
-            postAlways()
-        }
-        try {
             stage('log configuration') {
                 echo("===== checking tools versions =====")
                 sh """\
@@ -44,17 +40,10 @@ timestamps() {
                    """
                 echo("===================================")
             }
-        } finally {
-            postAlways()
-        }
             wrap([$class: 'Xvnc', useXauthority: true]) {
-                try {
                 stage('compile with Eclipse 2023-03 and Xtext 2.31.0') {
                     sh "${mvnHome}/bin/mvn -P!tests -Declipsesign=true -Dtarget-platform=eclipse_2023_03-xtext_2_31_0 ${mvnParams} clean install"
                     archiveArtifacts artifacts: 'org.eclipse.xpect.releng/p2-repository/target/repository/**/*.*,org.eclipse.xpect.releng/p2-repository/target/org.eclipse.xpect.repository-*.zip'
-                }
-                } finally {
-                    postAlways()
                 }
             }
 
@@ -64,7 +53,6 @@ timestamps() {
                         sh "JAVA_HOME=${java17Home} ${mvnHome}/bin/mvn -P!xtext-examples -Dtycho-version=2.7.5 -Dtarget-platform=eclipse_2023_09-xtext_nightly ${mvnParams} clean integration-test"
                     }finally {
                         junit '**/TEST-*.xml'
-                        postAlways()
                     }
                 }
             }
@@ -73,7 +61,6 @@ timestamps() {
                 
                 stage('deploy') {
                     withCredentials([file(credentialsId: 'secret-subkeys.asc', variable: 'KEYRING')]) {
-                    try {
                         sh '''
                         rm -r xpect-local-maven-repository
                         gpg --batch --import "${KEYRING}"
@@ -83,9 +70,6 @@ timestamps() {
                         done
                         '''
                         sh "${mvnHome}/bin/mvn -P!tests -P maven-publish -Dtarget-platform=eclipse_2023_03-xtext_2_31_0 ${mvnParams} clean deploy"
-                    } finally {
-                        postAlways()
-                    }
                     }
                 }
                 
@@ -105,6 +89,12 @@ timestamps() {
                     
                 }
             }
+        }
+        } catch(e) {
+            currentBuild.result = 'FAILED'
+            throw e
+        } finally {
+            postAlways()
         }
     }
 }
