@@ -1,5 +1,10 @@
-*.class
-*.jar
-bin
-target
 .DS_Store
+.settings/
+bin/
+build/
+model/
+src-gen/
+xtend-gen/
+xtext-gen/
+target/
+xpect-local-maven-repository

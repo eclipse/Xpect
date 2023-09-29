@@ -13,7 +13,7 @@ Contributors:
 <feature
       id="org.eclipse.xpect.xtext.xbase.lib.feature"
       label="Xpect Xbase Test Library Feature"
-      version="0.2.0.qualifier"
+      version="0.3.0.qualifier"
       provider-name="%providerName"
       license-feature="org.eclipse.license"
       license-feature-version="0.0.0">

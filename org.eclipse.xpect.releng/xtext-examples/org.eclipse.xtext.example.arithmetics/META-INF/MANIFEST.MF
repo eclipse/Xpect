@@ -1,36 +1,24 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.eclipse.xtext.example.arithmetics
-Bundle-Vendor: %providerName
-Bundle-Version: 2.9.2.qualifier
+Bundle-Name: Xtext Arithmetics Example - Runtime
+Bundle-Vendor: Eclipse Xtext
+Bundle-Version: 2.31.0.qualifier
 Bundle-SymbolicName: org.eclipse.xtext.example.arithmetics; singleton:=true
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.xtext,
- org.eclipse.xtext.xbase,
- org.eclipse.equinox.common;bundle-version="3.5.0",
- org.eclipse.emf.ecore,
- org.eclipse.xtext.xbase.lib,
- org.antlr.runtime,
- org.eclipse.xtext.util,
- org.eclipse.xtend.lib,
+Require-Bundle: org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
  org.eclipse.emf.common,
+ org.eclipse.emf.ecore,
+ org.eclipse.equinox.common;bundle-version="3.16.0",
+ org.eclipse.xtend.lib;bundle-version="2.14.0",
+ org.eclipse.xtext,
+ org.eclipse.xtext.util,
  org.eclipse.xtext.xbase,
- org.eclipse.xtext.common.types,
- org.eclipse.xtext.xtext.generator,
- org.eclipse.emf.codegen.ecore,
- org.eclipse.emf.mwe.utils,
- org.eclipse.emf.mwe2.launch,
- org.eclipse.emf.mwe2.lib,
- org.objectweb.asm,
- org.apache.commons.logging,
- org.apache.log4j,
- com.ibm.icu
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.xtext.example.arithmetics,
  org.eclipse.xtext.example.arithmetics.arithmetics,
  org.eclipse.xtext.example.arithmetics.arithmetics.impl,
  org.eclipse.xtext.example.arithmetics.arithmetics.util,
- org.eclipse.xtext.example.arithmetics.generator,
  org.eclipse.xtext.example.arithmetics.interpreter,
  org.eclipse.xtext.example.arithmetics.parser.antlr,
  org.eclipse.xtext.example.arithmetics.parser.antlr.internal,

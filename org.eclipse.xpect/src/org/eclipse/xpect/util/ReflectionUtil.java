@@ -13,6 +13,7 @@
 package org.eclipse.xpect.util;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author Moritz Eysholdt - Initial contribution and API
@@ -38,10 +39,8 @@ public class ReflectionUtil {
 
 	public static <T> T newInstanceUnchecked(Class<T> clazz) {
 		try {
-			return clazz.newInstance();
-		} catch (InstantiationException e) {
-			throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
+			return clazz.getDeclaredConstructor().newInstance();
+		} catch (IllegalAccessException | IllegalArgumentException | InstantiationException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			throw new RuntimeException(e);
 		}
 	}

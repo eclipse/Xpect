@@ -18,12 +18,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 import com.google.common.collect.Lists;
 
@@ -71,13 +74,17 @@ public class DotClasspath {
 	protected void parse(File file) {
 		InputStream in = null;
 		try {
-			XMLReader reader = XMLReaderFactory.createXMLReader();
+            SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+            SAXParser parser = parserFactory.newSAXParser();
+            XMLReader reader = parser.getXMLReader();
 			reader.setContentHandler(createXMLHandler());
 			in = new FileInputStream(file);
 			reader.parse(new InputSource(in));
 		} catch (SAXException e) {
 			throw new RuntimeException(e);
 		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} catch (ParserConfigurationException e) {
 			throw new RuntimeException(e);
 		} finally {
 			try {

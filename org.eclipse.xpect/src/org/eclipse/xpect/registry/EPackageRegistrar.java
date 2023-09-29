@@ -61,7 +61,7 @@ public class EPackageRegistrar {
 	public static void register(IEPackageInfo info) {
 		EPackage.Registry.INSTANCE.put(info.getNamespaceURI(), new EPackageDescriptorImpl(info));
 		if (info.getGenmodel() != null)
-			EcorePlugin.getEPackageNsURIToGenModelLocationMap().put(info.getNamespaceURI(), URI.createURI(info.getGenmodel()));
+			EcorePlugin.getEPackageNsURIToGenModelLocationMap(false).put(info.getNamespaceURI(), URI.createURI(info.getGenmodel()));
 	}
 
 }

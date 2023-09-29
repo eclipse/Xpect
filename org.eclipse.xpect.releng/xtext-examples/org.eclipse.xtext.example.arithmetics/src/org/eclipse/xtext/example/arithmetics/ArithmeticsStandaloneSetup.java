@@ -16,5 +16,5 @@ public class ArithmeticsStandaloneSetup extends ArithmeticsStandaloneSetupGenera
 
 	public static void doSetup() {
 		new ArithmeticsStandaloneSetup().createInjectorAndDoEMFRegistration();
-	}				
+	}
 }

@@ -202,7 +202,7 @@ public class StringDiffExpectationImpl extends AbstractExpectation implements IS
 
 	protected Function<String, ? extends Iterable<String>> createTokenizer() {
 		try {
-			return annotation.tokenizer().newInstance();
+			return annotation.tokenizer().getDeclaredConstructor().newInstance();
 		} catch (Throwable e) {
 			throw new RuntimeException("Error instantiating " + annotation.tokenizer(), e);
 		}

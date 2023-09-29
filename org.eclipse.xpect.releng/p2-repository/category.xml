@@ -10,9 +10,9 @@ Contributors:
   Moritz Eysholdt - Initial contribution and API
 -->
 <site>
-	<feature url="features/org.eclipse.xpect.sdk_0.2.0.qualifier.jar" id="org.eclipse.xpect.sdk"
-		version="0.2.0.qualifier">
-		<category name="Xpect 0.2.0" />
+	<feature url="features/org.eclipse.xpect.sdk_0.3.0.qualifier.jar" id="org.eclipse.xpect.sdk"
+		version="0.3.0.qualifier">
+		<category name="Xpect 0.3.0" />
 	</feature>
 	<bundle id="io.github.classgraph" version="0.0.0"/>
 	<bundle id="io.github.classgraph.source" version="0.0.0"/>
@@ -20,7 +20,7 @@ Contributors:
 	<bundle id="org.hamcrest.core.source" version="0.0.0"/>
 	<bundle id="org.junit" version="0.0.0"/>
 	<bundle id="org.junit.source" version="0.0.0"/>
-	<category-def name="Xpect 0.2.0" label="Xpect 0.2.0">
+	<category-def name="Xpect 0.3.0" label="Xpect 0.3.0">
 		<description>
 			Tests for Xtext Languages
 		</description>

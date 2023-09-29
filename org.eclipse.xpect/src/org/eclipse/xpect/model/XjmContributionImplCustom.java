@@ -13,6 +13,7 @@
 package org.eclipse.xpect.model;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
@@ -57,11 +58,9 @@ public class XjmContributionImplCustom extends XjmContributionImpl {
 		if (clazz == null || !expectedType.isAssignableFrom(clazz))
 			return null;
 		try {
-			T result = expectedType.cast(clazz.newInstance());
+			T result = expectedType.cast(clazz.getDeclaredConstructor().newInstance());
 			return result;
-		} catch (InstantiationException e) {
-			LOG.error(e.getMessage(), e);
-		} catch (IllegalAccessException e) {
+		} catch (IllegalAccessException | IllegalArgumentException | InstantiationException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			LOG.error(e.getMessage(), e);
 		}
 		return null;

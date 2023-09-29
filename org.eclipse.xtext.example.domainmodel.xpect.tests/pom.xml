@@ -14,14 +14,14 @@ Contributors:
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.xtext.example.domainmodel</groupId>
 	<artifactId>org.eclipse.xtext.example.domainmodel.xpect.tests</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.3.0-SNAPSHOT</version>
 	<packaging>eclipse-test-plugin</packaging>
 
 	<properties>
 		<memory-settings>-Xmx1G</memory-settings>
-		<tycho-version>1.7.0</tycho-version>
-		<target-platform>eclipse_4_4_2-xtext_2_9_2</target-platform>
-		<target-platform-version>0.2.0-SNAPSHOT</target-platform-version>
+		<tycho-version>2.7.5</tycho-version>
+		<target-platform>eclipse_2023_03-xtext_2_31_0</target-platform>
+		<target-platform-version>0.3.0-SNAPSHOT</target-platform-version>
 	</properties>
 
 	<profiles>
@@ -69,10 +69,10 @@ Contributors:
 							<artifactId>tycho-surefire-plugin</artifactId>
 							<version>${tycho-version}</version>
 							<configuration>
-								<systemProperties>
+								<systemPropertyVariables>
 									<xpectTestTitlePostfix>.${target-platform}</xpectTestTitlePostfix>
 									<xpectTestTitleShowEnvironment>true</xpectTestTitleShowEnvironment>
-								</systemProperties>
+								</systemPropertyVariables>
 								<reportsDirectory>${project.build.directory}/surefire-reports-plugin</reportsDirectory>
 								<useUIHarness>true</useUIHarness>
 								<useUIThread>false</useUIThread>
@@ -120,6 +120,11 @@ Contributors:
 										<ws>cocoa</ws>
 										<arch>x86_64</arch>
 									</environment>
+									<environment>
+										<os>macosx</os>
+										<ws>cocoa</ws>
+										<arch>aarch64</arch>
+									</environment>
 								</environments>
 							</configuration>
 						</plugin>
@@ -132,10 +137,10 @@ Contributors:
 								<useUIHarness>true</useUIHarness>
 								<useUIThread>false</useUIThread>
 								<argLine>${memory-settings} -XstartOnFirstThread</argLine>
-								<systemProperties>
+								<systemPropertyVariables>
 									<xpectTestTitlePostfix>.${target-platform}</xpectTestTitlePostfix>
 									<xpectTestTitleShowEnvironment>true</xpectTestTitleShowEnvironment>
-								</systemProperties>
+								</systemPropertyVariables>
 								<dependencies>
 									<dependency>
 										<type>eclipse-plugin</type>
@@ -186,12 +191,13 @@ Contributors:
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.16</version>
+				<version>3.1.2</version>
 				<configuration>
-					<systemProperties>
+					<failIfNoTests>true</failIfNoTests>
+					<systemPropertyVariables>
 						<xpectTestTitlePostfix>.${target-platform}</xpectTestTitlePostfix>
 						<xpectTestTitleShowEnvironment>true</xpectTestTitleShowEnvironment>
-					</systemProperties>
+					</systemPropertyVariables>
 					<reportsDirectory>${project.build.directory}/surefire-reports-standalone</reportsDirectory>
 				</configuration>
 				<executions>
@@ -203,10 +209,11 @@ Contributors:
 					</execution>
 				</executions>
 				<dependencies>
+					<!-- force to run with JUnit4 -->
 					<dependency>
 						<groupId>org.apache.maven.surefire</groupId>
 						<artifactId>surefire-junit47</artifactId>
-						<version>2.16</version>
+						<version>3.1.2</version>
 					</dependency>
 				</dependencies>
 			</plugin>

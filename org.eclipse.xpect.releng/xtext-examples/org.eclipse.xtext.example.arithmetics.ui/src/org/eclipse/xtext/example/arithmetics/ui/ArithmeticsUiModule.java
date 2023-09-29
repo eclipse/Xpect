@@ -11,12 +11,15 @@ package org.eclipse.xtext.example.arithmetics.ui;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.example.arithmetics.ui.autoedit.AutoEditStrategy;
 import org.eclipse.xtext.resource.containers.IAllContainersState;
+import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.eclipse.xtext.ui.editor.autoedit.AbstractEditStrategyProvider;
 import org.eclipse.xtext.ui.editor.model.IResourceForEditorInputFactory;
 import org.eclipse.xtext.ui.editor.model.ResourceForIEditorInputFactory;
 import org.eclipse.xtext.ui.shared.Access;
 
+import com.google.inject.Binder;
 import com.google.inject.Provider;
+import com.google.inject.name.Names;
 
 /**
  * Use this class to register components to be used within the Eclipse IDE.
@@ -40,5 +43,10 @@ public class ArithmeticsUiModule extends AbstractArithmeticsUiModule {
 	@Override
 	public Class<? extends AbstractEditStrategyProvider> bindAbstractEditStrategyProvider() {
 		return AutoEditStrategy.class;
+	}
+
+	public void configureEditorScope(final Binder binder) {
+		binder.bindConstant().annotatedWith(Names.named(XtextEditor.KEY_BINDING_SCOPE))
+				.to("org.eclipse.xtext.example.arithmetics.ui.editor.XtextEditorScope");
 	}
 }

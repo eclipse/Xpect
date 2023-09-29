@@ -24,11 +24,14 @@ import org.eclipse.xtext.ui.editor.model.XtextDocumentUtil;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
+import com.google.inject.Inject;
 
 /**
  * An interactive interpreter as an {@link IAutoEditStrategy}
  */
 public class InterpreterAutoEdit implements IAutoEditStrategy {
+	@Inject
+	private XtextDocumentUtil xtextDocumentUtil;
 
 	@Override
 	public void customizeDocumentCommand(IDocument document, DocumentCommand command) {
@@ -52,7 +55,7 @@ public class InterpreterAutoEdit implements IAutoEditStrategy {
 	}
 
 	private BigDecimal computeResult(IDocument document, DocumentCommand command) {
-		return XtextDocumentUtil.get(document).readOnly((XtextResource resource) -> {
+		return xtextDocumentUtil.getXtextDocument(document).tryReadOnly((XtextResource resource) -> {
 			Evaluation stmt = findEvaluation(command, resource);
 			if (stmt == null) {
 				return null;

@@ -12,15 +12,12 @@
 
 package org.eclipse.xpect.validation;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.xtext.common.types.JvmDeclaredType;
-import org.eclipse.xtext.common.types.util.TypeReferences;
-import org.eclipse.xtext.validation.Check;
 import org.eclipse.xpect.Component;
 import org.eclipse.xpect.Environment;
 import org.eclipse.xpect.XpectConstants;
@@ -31,6 +28,10 @@ import org.eclipse.xpect.setup.XpectSetupComponent;
 import org.eclipse.xpect.util.EnvironmentUtil;
 import org.eclipse.xpect.util.JvmAnnotationUtil;
 import org.eclipse.xpect.util.URIDelegationHandler;
+import org.eclipse.xtext.common.types.JvmDeclaredType;
+import org.eclipse.xtext.common.types.util.TypeReferences;
+import org.eclipse.xtext.validation.AbstractDeclarativeValidator;
+import org.eclipse.xtext.validation.Check;
 
 import com.google.inject.Inject;
 
@@ -38,7 +39,7 @@ import com.google.inject.Inject;
  * @author Moritz Eysholdt - Initial contribution and API
  */
 @SuppressWarnings("restriction")
-public class XpectJavaValidator extends AbstractXpectJavaValidator {
+public class XpectJavaValidator extends AbstractDeclarativeValidator {
 
 	@Inject
 	private URIDelegationHandler uriDelegationHandler;
@@ -48,7 +49,9 @@ public class XpectJavaValidator extends AbstractXpectJavaValidator {
 
 	@Override
 	protected List<EPackage> getEPackages() {
-		return Collections.<EPackage> singletonList(XpectPackage.eINSTANCE);
+	    List<EPackage> result = new ArrayList<EPackage>();
+	    result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/xpect/Xpect"));
+		return result;
 	}
 
 	@Check

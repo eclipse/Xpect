@@ -14,13 +14,13 @@ Contributors:
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.xpect</groupId>
 	<artifactId>org.eclipse.xpect.xtext.lib.tests</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.3.0-SNAPSHOT</version>
 	<packaging>eclipse-test-plugin</packaging>
 
 	<parent>
 		<groupId>org.eclipse.xpect</groupId>
 		<artifactId>org.eclipse.xpect.test.parent</artifactId>
-		<version>0.2.0-SNAPSHOT</version>
+		<version>0.3.0-SNAPSHOT</version>
 		<relativePath>../org.eclipse.xpect.releng/maven-test-parent</relativePath>
 	</parent>
 

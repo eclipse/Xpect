@@ -12,6 +12,7 @@
 
 package org.eclipse.xpect.registry;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -89,12 +90,11 @@ public abstract class AbstractLanguageInfo implements ILanguageInfo {
 		if (runtimeModule == null) {
 			try {
 				Class<? extends Module> clazz = getRuntimeModuleClass();
-				runtimeModule = clazz.newInstance();
-			} catch (InstantiationException e) {
-				throw new RuntimeException(e);
-			} catch (IllegalAccessException e) {
+				runtimeModule = clazz.getDeclaredConstructor().newInstance();
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				throw new RuntimeException(e);
 			}
+
 		}
 		return runtimeModule;
 	}
@@ -107,10 +107,8 @@ public abstract class AbstractLanguageInfo implements ILanguageInfo {
 		if (sharedModule == null) {
 			Class<Module> module = info.getSharedModule().load();
 			try {
-				sharedModule = module.newInstance();
-			} catch (InstantiationException e) {
-				throw new RuntimeException(e);
-			} catch (IllegalAccessException e) {
+				sharedModule = module.getDeclaredConstructor().newInstance();
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				throw new RuntimeException(e);
 			}
 		}
