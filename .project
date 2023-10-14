@@ -8,4 +8,15 @@
 	</buildSpec>
 	<natures>
 	</natures>
+	<filteredResources>
+		<filter>
+			<id>1697202706223</id>
+			<name></name>
+			<type>30</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-projectRelativePath-matches-false-true-org.eclipse.(xpect|xtext).*/.*</arguments>
+			</matcher>
+		</filter>
+	</filteredResources>
 </projectDescription>

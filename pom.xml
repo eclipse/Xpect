@@ -19,7 +19,18 @@
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 		<target-platform>eclipse_2023_03-xtext_2_31_0</target-platform>
-		<tycho-version>2.7.5</tycho-version>
+		<tycho-version>4.0.3</tycho-version>
+
+		<!-- Used for promotion --> 
+		<eclipse.repo>https://download.eclipse.org/releases/2023-09</eclipse.repo>
+		<justj.tools.repo>https://download.eclipse.org/justj/tools/updates/nightly/latest</justj.tools.repo>
+		<git.url>https://github.com/eclipse/Xpect</git.url>
+		<org.eclipse.storage.user>genie.xpect</org.eclipse.storage.user>
+		<org.eclipse.justj.p2.manager.remote>${org.eclipse.storage.user}@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/xpect</org.eclipse.justj.p2.manager.remote>
+		<org.eclipse.justj.p2.manager.extra.args></org.eclipse.justj.p2.manager.extra.args>
+		<org.eclipse.justj.p2.manager.relative>updates</org.eclipse.justj.p2.manager.relative>
+		<org.eclipse.justj.p2.manager.build.url>http://www.example.com/</org.eclipse.justj.p2.manager.build.url>
+		<build.type>nightly</build.type>
 	</properties> 
 
 	<build>
@@ -77,6 +88,15 @@
 				<module>org.eclipse.xpect.releng/maven-test-parent</module>
 				<module>org.eclipse.xpect.tests</module>
 				<module>org.eclipse.xpect.xtext.lib.tests</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>promote</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<modules>
+				<module>org.eclipse.xpect.releng/promotion</module>
 			</modules>
 		</profile>
 	</profiles>

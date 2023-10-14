@@ -7,4 +7,5 @@ src-gen/
 xtend-gen/
 xtext-gen/
 target/
+/xpect/updates
 xpect-local-maven-repository

@@ -19,7 +19,6 @@ import org.eclipse.xtext.util.formallang.PdaFactory;
 
 import com.google.common.base.Function;
 
-@SuppressWarnings("restriction")
 public class TokenPDA<T, S> implements Pda<TokenPDAState<T>, S> {
 
 	public enum PDAStateType {

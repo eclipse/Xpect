@@ -1,8 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Junit
-Bundle-SymbolicName: org.eclipse.xpect.ui.junit;singleton:=true
+Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-SymbolicName: org.eclipse.xpect.ui.junit;singleton:=true
 Bundle-Version: 0.3.0.qualifier
 Bundle-Activator: org.eclipse.xpect.ui.junit.Activator
 Require-Bundle: org.eclipse.xpect;bundle-version="[0.3.0,0.3.1)",

@@ -19,7 +19,6 @@ import org.eclipse.xtext.util.formallang.NfaFactory;
 
 import com.google.common.base.Function;
 
-@SuppressWarnings("restriction")
 public class TokenNFA<T> implements Nfa<TokenNfaState<T>> {
 
 	public enum NFAStateType {

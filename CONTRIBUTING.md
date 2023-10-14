@@ -1,15 +1,23 @@
-Contributions are welcome.
+# Contributing to Eclipse Xpect
 
-## Eclipse Contributor Agreement
-Before your contribution can be accepted by the project team contributors must
-electronically sign the Eclipse Contributor Agreement (ECA).
+Thanks for your interest in this project.
 
-* http://www.eclipse.org/legal/ECA.php
+## Creating an Eclipse Development Environment
 
-Commits that are provided by non-committers must have a Signed-off-by field in
-the footer indicating that the author is aware of the terms by which the
-contribution has been provided to the project. The non-committer must
-additionally have an Eclipse Foundation account and must have a signed Eclipse
-Contributor Agreement (ECA) on file.
-For more information, please see the Eclipse Committer Handbook:
-https://www.eclipse.org/projects/handbook/#resources-commit
+You can set up a pre-configured IDE for the development of Xpect using the following link:
+
+[![Create Eclipse Development Environment for Xpect](https://download.eclipse.org/oomph/www/setups/svg/Xpect.svg)](https://www.eclipse.org/setups/installer/?url=https://raw.githubusercontent.com/eclipse/Xpect/master/org.eclipse.xpect.releng/XpectConfiguration.setup&show=true "Click to open Eclipse-Installer Auto Launch or drag onto your running installer's title area")
+
+
+
+## General Processes and Workflows
+
+The [eclipse-platform](https://github.com/eclipse-platform/.github/blob/main/CONTRIBUTING.md) provides detailed contribution information that is generally applicable also for Xpect.
+
+
+## Contact
+
+Contact the project developers via issues (preferred) or via "xpect-dev" mailing list.
+
+* https://github.com/eclipse/Xpect/issues
+* https://dev.eclipse.org/mailman/listinfo/xpect-dev

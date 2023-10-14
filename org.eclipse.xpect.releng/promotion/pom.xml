@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (c) 2023 Eclipse contributors and others.
+
+This program and the accompanying materials
+are made available under the terms of the Eclipse Public License 2.0
+which accompanies this distribution, and is available at
+https://www.eclipse.org/legal/epl-2.0/
+
+SPDX-License-Identifier: EPL-2.0
+-->
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>org.eclipse.xpect.repository.promotion</artifactId>
+	<packaging>pom</packaging>
+	<parent>
+		<groupId>org.eclipse.xpect</groupId>
+		<artifactId>org.eclipse.xpect.root</artifactId>
+		<version>0.3.0-SNAPSHOT</version>
+		<relativePath>../..</relativePath>
+	</parent>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho.extras</groupId>
+				<artifactId>tycho-eclipserun-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<executionEnvironment>JavaSE-17</executionEnvironment>
+					<dependencies>
+						<dependency>
+							<artifactId>org.eclipse.justj.p2</artifactId>
+							<type>eclipse-plugin</type>
+						</dependency>
+						<dependency>
+							<artifactId>org.apache.felix.scr</artifactId>
+							<type>eclipse-plugin</type>
+						</dependency>
+					</dependencies>
+					<repositories>
+						<repository>
+							<id>eclipse.repo</id>
+							<layout>p2</layout>
+							<url>${eclipse.repo}</url>
+						</repository>
+						<repository>
+							<id>justj.tools.repo</id>
+							<layout>p2</layout>
+							<url>${justj.tools.repo}</url>
+						</repository>
+					</repositories>
+				</configuration>
+				<executions>
+					<execution>
+						<id>promote</id>
+						<goals>
+							<goal>eclipse-run</goal>
+						</goals>
+						<phase>generate-sources</phase>
+						<configuration>
+							<argLine></argLine>
+							<applicationsArgs>
+								<applicationsArg>-consoleLog</applicationsArg>
+								<applicationsArg>-application</applicationsArg>
+								<applicationsArg>org.eclipse.justj.p2.manager</applicationsArg>
+								<applicationsArg>-data</applicationsArg>
+								<applicationsArg>@None</applicationsArg>
+								<applicationsArg>-nosplash</applicationsArg>
+								<applicationsArg>-remote</applicationsArg>
+								<applicationsArg>${org.eclipse.justj.p2.manager.remote}</applicationsArg>
+								<applicationsArg>-retain</applicationsArg>
+								<applicationsArg>5</applicationsArg>
+								<applicationsArg>-label</applicationsArg>
+								<applicationsArg>Xpect</applicationsArg>
+								<applicationsArg>-build-url</applicationsArg>
+								<applicationsArg>${org.eclipse.justj.p2.manager.build.url}</applicationsArg>
+								<applicationsArg>-root</applicationsArg>
+								<applicationsArg>${project.build.directory}/xpect-sync</applicationsArg>
+								<applicationsArg>-relative</applicationsArg>
+								<applicationsArg>${org.eclipse.justj.p2.manager.relative}</applicationsArg>
+								<applicationsArg>-excluded-categories-pattern</applicationsArg>
+								<applicationsArg>.*.Default</applicationsArg>
+								<applicationsArg>-iu-filter-pattern</applicationsArg>
+								<applicationsArg>org.eclipse.xpect.*</applicationsArg>
+								<applicationsArg>-version-iu</applicationsArg>
+								<applicationsArg>org.eclipse.xpect.sdk.</applicationsArg>
+								<applicationsArg>-commit</applicationsArg>
+								<applicationsArg>${git.url}/commit/${git.commit}</applicationsArg>
+								<applicationsArg>-target-url</applicationsArg>
+								<applicationsArg>https://download.eclipse.org/xpect</applicationsArg>
+								<applicationsArg>-promote</applicationsArg>
+								<applicationsArg>${project.basedir}/../p2-repository/target/repository</applicationsArg>
+								<applicationsArg>-timestamp</applicationsArg>
+								<applicationsArg>${build.timestamp}</applicationsArg>
+								<applicationsArg>-type</applicationsArg>
+								<applicationsArg>${build.type}</applicationsArg>
+								<applicationsArg>-breadcrumb</applicationsArg>
+								<applicationsArg>Xpect https://projects.eclipse.org/projects/modeling.xpect</applicationsArg>
+								<applicationsArg>-favicon</applicationsArg>
+								<applicationsArg>https://eclipseide.org/favicon.ico</applicationsArg>
+							</applicationsArgs>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

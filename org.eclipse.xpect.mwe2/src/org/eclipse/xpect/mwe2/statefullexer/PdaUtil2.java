@@ -25,7 +25,6 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
-@SuppressWarnings("restriction")
 public class PdaUtil2 extends PdaUtil {
 	protected <S, P, E, T1, T2, D extends Pda<S, P>> void create(Cfg<E, T1> cfg, D pda, S state, E ele, Iterable<E> followerElements, boolean canEnter,
 			FollowerFunction<E> ff, Function<E, T2> tokens, PdaFactory<D, S, P, ? super T2> fact, Map<E, S> states, Map<E, S> stops, Multimap<E, E> callers) {
