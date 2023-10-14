@@ -1,8 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Examples
-Bundle-SymbolicName: org.eclipse.xpect.examples
+Bundle-Name: %pluginName
+Bundle-Localization: plugin
 Bundle-Vendor: %providerName
+Bundle-SymbolicName: org.eclipse.xpect.examples
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.eclipse.xtend.lib,

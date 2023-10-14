@@ -14,7 +14,6 @@ package org.eclipse.xpect.mwe2.statefullexer;
 import org.eclipse.xtext.util.formallang.Nfa;
 import org.eclipse.xtext.util.formallang.NfaFactory;
 
-@SuppressWarnings("restriction")
 public interface NfaWithGroups<GROUP, STATE> extends Nfa<STATE> {
 	public interface NfaWithGroupsFactory<NFA extends Nfa<STATE>, GROUP, STATE, TOKEN> extends NfaFactory<NFA, STATE, TOKEN> {
 		void setGroup(NFA nfa, GROUP group, STATE state);

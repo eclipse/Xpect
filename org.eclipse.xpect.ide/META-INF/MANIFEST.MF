@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Automatic-Module-Name: org.eclipse.xpect.ide
 Bundle-ManifestVersion: 2
-Bundle-Name: org.eclipse.xpect.ide
-Bundle-Vendor: %providerName
+Bundle-Name: Xpect IDE
+Bundle-Vendor: Eclipse Xpect Project
 Bundle-Version: 0.3.0.qualifier
 Bundle-SymbolicName: org.eclipse.xpect.ide; singleton:=true
 Bundle-ActivationPolicy: lazy

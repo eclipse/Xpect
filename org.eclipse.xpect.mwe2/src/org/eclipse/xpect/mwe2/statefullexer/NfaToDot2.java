@@ -16,7 +16,6 @@ import org.eclipse.xtext.util.formallang.NfaUtil;
 
 import com.google.common.base.Functions;
 
-@SuppressWarnings("restriction")
 public class NfaToDot2 extends GraphvizDotBuilder2 {
 
 	protected Edge create(Props result, Nfa<Object> nfa, Object from, Object to) {

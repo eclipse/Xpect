@@ -1,117 +1,187 @@
-/*******************************************************************************
- * Copyright (c) 2012-2017 TypeFox GmbH and itemis AG.
- * This program and the accompanying materials are made
- * available under the terms of the Eclipse Public License 2.0
- * which is available at https://www.eclipse.org/legal/epl-2.0/
- *
- * SPDX-License-Identifier: EPL-2.0
- *
- * Contributors:
- *   Moritz Eysholdt - Initial contribution and API
- *******************************************************************************/
+pipeline {
+  agent {
+    label 'centos-latest'
+  }
 
-timestamps() {
-    properties([
-        pipelineTriggers([cron('H 2 * * *')])
-    ])
-    node('centos-8') {
-        def javaHome = tool 'temurin-jdk11-latest'
-        def java17Home = tool 'temurin-jdk17-latest'
-        env.JAVA_HOME = "${javaHome}"
-        def mvnHome = tool 'apache-maven-3.8.6'
-        def mvnParams = '--batch-mode --update-snapshots -fae -Dmaven.repo.local=xpect-local-maven-repository -DtestOnly=false'
-        try {
-        timeout(time: 1, unit: 'HOURS') {
-            stage('prepare workspace') {
-                step([$class: 'WsCleanup'])
-                // we need to live with detached head, or we need to adjust settings:
-                // https://issues.jenkins-ci.org/browse/JENKINS-42860
-                checkout scm
-            }
-            stage('log configuration') {
-                echo("===== checking tools versions =====")
-                sh """\
-                       git config --get remote.origin.url
-                       git reset --hard
-                       pwd
-                       ls -la
-                       ${mvnHome}/bin/mvn -v
-                       ${javaHome}/bin/java -version
-                   """
-                echo("===================================")
-            }
-            wrap([$class: 'Xvnc', useXauthority: true]) {
-                stage('compile with Eclipse 2023-03 and Xtext 2.31.0') {
-                    sh "${mvnHome}/bin/mvn -P!tests -Declipsesign=true -Dtarget-platform=eclipse_2023_03-xtext_2_31_0 ${mvnParams} clean install"
-                    archiveArtifacts artifacts: 'org.eclipse.xpect.releng/p2-repository/target/repository/**/*.*,org.eclipse.xpect.releng/p2-repository/target/org.eclipse.xpect.repository-*.zip'
-                }
-            }
+  triggers {
+     cron('H 23 * * *')
+  }
 
-            wrap([$class: 'Xvnc', useXauthority: true]) {
-                stage('test with Eclipse 2023-09 and Xtext nighly') {
-                    try{
-                        sh "JAVA_HOME=${java17Home} ${mvnHome}/bin/mvn -P!xtext-examples -Dtycho-version=2.7.5 -Dtarget-platform=eclipse_2023_09-xtext_nightly ${mvnParams} clean integration-test"
-                    }finally {
-                        junit '**/TEST-*.xml'
-                    }
-                }
-            }
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '10'))
+    disableConcurrentBuilds()
+    skipDefaultCheckout false
+  }
 
-            if(env.BRANCH_NAME?.toLowerCase() == 'master' ||
-               env.BRANCH_NAME?.toLowerCase()?.startsWith('release_')) {
-                stage('deploy') {
-                    withCredentials([file(credentialsId: 'secret-subkeys.asc', variable: 'KEYRING')]) {
-                        sh '''
-                        rm -r xpect-local-maven-repository
-                        gpg --batch --import "${KEYRING}"
-                        for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u);
-                        do
-                            echo -e "5\ny\n" | gpg --batch --command-fd 0 --expert --edit-key $fpr trust;
-                        done
-                        '''
-                        sh "${mvnHome}/bin/mvn -P!tests -P!xtext-examples -P maven-publish -Dtarget-platform=eclipse_2023_03-xtext_2_31_0 ${mvnParams} clean deploy"
-                    }
-                }               
-            }
+  tools {
+    maven 'apache-maven-latest'
+    jdk 'temurin-jdk17-latest'
+  }
+
+  environment {
+    PUBLISH_LOCATION = 'updates'
+    BUILD_TIMESTAMP = sh(returnStdout: true, script: 'date +%Y%m%d%H%M').trim()
+  }
+
+  parameters {
+    choice(
+      name: 'BUILD_TYPE',
+      choices: ['nightly', 'milestone', 'release'],
+      description: '''
+        Choose the type of build.
+        Note that a release build will not promote the build, but rather will promote the most recent milestone build.
+        '''
+    )
+
+    choice(
+      name: 'TARGET_PLATFORM',
+      choices: [ 'eclipse_2023_03-xtext_2_31_0', 'eclipse_2023_09-xtext_nightly' ],
+      description: '''
+        Choose the named target platform against which to compile and test.
+        This is relevant only for nightly and milestone builds.
+        '''
+    )
+
+    booleanParam(
+      name: 'ECLIPSE_SIGN',
+      defaultValue: true,
+      description: '''
+        Choose whether or not the bundles will be signed.
+        This is relevant only for nightly and milestone builds.
+      '''
+    )
+
+    booleanParam(
+      name: 'PROMOTE',
+      defaultValue: true,
+      description: 'Whether to promote the build to the download server.'
+    )
+  }
+
+  stages {
+    stage('Display Parameters') {
+      steps {
+        script {
+          env.BUILD_TYPE = params.BUILD_TYPE
+          env.TARGET_PLATFORM = params.TARGET_PLATFORM
+
+          if (env.BRANCH_NAME == 'master') {
+            // Only sign the master branch.
+            env.ECLIPSE_SIGN = params.ECLIPSE_SIGN
+          } else {
+            env.ECLIPSE_SIGN =  false
+          }
+
+            // Only promote signed builds.
+          env.PROMOTE = params.PROMOTE && (env.ECLIPSE_SIGN == 'true')
         }
-        } catch(e) {
-            currentBuild.result = 'FAILED'
-            throw e
-        } finally {
-            postAlways()
-        }
+        echo """
+BUILD_TIMESTAMP=${env.BUILD_TIMESTAMP}
+BUILD_TYPE=${env.BUILD_TYPE}
+TARGET_PLATFORM=${env.TARGET_PLATFORM}
+ECLIPSE_SIGN=${env.ECLIPSE_SIGN}
+PROMOTE=${env.PROMOTE}
+BRANCH_NAME=${env.BRANCH_NAME}
+"""
+      }
     }
+
+    stage('Build') {
+      steps {
+        sshagent(['projects-storage.eclipse.org-bot-ssh']) {
+          wrap([$class: 'Xvnc', useXauthority: true]) {
+            dir('.') {
+              sh '''
+                if [[ $PROMOTE != true ]]; then
+                  promotion_argument='-P!promote'
+                fi
+                mvn  \
+                  --fail-at-end \
+                  --no-transfer-progress \
+                  --update-snapshots \
+                  $promotion_argument \
+                  -Dmaven.repo.local=xpect-local-maven-repository \
+                  -Dmaven.artifact.threads=16 \
+                  -Dbuild.id=${BUILD_TIMESTAMP} \
+                  -Dgit.commit=$GIT_COMMIT \
+                  -Declipsesign=${ECLIPSE_SIGN} \
+                  -Dbuild.type=$BUILD_TYPE \
+                  -Dtycho-version=4.0.3 \
+                  -Dtarget-platform=${TARGET_PLATFORM} \
+                  -Dorg.eclipse.justj.p2.manager.build.url=$JOB_URL \
+                  -Dorg.eclipse.justj.p2.manager.relative=$PUBLISH_LOCATION \
+                  clean \
+                  verify
+                '''
+            }
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    failure {
+      mail to: 'ed.merks@gmail.com',
+      subject: "[EMF CI] Build Failure ${currentBuild.fullDisplayName}",
+      mimeType: 'text/html',
+      body: "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console"
+      archiveArtifacts allowEmptyArchive: true, artifacts: '**'
+    }
+
+    fixed {
+      mail to: 'ed.merks@gmail.com',
+      subject: "[EMF CI] Back to normal ${currentBuild.fullDisplayName}",
+      mimeType: 'text/html',
+      body: "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console"
+    }
+
+    success {
+      archiveArtifacts artifacts: 'org.eclipse.xpect.releng/p2-repository/target/repository/**/*.*,org.eclipse.xpect.releng/p2-repository/target/org.eclipse.xpect.repository-*.zip'
+    }
+
+    always {
+      junit allowEmptyResults: true, testResults: '**/TEST-*.xml'
+    }
+
+    cleanup {
+      deleteDir()
+      postAlways()
+    }
+  }
 }
 
-
 def postAlways() {
-    def curResult = currentBuild.currentResult
-    def lastResult = 'NEW'
-    if (currentBuild.previousBuild != null) {
-        lastResult = currentBuild.previousBuild.result
+  def curResult = currentBuild.currentResult
+  def lastResult = 'NEW'
+  if (currentBuild.previousBuild != null) {
+    lastResult = currentBuild.previousBuild.result
+  }
+
+  echo "matrix result check: curResult=${curResult} lastResult=${lastResult}"
+
+  if (curResult != 'SUCCESS' || lastResult != 'SUCCESS') {
+    def color = ''
+    switch (curResult) {
+      case 'SUCCESS':
+        color = '#00FF00'
+        break
+      case 'UNSTABLE':
+        color = '#FFFF00'
+        break
+      case 'FAILURE':
+        color = '#FF0000'
+        break
+      default: // e.g. ABORTED
+        color = '#666666'
     }
 
-    if (curResult != 'SUCCESS' || lastResult != 'SUCCESS') {
-        def color = ''
-        switch (curResult) {
-            case 'SUCCESS':
-                color = '#00FF00'
-                break
-            case 'UNSTABLE':
-                color = '#FFFF00'
-                break
-            case 'FAILURE':
-                color = '#FF0000'
-                break
-            default: // e.g. ABORTED
-                color = '#666666'
-        }
-
-        matrixSendMessage https: true,
-            hostname: 'matrix.eclipse.org',
-            accessTokenCredentialsId: "matrix-token",
-            roomId: '!aFWRHMCLJDZBzuNIRD:matrix.eclipse.org',
-            body: "${lastResult} => ${curResult} ${env.BUILD_URL} | ${env.JOB_NAME}#${env.BUILD_NUMBER}",
-            formattedBody: "<div><font color='${color}'>${lastResult} => ${curResult}</font> | <a href='${env.BUILD_URL}' target='_blank'>${env.JOB_NAME}#${env.BUILD_NUMBER}</a></div>"
-    }
+    echo "matrix send message"
+    matrixSendMessage https: true,
+      hostname: 'matrix.eclipse.org',
+      accessTokenCredentialsId: "matrix-token",
+      roomId: '!aFWRHMCLJDZBzuNIRD:matrix.eclipse.org',
+      body: "${lastResult} => ${curResult} ${env.BUILD_URL} | ${env.JOB_NAME}#${env.BUILD_NUMBER}",
+      formattedBody: "<div><font color='${color}'>${lastResult} => ${curResult}</font> | <a href='${env.BUILD_URL}' target='_blank'>${env.JOB_NAME}#${env.BUILD_NUMBER}</a></div>"
+  }
 }

@@ -45,7 +45,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
-@SuppressWarnings("restriction")
 public class NfaUtil2 {
 
 	protected static class GroupingTraversalItem<S, R, G> {

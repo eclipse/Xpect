@@ -17,7 +17,7 @@
 	<properties>
 		<target-platform>eclipse_2023_03-xtext_2_31_0</target-platform>
 		<xtextVersion>2.31.0</xtextVersion>
-		<tycho-version>2.7.5</tycho-version>
+		<tycho-version>4.0.3</tycho-version>
 		<target-platform-version>0.3.0-SNAPSHOT</target-platform-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -279,7 +279,7 @@
 					<plugin>
 						<groupId>org.eclipse.cbi.maven.plugins</groupId>
 						<artifactId>eclipse-jarsigner-plugin</artifactId>
-						<version>1.3.2</version>
+						<version>1.4.2</version>
 						<executions>
 							<execution>
 								<id>sign</id>
@@ -376,9 +376,9 @@
 
 	<!-- Information about where the Xpect code lives. -->
 	<scm>
-		<connection>scm:git:git://github.com/eclipse/xpect.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com:eclipse/xpect.git</developerConnection>
-		<url>https://github.com/eclipse/xpect</url>
+		<connection>scm:git:git://github.com/eclipse/Xpect.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:eclipse/Xpect.git</developerConnection>
+		<url>https://github.com/eclipse/Xpect</url>
 	</scm>
 
 
