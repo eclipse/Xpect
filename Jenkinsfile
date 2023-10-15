@@ -21,6 +21,9 @@ pipeline {
   environment {
     PUBLISH_LOCATION = 'updates'
     BUILD_TIMESTAMP = sh(returnStdout: true, script: 'date +%Y%m%d%H%M').trim()
+    TYCHO_VERSION = '4.0.3'
+    TARGET_PLATFORM_PRIMARY = 'eclipse_2023_03-xtext_2_31_0'
+    TARGET_PLATFORM_LATEST = 'eclipse_2023_09-xtext_nightly'
   }
 
   parameters {
@@ -30,15 +33,6 @@ pipeline {
       description: '''
         Choose the type of build.
         Note that a release build will not promote the build, but rather will promote the most recent milestone build.
-        '''
-    )
-
-    choice(
-      name: 'TARGET_PLATFORM',
-      choices: [ 'eclipse_2023_03-xtext_2_31_0', 'eclipse_2023_09-xtext_nightly' ],
-      description: '''
-        Choose the named target platform against which to compile and test.
-        This is relevant only for nightly and milestone builds.
         '''
     )
 
@@ -78,7 +72,6 @@ pipeline {
         echo """
 BUILD_TIMESTAMP=${env.BUILD_TIMESTAMP}
 BUILD_TYPE=${env.BUILD_TYPE}
-TARGET_PLATFORM=${env.TARGET_PLATFORM}
 ECLIPSE_SIGN=${env.ECLIPSE_SIGN}
 PROMOTE=${env.PROMOTE}
 BRANCH_NAME=${env.BRANCH_NAME}
@@ -86,7 +79,30 @@ BRANCH_NAME=${env.BRANCH_NAME}
       }
     }
 
-    stage('Build') {
+    stage('Test With Latest') {
+      steps {
+        wrap([$class: 'Xvnc', useXauthority: true]) {
+          dir('.') {
+            sh '''
+              mvn \
+                --fail-at-end \
+                --no-transfer-progress \
+                --update-snapshots \
+                -P!promote \
+                -Dmaven.repo.local=xpect-local-maven-repository \
+                -Dmaven.artifact.threads=16 \
+                -Declipsesign=false \
+                -Dtycho-version=${TYCHO_VERSION} \
+                -Dtarget-platform=${TARGET_PLATFORM_LATEST} \
+                clean \
+                integration-test
+              '''
+          }
+        }
+      }
+    }
+
+    stage('Build With Primary') {
       steps {
         sshagent(['projects-storage.eclipse.org-bot-ssh']) {
           wrap([$class: 'Xvnc', useXauthority: true]) {
@@ -95,19 +111,19 @@ BRANCH_NAME=${env.BRANCH_NAME}
                 if [[ $PROMOTE != true ]]; then
                   promotion_argument='-P!promote'
                 fi
-                mvn  \
+                mvn \
                   --fail-at-end \
                   --no-transfer-progress \
                   --update-snapshots \
                   $promotion_argument \
                   -Dmaven.repo.local=xpect-local-maven-repository \
                   -Dmaven.artifact.threads=16 \
+                  -Declipsesign=${ECLIPSE_SIGN} \
+                  -Dtycho-version=${TYCHO_VERSION} \
+                  -Dtarget-platform=${TARGET_PLATFORM_PRIMARY} \
                   -Dbuild.id=${BUILD_TIMESTAMP} \
                   -Dgit.commit=$GIT_COMMIT \
-                  -Declipsesign=${ECLIPSE_SIGN} \
                   -Dbuild.type=$BUILD_TYPE \
-                  -Dtycho-version=4.0.3 \
-                  -Dtarget-platform=${TARGET_PLATFORM} \
                   -Dorg.eclipse.justj.p2.manager.build.url=$JOB_URL \
                   -Dorg.eclipse.justj.p2.manager.relative=$PUBLISH_LOCATION \
                   clean \
@@ -123,7 +139,7 @@ BRANCH_NAME=${env.BRANCH_NAME}
   post {
     failure {
       mail to: 'ed.merks@gmail.com',
-      subject: "[EMF CI] Build Failure ${currentBuild.fullDisplayName}",
+      subject: "[Xpect CI] Build Failure ${currentBuild.fullDisplayName}",
       mimeType: 'text/html',
       body: "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console"
       archiveArtifacts allowEmptyArchive: true, artifacts: '**'
@@ -131,7 +147,7 @@ BRANCH_NAME=${env.BRANCH_NAME}
 
     fixed {
       mail to: 'ed.merks@gmail.com',
-      subject: "[EMF CI] Back to normal ${currentBuild.fullDisplayName}",
+      subject: "[Xpect CI] Back to normal ${currentBuild.fullDisplayName}",
       mimeType: 'text/html',
       body: "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console"
     }
@@ -146,12 +162,12 @@ BRANCH_NAME=${env.BRANCH_NAME}
 
     cleanup {
       deleteDir()
-      postAlways()
+      sendMatrixMessage()
     }
   }
 }
 
-def postAlways() {
+def sendMatrixMessage() {
   def curResult = currentBuild.currentResult
   def lastResult = 'NEW'
   if (currentBuild.previousBuild != null) {
