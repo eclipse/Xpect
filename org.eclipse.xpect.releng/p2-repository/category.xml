@@ -14,10 +14,8 @@ Contributors:
 		version="0.3.0.qualifier">
 		<category name="Xpect 0.3.0" />
 	</feature>
-	<!--
-	<bundle id="io.github.classgraph" version="0.0.0"/>
-	<bundle id="io.github.classgraph.source" version="0.0.0"/>
-	-->
+	<bundle id="io.github.classgraph.classgraph" version="0.0.0"/>
+	<bundle id="io.github.classgraph.classgraph.source" version="0.0.0"/>
 	<bundle id="org.hamcrest.core" version="0.0.0"/>
 	<bundle id="org.hamcrest.core.source" version="0.0.0"/>
 	<bundle id="org.junit" version="0.0.0"/>
