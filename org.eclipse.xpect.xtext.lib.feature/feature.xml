@@ -33,7 +33,6 @@ Contributors:
       %license
    </license>
    <requires>
-      <import plugin="io.github.classgraph" version="4.8.35" match="compatible"/>
       <import plugin="org.junit" version="4.11.0" match="compatible"/>
    </requires>
    <plugin
