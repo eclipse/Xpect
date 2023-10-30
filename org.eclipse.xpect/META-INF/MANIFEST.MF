@@ -18,7 +18,6 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.emf.common,
  org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
  org.apache.log4j;bundle-version="1.2.24",
- io.github.classgraph;bundle-version="4.8.35";visibility:=reexport,
  org.junit;bundle-version="4.11.0";visibility:=reexport,
  org.eclipse.xtext.common.types;visibility:=reexport,
  org.apache.log4j;bundle-version="1.2.0";visibility:=reexport,
@@ -48,4 +47,5 @@ Export-Package: org.eclipse.xpect,
  org.eclipse.xpect.text,
  org.eclipse.xpect.util,
  org.eclipse.xpect.validation
-Import-Package: org.apache.log4j
+Import-Package: io.github.classgraph;version="4.8.149",
+ org.apache.log4j
