@@ -19,7 +19,7 @@
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 		<target-platform>eclipse_2023_03-xtext_2_31_0</target-platform>
-		<tycho-version>4.0.3</tycho-version>
+		<tycho-version>4.0.7</tycho-version>
 
 		<!-- Used for promotion --> 
 		<eclipse.repo>https://download.eclipse.org/releases/2023-09</eclipse.repo>
