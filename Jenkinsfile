@@ -21,7 +21,7 @@ pipeline {
   environment {
     PUBLISH_LOCATION = 'updates'
     BUILD_TIMESTAMP = sh(returnStdout: true, script: 'date +%Y%m%d%H%M').trim()
-    TYCHO_VERSION = '4.0.3'
+    TYCHO_VERSION = '4.0.7'
     TARGET_PLATFORM_PRIMARY = 'eclipse_2023_03-xtext_2_31_0'
     TARGET_PLATFORM_LATEST = 'eclipse_2024_06-xtext_nightly'
   }
