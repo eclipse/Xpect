@@ -15,13 +15,19 @@
 <repository location="https://download.eclipse.org/modeling/emft/mwe/updates/nightly/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.jdt.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.platform.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.pde.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.draw2d.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.emf.sdk.feature.group" version="0.0.0"/>
 <repository location="https://download.eclipse.org/releases/2024-06"/>
 </location>
+
+<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.jdt.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.platform.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.pde.feature.group" version="0.0.0"/>
+<repository location="https://download.eclipse.org/eclipse/updates/4.32-I-builds"/>
+</location>
+
+
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.hamcrest.core" version="2.2.0.v20230809-1000"/>
 <unit id="org.hamcrest.core.source" version="2.2.0.v20230809-1000"/>
