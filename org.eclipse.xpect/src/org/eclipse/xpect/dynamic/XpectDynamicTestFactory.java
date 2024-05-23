@@ -1,23 +1,30 @@
-/*******************************************************************************
- * Copyright (c) 2012-2017 TypeFox GmbH and itemis AG.
- * This program and the accompanying materials are made
- * available under the terms of the Eclipse Public License 2.0
- * which is available at https://www.eclipse.org/legal/epl-2.0/
- *
- * SPDX-License-Identifier: EPL-2.0
- *
- * Contributors:
- *   Moritz Eysholdt - Initial contribution and API
- *******************************************************************************/
-
-package org.eclipse.xpect.runner;
+package org.eclipse.xpect.dynamic;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.xpect.XpectFile;
+import org.eclipse.xpect.XpectJavaModel;
+import org.eclipse.xpect.XpectStandaloneSetup;
+import org.eclipse.xpect.registry.ITestSuiteInfo;
+import org.eclipse.xpect.runner.IXpectURIProvider;
+import org.eclipse.xpect.runner.TestExecutor;
+import org.eclipse.xpect.runner.ValidatingSetup;
+import org.eclipse.xpect.runner.XpectTestFiles;
+import org.eclipse.xpect.runner.XpectTestGlobalState;
+import org.eclipse.xpect.runner.XpectURIProvider;
+import org.eclipse.xpect.runner.XpectTestFiles.Builder;
+import org.eclipse.xpect.runner.XpectTestFiles.FileRoot;
+import org.eclipse.xpect.state.Configuration;
+import org.eclipse.xpect.state.ResolvedConfiguration;
+import org.eclipse.xpect.state.StateContainer;
+import org.eclipse.xpect.util.AnnotationUtil;
+import org.eclipse.xpect.util.IssueVisualizer;
+import org.eclipse.xpect.util.XpectJavaModelManager;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceFactory;
@@ -27,69 +34,68 @@ import org.eclipse.xtext.validation.CheckMode;
 import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.validation.Issue;
 import org.junit.ComparisonFailure;
-import org.junit.runner.Description;
-import org.junit.runner.Runner;
-import org.junit.runner.notification.Failure;
-import org.junit.runner.notification.RunNotifier;
-import org.junit.runners.ParentRunner;
-import org.junit.runners.model.InitializationError;
-import org.eclipse.xpect.XpectFile;
-import org.eclipse.xpect.XpectImport;
-import org.eclipse.xpect.XpectJavaModel;
-import org.eclipse.xpect.XpectStandaloneSetup;
-import org.eclipse.xpect.registry.ITestSuiteInfo;
-import org.eclipse.xpect.runner.XpectTestFiles.Builder;
-import org.eclipse.xpect.runner.XpectTestFiles.FileRoot;
-import org.eclipse.xpect.state.Configuration;
-import org.eclipse.xpect.state.ResolvedConfiguration;
-import org.eclipse.xpect.state.StateContainer;
-import org.eclipse.xpect.util.AnnotationUtil;
-import org.eclipse.xpect.util.IssueVisualizer;
-import org.eclipse.xpect.util.XpectJavaModelManager;
+import org.junit.jupiter.api.DynamicContainer;
+import org.junit.jupiter.api.DynamicNode;
+import org.junit.jupiter.api.DynamicTest;
 
-import com.google.common.collect.Lists;
 import com.google.inject.Injector;
 
-/**
- * @author Moritz Eysholdt - Initial contribution and API
- */
-@XpectImport(TestTitleProvider.class)
-public class XpectRunner extends ParentRunner<Runner> {
+// a lot of copy-pasting from XpectRunner, however XpectRunner has protected methods that can use different model, injector, etc. via overriding getters, so its hard to extract code without causing damage
+class XpectDynamicTestFactory {
 
-	public static XpectRunner INSTANCE = null;
-	public static ClassLoader testClassloader = null;
-	private List<Runner> children;
+	public static Stream<DynamicNode> xpectTests(Class<?> testClass) {
+		XpectDynamicTestFactory factory = new XpectDynamicTestFactory(testClass);
+		return factory.getChildren();
+	}
+
+	private Stream<DynamicNode> children;
 	private Collection<URI> files;
+	private final Class<?> testClass;
 	private final StateContainer state;
 	private final IXpectURIProvider uriProvider;
 	private final Injector xpectInjector;
 	private final XpectJavaModel xpectJavaModel;
 
-	public XpectRunner(Class<?> testClass) throws InitializationError {
-		super(testClass);
-		INSTANCE = this;
-		testClassloader = testClass.getClassLoader();
+	public XpectDynamicTestFactory(Class<?> testClass) {
+		this.testClass = testClass;
 		this.uriProvider = findUriProvider(testClass);
 		this.xpectInjector = findXpectInjector();
 		this.xpectJavaModel = XpectJavaModelManager.createJavaModel(testClass);
 		/*
 		 * NOTE:
 		 * Do this before the state creation, otherwise the parts that depend on
-		 * the singleton won't initialize properly and tests will fail to run!
+		 * the singleton won't initialize properly and test will fail to run!
 		 */
 		XpectTestGlobalState.INSTANCE.set(xpectJavaModel, testClass);
 		this.state = TestExecutor.createState(createRootConfiguration());
 	}
 
-	protected Runner createChild(URI uri) {
+	protected DynamicNode createChild(URI uri) {
 		try {
 			XtextResource resource = loadXpectResource(uri);
 			XpectFile file = loadXpectFile(resource);
 			Configuration cfg = createChildConfiguration(file);
 			StateContainer childState = new StateContainer(state, new ResolvedConfiguration(state.getConfiguration(), cfg));
-			return childState.get(XpectFileRunner.class).get();
-		} catch (Throwable t) {
-			return new ErrorReportingRunner(this, uri, t);
+			XpectDynamicTestCase testCase = childState.get(XpectDynamicTestCase.class).get();
+			List<DynamicTest> tests = testCase.getChildren();
+			if (tests.isEmpty()) {
+				// if there are no tests in the test case, we only validate the setup
+				return DynamicTest.dynamicTest(testCase.getName(), () -> {
+					try {
+						testCase.getState().get(ValidatingSetup.class).get().validate();
+						testCase.setUp();
+					} finally {
+						try {
+							testCase.tearDown();
+						} finally {
+							testCase.getState().invalidate();
+						}
+					}
+				});
+			}
+			return DynamicContainer.dynamicContainer(testCase.getName(), tests);
+		} catch (IOException e) {
+			throw new AssertionError("Failed to create Xpect tests for URI: " + uri, e);
 		}
 	}
 
@@ -97,29 +103,24 @@ public class XpectRunner extends ParentRunner<Runner> {
 		return TestExecutor.createFileConfiguration(file);
 	}
 
-	protected List<Runner> createChildren(Class<?> clazz) {
-		List<Runner> result = Lists.newArrayList();
-		for (URI uri : getFiles())
-			result.add(createChild(uri));
-		return result;
+	protected Stream<DynamicNode> createChildren(Class<?> clazz) {
+		Collection<URI> fileUris = getFiles();
+		// lazy stream
+		Stream<DynamicNode> tests = fileUris.stream().map(uri -> createChild(uri));
+		return tests;
 	}
 
 	protected Configuration createRootConfiguration() {
 		Configuration config = TestExecutor.createRootConfiguration(this.xpectJavaModel);
 		config.addDefaultValue(this);
 		config.addDefaultValue(IXpectURIProvider.class, this.uriProvider);
-		config.addFactory(XpectFileRunner.class);
-		config.addFactory(XpectTestRunner.class);
-		config.addFactory(TestRunner.class);
+		config.addFactory(XpectDynamicTestCase.class);
+		config.addFactory(XpectInvocationDynamicTest.class);
+		config.addFactory(XpectDynamicTest.class);
 		return config;
 	}
 
-	@Override
-	protected Description describeChild(Runner child) {
-		return child.getDescription();
-	}
-
-	protected IXpectURIProvider findUriProvider(Class<?> clazz) throws InitializationError {
+	protected IXpectURIProvider findUriProvider(Class<?> clazz) {
 		String baseDir = System.getProperty("xpectBaseDir");
 		String files = System.getProperty("xpectFiles");
 		if (!Strings.isEmpty(baseDir) || !Strings.isEmpty(files)) {
@@ -150,10 +151,10 @@ public class XpectRunner extends ParentRunner<Runner> {
 		throw new IllegalStateException("The language *.xpect is not activated");
 	}
 
-	@Override
-	public List<Runner> getChildren() {
+	// lazy stream, since otherwise preparation for each test runs as the tests are generated, not when each test eventually runs
+	public Stream<DynamicNode> getChildren() {
 		if (children == null)
-			children = createChildren(getTestClass().getJavaClass());
+			children = createChildren(testClass);
 		return children;
 	}
 
@@ -161,22 +162,6 @@ public class XpectRunner extends ParentRunner<Runner> {
 		if (files == null)
 			files = uriProvider.getAllURIs();
 		return files;
-	}
-
-	public StateContainer getState() {
-		return state;
-	}
-
-	public IXpectURIProvider getUriProvider() {
-		return uriProvider;
-	}
-
-	protected Injector getXpectInjector() {
-		return xpectInjector;
-	}
-
-	public XpectJavaModel getXpectJavaModel() {
-		return xpectJavaModel;
 	}
 
 	protected XpectFile loadXpectFile(XtextResource res) throws IOException {
@@ -189,37 +174,11 @@ public class XpectRunner extends ParentRunner<Runner> {
 	}
 
 	protected XtextResource loadXpectResource(URI uri) throws IOException {
-		XtextResource resource = (XtextResource) getXpectInjector().getInstance(XtextResourceFactory.class).createResource(uri);
-		getXpectJavaModel().eResource().getResourceSet().getResources().add(resource);
+		XtextResourceFactory xtextResourceFactory = xpectInjector.getInstance(XtextResourceFactory.class);
+		XtextResource resource = (XtextResource) xtextResourceFactory.createResource(uri);
+		xpectJavaModel.eResource().getResourceSet().getResources().add(resource);
 		resource.load(null);
 		return resource;
-	}
-
-	@Override
-	public void run(RunNotifier notifier) {
-		if (getChildren().isEmpty()) {
-			notifier.fireTestRunStarted(getDescription());
-			notifier.fireTestFailure(new Failure(getDescription(), new RuntimeException("No Tests found via " + getUriProvider())));
-		} else {
-			try {
-				super.run(notifier);
-			} finally {
-				try {
-					state.invalidate();
-				} catch (Throwable t) {
-					notifier.fireTestFailure(new Failure(getDescription(), t));
-				}
-			}
-		}
-	}
-
-	@Override
-	protected void runChild(Runner child, RunNotifier notifier) {
-		try {
-			child.run(notifier);
-		} catch (Throwable t) {
-			notifier.fireTestFailure(new Failure(child.getDescription(), t));
-		}
 	}
 
 	protected void validate(XpectFile file) {

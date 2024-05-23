@@ -17,6 +17,7 @@ import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xpect.XpectConstants;
 import org.eclipse.xpect.registry.ILanguageInfo;
 import org.eclipse.xpect.runner.XpectRunner;
+import org.eclipse.xpect.runner.XpectTestGlobalState;
 import org.eclipse.xpect.util.IXtInjectorProvider;
 
 import com.google.inject.Injector;
@@ -32,8 +33,8 @@ public class XtResourceServiceProviderProvider implements IResourceServiceProvid
 	}
 
 	public IResourceServiceProvider get(URI uri, String contentType) {
-		if (XpectRunner.INSTANCE != null) {
-			Injector injector = IXtInjectorProvider.INSTANCE.getInjector(XpectRunner.INSTANCE.getXpectJavaModel(), uri);
+		if (XpectTestGlobalState.INSTANCE.model() != null) {
+			Injector injector = IXtInjectorProvider.INSTANCE.getInjector(XpectTestGlobalState.INSTANCE.model(), uri);
 			if (injector != null)
 				return injector.getInstance(IResourceServiceProvider.class);
 		}
