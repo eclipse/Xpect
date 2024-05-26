@@ -28,6 +28,7 @@ import org.eclipse.xtext.ui.util.JdtClasspathUriResolver;
 import org.eclipse.xpect.XpectFile;
 import org.eclipse.xpect.XpectJavaModel;
 import org.eclipse.xpect.runner.XpectRunner;
+import org.eclipse.xpect.runner.XpectTestGlobalState;
 import org.eclipse.xpect.ui.internal.XpectActivator;
 
 import com.google.inject.Injector;
@@ -40,8 +41,8 @@ public class XpectUtil {
 		Injector injector = XpectActivator.getInstance().getInjector(XpectActivator.ORG_ECLIPSE_XPECT_XPECT);
 		XtextResourceSet rs = new XtextResourceSet();
 		IJavaProject javaProject = JavaCore.create(file.getProject());
-		if (XpectRunner.testClassloader != null) {
-			rs.setClasspathURIContext(XpectRunner.testClassloader);
+		if (XpectTestGlobalState.INSTANCE.testClass() != null) {
+			rs.setClasspathURIContext(XpectTestGlobalState.INSTANCE.testClass().getClassLoader());
 			rs.setClasspathUriResolver(new ClassloaderClasspathUriResolver());
 		} else if (javaProject != null && javaProject.exists()) {
 			rs.setClasspathURIContext(javaProject);

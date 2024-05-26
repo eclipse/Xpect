@@ -30,6 +30,7 @@ import org.eclipse.xpect.XpectConstants;
 import org.eclipse.xpect.XpectFile;
 import org.eclipse.xpect.registry.ILanguageInfo;
 import org.eclipse.xpect.runner.XpectRunner;
+import org.eclipse.xpect.runner.XpectTestGlobalState;
 
 import com.google.inject.Injector;
 
@@ -67,8 +68,8 @@ public class XpectFileAccess {
 		// need delegation or nothing because of "java" protocol
 		// result.setResourceFactoryRegistry(rs.getResourceFactoryRegistry());
 		result.setURIConverter(rs.getURIConverter());
-		if (XpectRunner.testClassloader != null) {
-			result.setClasspathURIContext(XpectRunner.testClassloader);
+		if (XpectTestGlobalState.INSTANCE.testClass() != null) {
+			result.setClasspathURIContext(XpectTestGlobalState.INSTANCE.testClass().getClassLoader());
 			result.setClasspathUriResolver(new ClassloaderClasspathUriResolver());
 		} else if (rs instanceof XtextResourceSet) {
 			XtextResourceSet xrs = (XtextResourceSet) rs;

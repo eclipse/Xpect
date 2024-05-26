@@ -14,7 +14,7 @@ package org.eclipse.xpect.util;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.xpect.Environment;
-import org.eclipse.xpect.runner.XpectRunner;
+import org.eclipse.xpect.runner.XpectTestGlobalState;
 
 import com.google.common.base.Joiner;
 
@@ -22,7 +22,7 @@ public class EnvironmentUtil {
 	public static final Environment ENVIRONMENT = detectEnvironement();
 
 	private static Environment detectEnvironement() {
-		if (XpectRunner.testClassloader != null) {
+		if (XpectTestGlobalState.INSTANCE.testClass() != null) {
 			if (EcorePlugin.IS_ECLIPSE_RUNNING)
 				return Environment.PLUGIN_TEST;
 			else
