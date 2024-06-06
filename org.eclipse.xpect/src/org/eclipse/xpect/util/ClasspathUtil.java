@@ -26,6 +26,7 @@ import java.util.jar.Manifest;
 
 import org.apache.log4j.Logger;
 import org.eclipse.xpect.runner.XpectRunner;
+import org.eclipse.xpect.runner.XpectTestGlobalState;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
@@ -81,8 +82,8 @@ public class ClasspathUtil {
 			}
 		}
 		// for some reason, ucl.getURLs() doesn't catch the current project in standalone maven surefire
-		if (XpectRunner.INSTANCE != null) {
-			Class<?> clazz = XpectRunner.INSTANCE.getTestClass().getJavaClass();
+		if (XpectTestGlobalState.INSTANCE.testClass() != null) {
+			Class<?> clazz = XpectTestGlobalState.INSTANCE.testClass();
 			String[] segments = clazz.getName().split("\\.");
 			String fileName = Joiner.on('/').join(segments) + ".class";
 			URL resource = clazz.getClassLoader().getResource(fileName);

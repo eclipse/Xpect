@@ -72,6 +72,12 @@ public class XpectRunner extends ParentRunner<Runner> {
 		this.uriProvider = findUriProvider(testClass);
 		this.xpectInjector = findXpectInjector();
 		this.xpectJavaModel = XpectJavaModelManager.createJavaModel(testClass);
+		/*
+		 * NOTE:
+		 * Do this before the state creation, otherwise the parts that depend on
+		 * the singleton won't initialize properly and tests will fail to run!
+		 */
+		XpectTestGlobalState.INSTANCE.set(xpectJavaModel, testClass);
 		this.state = TestExecutor.createState(createRootConfiguration());
 	}
 
