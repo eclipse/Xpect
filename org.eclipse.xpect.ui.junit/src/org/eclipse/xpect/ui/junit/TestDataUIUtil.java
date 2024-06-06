@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012-2017 TypeFox GmbH and itemis AG.
+ * Copyright (c) 2012-2024 TypeFox GmbH and itemis AG.
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -16,6 +16,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.internal.junit.model.TestElement;
 import org.eclipse.jdt.junit.model.ITestCaseElement;
 import org.eclipse.jdt.junit.model.ITestElement;
 import org.eclipse.jdt.junit.model.ITestSuiteElement;
@@ -80,6 +81,7 @@ public class TestDataUIUtil {
 		}
 	}
 
+	@SuppressWarnings("restriction")
 	public static TestElementInfo parse(ITestElement element) {
 		TestElementInfo result = new TestElementInfo();
 		result.javaProject = element.getTestRunSession().getLaunchedProject();
@@ -91,6 +93,16 @@ public class TestDataUIUtil {
 			String methodName = tce.getTestMethodName();
 			// The methodName is expected to have the following format
 			// 		errors~0: This is a comment 〔path/to/file.xt〕
+			// check for JUnit 5 structures in the JUnit view, in which case the display name is set to what we need here
+			String displayName = element instanceof TestElement ? ((TestElement) element).getDisplayName() : null;
+			if (displayName == null) {
+				displayName = "";
+			}
+			if (!methodName.contains("~") && displayName.contains("~")) {
+				methodName = displayName;
+			} else if (!methodName.contains(":") && displayName.contains(":")) {
+				methodName = displayName;
+			}
 			if (methodName.contains("~")) {
 				int colon = methodName.indexOf(':');
 				String description;
@@ -150,3 +162,4 @@ public class TestDataUIUtil {
 		return result;
 	}
 }
+
