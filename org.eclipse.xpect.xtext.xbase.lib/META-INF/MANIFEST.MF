@@ -15,7 +15,6 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.7.0";visibility:=reex
  org.eclipse.jdt.core;bundle-version="3.7.0";visibility:=reexport,
  org.eclipse.ui.ide;bundle-version="3.7.0";visibility:=reexport,
  org.eclipse.xpect.xtext.lib;bundle-version="[0.3.0,0.3.1)",
- org.eclipse.xtext.xbase.junit,
  org.eclipse.xtext.xbase.testing;bundle-version="2.31.0"
 Export-Package: org.eclipse.xpect.xtext.xbase.lib,
  org.eclipse.xpect.xtext.xbase.lib.tests
