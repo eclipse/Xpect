@@ -1,7 +1,6 @@
 # Eclipse Xpect
 
-Xpect&trade; is a unit- and integration-testing framework that stores test data in any kind of text files and is based on JUnit. 
-The core focus of Xpect is on testing Xtext languages and supporting the process of designing Xtext languages.
+Eclipse Xpect™ is a unit- and integration-testing framework to be used for Xtext-based languages. Test data (e.g. expectations) are embedded into programs written in the DSL under tests. Xpect itself is based on Junit; new test methods can be written in Java and are called by the Xpect framework with the test data. Typical Xpect tests include expecting certain error messages, ensuring correct scopes, or specific content assist proposals.
 
 ## Documentation
 
