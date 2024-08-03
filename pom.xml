@@ -22,7 +22,7 @@
 		<tycho-version>4.0.7</tycho-version>
 
 		<!-- Used for promotion --> 
-		<eclipse.repo>https://download.eclipse.org/releases/2023-09</eclipse.repo>
+		<eclipse.repo>https://download.eclipse.org/releases/2024-06</eclipse.repo>
 		<justj.tools.repo>https://download.eclipse.org/justj/tools/updates/nightly/latest</justj.tools.repo>
 		<git.url>https://github.com/eclipse/Xpect</git.url>
 		<org.eclipse.storage.user>genie.xpect</org.eclipse.storage.user>
