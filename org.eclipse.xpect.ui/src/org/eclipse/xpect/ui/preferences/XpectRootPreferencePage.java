@@ -43,19 +43,20 @@ public class XpectRootPreferencePage extends LanguageRootPreferencePage {
 		Composite parent = getFieldEditorParent();
 		if (!isPropertyPage()) {
 			Group group = new Group(parent, SWT.NONE);
-			group.setText("Xpect Editor");
+			group.setText("Xpect Editor Override");
+			group.setToolTipText("Files which contain the text \"XPECT\" are usually forced to open with the Xpect editor, this can be disabled or adjusted with these settings");
 			GridLayoutFactory.fillDefaults().margins(5, 5).applyTo(group);
 			GridDataFactory.fillDefaults().span(2, 1).grab(true, false).applyTo(group);
 			
 			Composite skipFileExtListComposite = new Composite(group, SWT.NONE);
 			GridLayoutFactory.fillDefaults().margins(5, 5).applyTo(skipFileExtListComposite);
 			GridDataFactory.fillDefaults().grab(true, false).applyTo(skipFileExtListComposite);
-			addField(new SkipFileExtensionList(LIVE_TEST_EXECUTION_PREFERENCE_NAME, "Skip content check for XPECT for extensions (will not be used if override is disabled):", skipFileExtListComposite));
+			addField(new SkipFileExtensionList(LIVE_TEST_EXECUTION_PREFERENCE_NAME, "Exclude following file extensions from Xpect editor override:", skipFileExtListComposite));
 			
 			Composite disableOverrideComposite = new Composite(group, SWT.NONE);
 			GridLayoutFactory.fillDefaults().margins(5, 5).applyTo(disableOverrideComposite);
 			GridDataFactory.fillDefaults().grab(true, false).applyTo(disableOverrideComposite);
-			addField(new BooleanFieldEditor(DISABLE_EDITOR_OVERRIDE_PREFERENCE_NAME, "Disable editor override.", SWT.NONE, disableOverrideComposite));
+			addField(new BooleanFieldEditor(DISABLE_EDITOR_OVERRIDE_PREFERENCE_NAME, "Disable editor override", SWT.NONE, disableOverrideComposite));
 		}
 		addField(new BooleanFieldEditor(LIVE_TEST_EXECUTION_PREFERENCE_NAME, "Run tests live in editor, if possible", SWT.NONE, parent));
 	}
