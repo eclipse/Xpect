@@ -27,6 +27,7 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.ide.IEditorAssociationOverride;
 import org.eclipse.xpect.registry.ILanguageInfo;
 import org.eclipse.xpect.ui.XpectPluginActivator;
+import org.eclipse.xpect.ui.preferences.XpectRootPreferencePage;
 import org.eclipse.xpect.ui.util.ContentTypeUtil;
 import org.eclipse.xpect.ui.util.ContentTypeUtil.XpectContentType;
 import org.eclipse.xpect.util.URIDelegationHandler;
@@ -74,9 +75,13 @@ public class XpectEditorAssociationOverride implements IEditorAssociationOverrid
 		return false;
 	}
 
+	@Override
 	public IEditorDescriptor overrideDefaultEditor(IEditorInput editorInput, IContentType contentType, IEditorDescriptor editorDescriptor) {
+		if (XpectRootPreferencePage.isEditorOverrideDisabled()) {
+			return editorDescriptor;
+		}
 		IFile file = getFile(editorInput);
-		if (file == null || hasFavoriteEditor(file))
+		if (file == null || hasFavoriteEditor(file) || XpectRootPreferencePage.getSkipExtensionsList().contains(file.getFileExtension()))
 			return editorDescriptor;
 		XpectContentType type = contentTypeHelper.getContentType(file);
 		switch (type) {
@@ -89,10 +94,12 @@ public class XpectEditorAssociationOverride implements IEditorAssociationOverrid
 		}
 	}
 
+	@Override
 	public IEditorDescriptor overrideDefaultEditor(String fileName, IContentType contentType, IEditorDescriptor editorDescriptor) {
 		return editorDescriptor;
 	}
 
+	@Override
 	public IEditorDescriptor[] overrideEditors(IEditorInput editorInput, IContentType contentType, IEditorDescriptor[] editorDescriptors) {
 		IFile file = getFile(editorInput);
 		if (file == null)
@@ -114,6 +121,7 @@ public class XpectEditorAssociationOverride implements IEditorAssociationOverrid
 		}
 	}
 
+	@Override
 	public IEditorDescriptor[] overrideEditors(String fileName, IContentType contentType, IEditorDescriptor[] editorDescriptors) {
 		return editorDescriptors;
 	}
