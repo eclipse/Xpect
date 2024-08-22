@@ -51,7 +51,7 @@ public class XpectRootPreferencePage extends LanguageRootPreferencePage {
 			Composite skipFileExtListComposite = new Composite(group, SWT.NONE);
 			GridLayoutFactory.fillDefaults().margins(5, 5).applyTo(skipFileExtListComposite);
 			GridDataFactory.fillDefaults().grab(true, false).applyTo(skipFileExtListComposite);
-			addField(new SkipFileExtensionList(LIVE_TEST_EXECUTION_PREFERENCE_NAME, "Exclude following file extensions from Xpect editor override:", skipFileExtListComposite));
+			addField(new SkipFileExtensionList(SKIP_CONTENT_CHECK_PREFERENCE_NAME, "Exclude following file extensions from Xpect editor override:", skipFileExtListComposite));
 			
 			Composite disableOverrideComposite = new Composite(group, SWT.NONE);
 			GridLayoutFactory.fillDefaults().margins(5, 5).applyTo(disableOverrideComposite);
@@ -69,7 +69,7 @@ public class XpectRootPreferencePage extends LanguageRootPreferencePage {
 	
 	public static List<String> getSkipExtensionsList() {
 		IPreferenceStoreAccess preferenceStore = XpectActivator.getInstance().getInjector(XpectActivator.ORG_ECLIPSE_XPECT_XPECT).getInstance(IPreferenceStoreAccess.class);
-		String extensions = preferenceStore.getWritablePreferenceStore().getString(LIVE_TEST_EXECUTION_PREFERENCE_NAME);
+		String extensions = preferenceStore.getWritablePreferenceStore().getString(SKIP_CONTENT_CHECK_PREFERENCE_NAME);
 		if (extensions.trim().length() == 0) {
 			return Collections.emptyList();
 		}
