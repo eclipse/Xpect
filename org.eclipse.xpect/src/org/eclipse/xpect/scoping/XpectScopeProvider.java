@@ -62,6 +62,9 @@ public class XpectScopeProvider extends AbstractScopeProvider {
 	private Set<JvmDeclaredType> getAssignableTypes(EObject context) {
 		EObject current = context;
 		XpectJavaModel xjm = EcoreUtil2.getContainerOfType(context, XpectFile.class).getJavaModel();
+		if (xjm == null) {
+			return Collections.emptySet();
+		}
 		ComponentUtil util = new ComponentUtil(xjm);
 		while (current != null) {
 			if (current instanceof Assignment)
