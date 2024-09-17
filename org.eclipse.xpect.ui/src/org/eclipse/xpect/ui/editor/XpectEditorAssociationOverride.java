@@ -12,7 +12,9 @@
 
 package org.eclipse.xpect.ui.editor;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -25,6 +27,7 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.ide.IEditorAssociationOverride;
+import org.eclipse.xpect.registry.IExtensionInfo;
 import org.eclipse.xpect.registry.ILanguageInfo;
 import org.eclipse.xpect.ui.XpectPluginActivator;
 import org.eclipse.xpect.ui.preferences.XpectRootPreferencePage;
@@ -40,6 +43,10 @@ import com.google.inject.Inject;
  */
 public class XpectEditorAssociationOverride implements IEditorAssociationOverride {
 
+	private static final String ATTRIBUTE_FILE_EXTENSION = "fileExtension";
+
+	private static final String ORG_ECLIPSE_XPECT_FILE_EXTENSIONS = "org.eclipse.xpect.fileExtensions";
+
 	@Inject
 	private ContentTypeUtil contentTypeHelper;
 
@@ -49,7 +56,18 @@ public class XpectEditorAssociationOverride implements IEditorAssociationOverrid
 	private URIDelegationHandler uriHandler;
 	private final IEditorDescriptor xpectEditor = registry.findEditor(XpectPluginActivator.XPECT_EDITOR_ID);
 	private final IEditorDescriptor xtEditor = registry.findEditor(XpectPluginActivator.XT_EDITOR_ID);
-
+	private static final List<String> supportedExtensions = new ArrayList<>();
+	
+	static {
+		for (IExtensionInfo extensionInfo : IExtensionInfo.Registry.INSTANCE.getExtensions(ORG_ECLIPSE_XPECT_FILE_EXTENSIONS)) {
+			String ext = extensionInfo.getAttributeValue(ATTRIBUTE_FILE_EXTENSION);
+			if (ext == null) {
+				continue;
+			}
+			supportedExtensions.add(ext);
+		}
+	}
+	
 	protected IFile getFile(IEditorInput input) {
 		if (input instanceof IFileEditorInput)
 			return ((IFileEditorInput) input).getFile();
@@ -81,8 +99,14 @@ public class XpectEditorAssociationOverride implements IEditorAssociationOverrid
 			return editorDescriptor;
 		}
 		IFile file = getFile(editorInput);
-		if (file == null || hasFavoriteEditor(file) || XpectRootPreferencePage.getSkipExtensionsList().contains(file.getFileExtension()))
+		if (file == null || hasFavoriteEditor(file))
 			return editorDescriptor;
+		if (!supportedExtensions.contains(file.getFileExtension())) {
+			List<String> overrideIncludedExtensions = XpectRootPreferencePage.getIncludedContentCheckExtensions();
+			if (!overrideIncludedExtensions.contains(file.getFileExtension())) {
+				return editorDescriptor;
+			}
+		}
 		XpectContentType type = contentTypeHelper.getContentType(file);
 		switch (type) {
 		case XPECT:

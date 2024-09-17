@@ -33,7 +33,7 @@ public class XpectRootPreferencePage extends LanguageRootPreferencePage {
 
 	public static final String LIVE_TEST_EXECUTION_PREFERENCE_NAME = "org.eclipse.xpect.ui.live_test_execution";
 	
-	public static final String SKIP_CONTENT_CHECK_PREFERENCE_NAME = "org.eclipse.xpect.ui.skip_content_check";
+	public static final String INCLUDE_CONTENT_CHECK_PREFERENCE_NAME = "org.eclipse.xpect.ui.include_extension_content_check";
 
 	public static final String DISABLE_EDITOR_OVERRIDE_PREFERENCE_NAME = "org.eclipse.xpect.ui.editor_override";
 	
@@ -51,7 +51,7 @@ public class XpectRootPreferencePage extends LanguageRootPreferencePage {
 			Composite skipFileExtListComposite = new Composite(group, SWT.NONE);
 			GridLayoutFactory.fillDefaults().margins(5, 5).applyTo(skipFileExtListComposite);
 			GridDataFactory.fillDefaults().grab(true, false).applyTo(skipFileExtListComposite);
-			addField(new SkipFileExtensionList(SKIP_CONTENT_CHECK_PREFERENCE_NAME, "Exclude following file extensions from Xpect editor override:", skipFileExtListComposite));
+			addField(new SkipFileExtensionList(INCLUDE_CONTENT_CHECK_PREFERENCE_NAME, "Include following file extensions from Xpect editor override (includes all if nothing is specified):", skipFileExtListComposite));
 			
 			Composite disableOverrideComposite = new Composite(group, SWT.NONE);
 			GridLayoutFactory.fillDefaults().margins(5, 5).applyTo(disableOverrideComposite);
@@ -67,9 +67,9 @@ public class XpectRootPreferencePage extends LanguageRootPreferencePage {
 		return enabled;
 	}
 	
-	public static List<String> getSkipExtensionsList() {
+	public static List<String> getIncludedContentCheckExtensions() {
 		IPreferenceStoreAccess preferenceStore = XpectActivator.getInstance().getInjector(XpectActivator.ORG_ECLIPSE_XPECT_XPECT).getInstance(IPreferenceStoreAccess.class);
-		String extensions = preferenceStore.getWritablePreferenceStore().getString(SKIP_CONTENT_CHECK_PREFERENCE_NAME);
+		String extensions = preferenceStore.getWritablePreferenceStore().getString(INCLUDE_CONTENT_CHECK_PREFERENCE_NAME);
 		if (extensions.trim().length() == 0) {
 			return Collections.emptyList();
 		}
