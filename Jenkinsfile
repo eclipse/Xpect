@@ -1,6 +1,6 @@
 pipeline {
   agent {
-    label 'centos-latest'
+    label 'ubuntu-2404'
   }
 
   triggers {
