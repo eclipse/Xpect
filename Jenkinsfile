@@ -4,7 +4,7 @@ pipeline {
   }
 
   triggers {
-     cron('H 23 * * *')
+    parameterizedCron(env.BRANCH_NAME == 'master' ? '''H 23 * * *''' : '')
   }
 
   options {
