@@ -5,7 +5,7 @@ Bundle-Localization: plugin
 Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.eclipse.xpect.examples
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: org.eclipse.xtend.lib,
  com.google.guava,
  org.eclipse.xtext.xbase.lib,

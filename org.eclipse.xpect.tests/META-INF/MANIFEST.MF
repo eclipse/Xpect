@@ -21,6 +21,6 @@ Import-Package: org.apache.log4j,
  org.hamcrest.core,
  org.junit.jupiter.api;version="[5.1.0,6.0.0)",
  org.junit.jupiter.api.extension;version="[5.1.0,6.0.0)"
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.eclipse.xpect.tests
 Export-Package: org.eclipse.xpect.tests;x-internal=true

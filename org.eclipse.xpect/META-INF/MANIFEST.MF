@@ -22,7 +22,7 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.common.types;visibility:=reexport,
  org.apache.log4j;bundle-version="1.2.0";visibility:=reexport,
  org.objectweb.asm;bundle-version="[9.5.0,10.0.0)";resolution:=optional
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.xpect,
  org.eclipse.xpect.expectation,
  org.eclipse.xpect.expectation.impl;
