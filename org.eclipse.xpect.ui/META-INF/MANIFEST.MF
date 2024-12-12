@@ -21,7 +21,7 @@ Require-Bundle: org.eclipse.xpect,
  org.eclipse.compare,
  org.eclipse.xtext.builder
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Activator: org.eclipse.xpect.ui.XpectPluginActivator
 Export-Package: org.eclipse.xpect.ui,
  org.eclipse.xpect.ui.contentassist,
