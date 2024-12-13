@@ -7,7 +7,7 @@
     <booleanAttribute key="M2_OFFLINE" value="false"/>
     <stringAttribute key="M2_PROFILES" value=""/>
     <listAttribute key="M2_PROPERTIES">
-        <listEntry value="target-platform=eclipse_2023_03-xtext_2_31_0"/>
+        <listEntry value="target-platform=xpect_latest"/>
         <listEntry value="org.eclipse.justj.p2.manager.remote=localhost:${project_loc:/Xpect}/xpect"/>
     </listAttribute>
     <stringAttribute key="M2_RUNTIME" value="EMBEDDED"/>

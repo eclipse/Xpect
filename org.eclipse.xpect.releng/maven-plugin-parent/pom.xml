@@ -112,11 +112,9 @@
 				<version>${tycho-version}</version>
 				<configuration>
 					<target>
-						<artifact>
-							<groupId>org.eclipse.xpect</groupId>
-							<artifactId>org.eclipse.xpect.target.${target-platform}</artifactId>
-							<version>${target-platform-version}</version>
-						</artifact>
+						<file>
+							${maven.multiModuleProjectDirectory}/${target-platform}.target
+						</file>
 					</target>
 					<environments>
 						<environment>
