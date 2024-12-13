@@ -39,7 +39,6 @@ import org.eclipse.xtext.common.types.JvmTypeReference;
 import org.eclipse.xtext.common.types.JvmVisibility;
 import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.util.Tuples;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.eclipse.xpect.Environment;
 import org.eclipse.xpect.XjmClass;
@@ -245,7 +244,9 @@ public class XpectJavaModelImplCustom extends XpectJavaModelImpl {
 				if (feature instanceof JvmOperation && feature.getVisibility() == JvmVisibility.PUBLIC) {
 					if (JvmAnnotationUtil.isAnnotatedWith(feature, Xpect.class))
 						xpectMethods.put(Tuples.create(true, feature.getSimpleName()), Tuples.create(type, (JvmOperation) feature));
-					if (JvmAnnotationUtil.isAnnotatedWith(feature, Test.class))
+					if (JvmAnnotationUtil.isAnnotatedWith(feature, org.junit.Test.class))
+						xpectMethods.put(Tuples.create(false, feature.getSimpleName()), Tuples.create(type, (JvmOperation) feature));
+					if (JvmAnnotationUtil.isAnnotatedWith(feature, org.junit.jupiter.api.Test.class))
 						xpectMethods.put(Tuples.create(false, feature.getSimpleName()), Tuples.create(type, (JvmOperation) feature));
 				}
 

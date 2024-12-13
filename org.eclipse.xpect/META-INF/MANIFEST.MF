@@ -19,11 +19,13 @@ Require-Bundle: org.eclipse.xtext,
  org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
  org.apache.log4j;bundle-version="1.2.24",
  org.junit;bundle-version="4.11.0";visibility:=reexport,
+ junit-jupiter-api;bundle-version="5.9.1";visibility:=reexport,
  org.eclipse.xtext.common.types;visibility:=reexport,
  org.apache.log4j;bundle-version="1.2.0";visibility:=reexport,
  org.objectweb.asm;bundle-version="[9.5.0,10.0.0)";resolution:=optional
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.xpect,
+ org.eclipse.xpect.dynamic,
  org.eclipse.xpect.expectation,
  org.eclipse.xpect.expectation.impl;
   x-friends:="org.eclipse.xpect.xtext.lib,
