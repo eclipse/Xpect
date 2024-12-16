@@ -8,5 +8,5 @@ Bundle-Version: 0.3.0.qualifier
 Fragment-Host: org.eclipse.xtext.example.arithmetics.ui 
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: org.eclipse.xpect.xtext.lib;bundle-version="0.3.0"
-Export-Package: org.eclipse.xtext.example.arithmetics.xpect.tests
+Export-Package: org.eclipse.xtext.example.arithmetics.xpect.tests;version="0.3.0"
 Automatic-Module-Name: org.eclipse.xtext.example.arithmetics.xpect.tests
