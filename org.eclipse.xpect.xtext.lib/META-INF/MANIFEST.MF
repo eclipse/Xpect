@@ -6,18 +6,18 @@ Bundle-Localization: plugin
 Bundle-SymbolicName: org.eclipse.xpect.xtext.lib
 Bundle-Version: 0.3.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Require-Bundle: org.eclipse.core.runtime;bundle-version="3.7.0";visibility:=reexport,
- org.eclipse.core.resources;bundle-version="3.7.0";visibility:=reexport,
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.31.0";visibility:=reexport,
+ org.eclipse.core.resources;bundle-version="3.20.100";visibility:=reexport,
  org.eclipse.xpect;visibility:=reexport,
  org.eclipse.xpect.ui;visibility:=reexport,
- org.eclipse.xtext.ui;visibility:=reexport,
- org.eclipse.jdt.core;bundle-version="3.7.0";visibility:=reexport,
- org.eclipse.ui.ide;bundle-version="3.7.0";visibility:=reexport,
- org.eclipse.xtext.xbase.lib
-Export-Package: org.eclipse.xpect.xtext.lib.setup,
- org.eclipse.xpect.xtext.lib.setup.emf,
- org.eclipse.xpect.xtext.lib.setup.generic,
- org.eclipse.xpect.xtext.lib.setup.workspace,
- org.eclipse.xpect.xtext.lib.tests,
- org.eclipse.xpect.xtext.lib.util
+ org.eclipse.xtext.ui;bundle-version="2.34.0";visibility:=reexport,
+ org.eclipse.jdt.core;bundle-version="3.37.0";visibility:=reexport,
+ org.eclipse.ui.ide;bundle-version="3.22.100";visibility:=reexport,
+ org.eclipse.xtext.xbase.lib;bundle-version="2.34.0"
+Export-Package: org.eclipse.xpect.xtext.lib.setup;version="0.3.0",
+ org.eclipse.xpect.xtext.lib.setup.emf;version="0.3.0",
+ org.eclipse.xpect.xtext.lib.setup.generic;version="0.3.0",
+ org.eclipse.xpect.xtext.lib.setup.workspace;version="0.3.0",
+ org.eclipse.xpect.xtext.lib.tests;version="0.3.0",
+ org.eclipse.xpect.xtext.lib.util;version="0.3.0"
 Automatic-Module-Name: org.eclipse.xpect.xtext.lib
