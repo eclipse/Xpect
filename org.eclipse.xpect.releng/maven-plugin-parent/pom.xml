@@ -15,10 +15,9 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<target-platform>eclipse_2023_03-xtext_2_31_0</target-platform>
+		<target-platform>xpect_r202403</target-platform>
 		<xtextVersion>2.31.0</xtextVersion>
 		<tycho-version>4.0.10</tycho-version>
-		<target-platform-version>0.3.0-SNAPSHOT</target-platform-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
