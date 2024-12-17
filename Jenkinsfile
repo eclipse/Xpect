@@ -21,7 +21,7 @@ pipeline {
   environment {
     PUBLISH_LOCATION = 'updates'
     BUILD_TIMESTAMP = sh(returnStdout: true, script: 'date +%Y%m%d%H%M').trim()
-    TYCHO_VERSION = '4.0.7'
+    TYCHO_VERSION = '4.0.10'
     TARGET_PLATFORM_PRIMARY = 'xpect_r202403'
     TARGET_PLATFORM_LATEST = 'xpect_latest'
   }

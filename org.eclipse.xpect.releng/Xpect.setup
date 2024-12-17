@@ -250,9 +250,9 @@
           &lt;booleanAttribute key=&quot;M2_OFFLINE&quot; value=&quot;false&quot;/>
           &lt;stringAttribute key=&quot;M2_PROFILES&quot; value=&quot;!promote&quot;/>
           &lt;listAttribute key=&quot;M2_PROPERTIES&quot;>
-              &lt;listEntry value=&quot;target-platform=eclipse_2023_03-xtext_2_31_0&quot;/>
+              &lt;listEntry value=&quot;target-platform=xpect_r202403&quot;/>
               &lt;listEntry value=&quot;user.home=$${system_property:user.home}&quot;/>
-              &lt;listEntry value=&quot;tycho-version=4.0.7&quot;/>
+              &lt;listEntry value=&quot;tycho-version=4.0.10&quot;/>
           &lt;/listAttribute>
           &lt;stringAttribute key=&quot;M2_RUNTIME&quot; value=&quot;EMBEDDED&quot;/>
           &lt;booleanAttribute key=&quot;M2_SKIP_TESTS&quot; value=&quot;true&quot;/>

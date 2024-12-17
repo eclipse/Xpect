@@ -19,9 +19,8 @@ Contributors:
 
 	<properties>
 		<memory-settings>-Xmx1G</memory-settings>
-		<tycho-version>4.0.7</tycho-version>
-		<target-platform>eclipse_2023_03-xtext_2_31_0</target-platform>
-		<target-platform-version>0.3.0-SNAPSHOT</target-platform-version>
+		<tycho-version>4.0.10</tycho-version>
+		<target-platform>xpect_r202403</target-platform>
 	</properties>
 
 	<profiles>
@@ -106,11 +105,9 @@ Contributors:
 							<version>${tycho-version}</version>
 							<configuration>
 								<target>
-									<artifact>
-										<groupId>org.eclipse.xpect</groupId>
-										<artifactId>org.eclipse.xpect.target.${target-platform}</artifactId>
-										<version>${target-platform-version}</version>
-									</artifact>
+									<file>
+										${maven.multiModuleProjectDirectory}/${target-platform}.target
+									</file>
 								</target>
 								<environments>
 									<environment>

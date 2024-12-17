@@ -25,11 +25,10 @@ Maven release artifacts are automatically deployed during a release build
 
 ### Update maven version
 
-To select an other target platform use e.g. `-Dtarget-platform=eclipse_2023_03-xtext_2_31_0`
+To select an other target platform use e.g. `-Dtarget-platform=xpect_latest`
 
-```mvn org.eclipse.tycho:tycho-versions-plugin:set-version -Dtarget-platform=eclipse_2023_03-xtext_2_31_0 -P'!xtext-examples' -DnewVersion="0.2.0.v20190619" -Dartifacts="org.eclipse.xpect.parent,org.eclipse.xpect.test.parent"```
+```mvn org.eclipse.tycho:tycho-versions-plugin:set-version -Dtarget-platform=xpect_latest -P'!xtext-examples' -DnewVersion="0.2.0.v20190619" -Dartifacts="org.eclipse.xpect.parent,org.eclipse.xpect.test.parent"```
 
-Manually change the property value of `target-platform-version` to  0.2.0.v20190619 in:
 ```
 org.eclipse.xpect.releng/maven-plugin-parent/pom.xml
 org.eclipse.xtext.example.arithmetics.xpect.tests/pom.xml
