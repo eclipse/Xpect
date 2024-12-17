@@ -18,7 +18,7 @@
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-		<target-platform>eclipse_2023_03-xtext_2_31_0</target-platform>
+		<target-platform>xpect_r202403</target-platform>
 		<tycho-version>4.0.10</tycho-version>
 
 		<!-- Used for promotion --> 
