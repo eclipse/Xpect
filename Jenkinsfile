@@ -13,11 +13,6 @@ pipeline {
     skipDefaultCheckout false
   }
 
-  tools {
-    maven 'apache-maven-latest'
-    jdk 'temurin-jdk17-latest'
-  }
-
   environment {
     PUBLISH_LOCATION = 'updates'
     BUILD_TIMESTAMP = sh(returnStdout: true, script: 'date +%Y%m%d%H%M').trim()
@@ -82,21 +77,23 @@ BRANCH_NAME=${env.BRANCH_NAME}
     stage('Test With Latest') {
       steps {
         wrap([$class: 'Xvnc', useXauthority: true]) {
-          dir('.') {
-            sh '''
-              mvn \
-                --fail-at-end \
-                --no-transfer-progress \
-                --update-snapshots \
-                -P!promote \
-                -Dmaven.repo.local=xpect-local-maven-repository \
-                -Dmaven.artifact.threads=16 \
-                -Declipsesign=false \
-                -Dtycho-version=${TYCHO_VERSION} \
-                -Dtarget-platform=${TARGET_PLATFORM_LATEST} \
-                clean \
-                integration-test
-              '''
+          withMaven(jdk: 'temurin-jdk21-latest', maven: 'apache-maven-3.9.9', options: [junitPublisher(disabled: false), openTasksPublisher(disabled: false)]) {
+            dir('.') {
+              sh '''
+                mvn \
+                  --fail-at-end \
+                  --no-transfer-progress \
+                  --update-snapshots \
+                  -P!promote \
+                  -Dmaven.repo.local=xpect-local-maven-repository \
+                  -Dmaven.artifact.threads=16 \
+                  -Declipsesign=false \
+                  -Dtycho-version=${TYCHO_VERSION} \
+                  -Dtarget-platform=${TARGET_PLATFORM_LATEST} \
+                  clean \
+                  integration-test
+                '''
+            }
           }
         }
       }
@@ -106,29 +103,31 @@ BRANCH_NAME=${env.BRANCH_NAME}
       steps {
         sshagent(['projects-storage.eclipse.org-bot-ssh']) {
           wrap([$class: 'Xvnc', useXauthority: true]) {
-            dir('.') {
-              sh '''
-                if [[ $PROMOTE != true ]]; then
-                  promotion_argument='-P!promote'
-                fi
-                mvn \
-                  --fail-at-end \
-                  --no-transfer-progress \
-                  --update-snapshots \
-                  $promotion_argument \
-                  -Dmaven.repo.local=xpect-local-maven-repository \
-                  -Dmaven.artifact.threads=16 \
-                  -Declipsesign=${ECLIPSE_SIGN} \
-                  -Dtycho-version=${TYCHO_VERSION} \
-                  -Dtarget-platform=${TARGET_PLATFORM_PRIMARY} \
-                  -Dbuild.id=${BUILD_TIMESTAMP} \
-                  -Dgit.commit=$GIT_COMMIT \
-                  -Dbuild.type=$BUILD_TYPE \
-                  -Dorg.eclipse.justj.p2.manager.build.url=$JOB_URL \
-                  -Dorg.eclipse.justj.p2.manager.relative=$PUBLISH_LOCATION \
-                  clean \
-                  verify
-                '''
+            withMaven(jdk: 'temurin-jdk17-latest', maven: 'apache-maven-3.9.9', options: [junitPublisher(disabled: false), openTasksPublisher(disabled: false)]) {
+              dir('.') {
+                sh '''
+                  if [[ $PROMOTE != true ]]; then
+                    promotion_argument='-P!promote'
+                  fi
+                  mvn \
+                    --fail-at-end \
+                    --no-transfer-progress \
+                    --update-snapshots \
+                    $promotion_argument \
+                    -Dmaven.repo.local=xpect-local-maven-repository \
+                    -Dmaven.artifact.threads=16 \
+                    -Declipsesign=${ECLIPSE_SIGN} \
+                    -Dtycho-version=${TYCHO_VERSION} \
+                    -Dtarget-platform=${TARGET_PLATFORM_PRIMARY} \
+                    -Dbuild.id=${BUILD_TIMESTAMP} \
+                    -Dgit.commit=$GIT_COMMIT \
+                    -Dbuild.type=$BUILD_TYPE \
+                    -Dorg.eclipse.justj.p2.manager.build.url=$JOB_URL \
+                    -Dorg.eclipse.justj.p2.manager.relative=$PUBLISH_LOCATION \
+                    clean \
+                    verify
+                  '''
+              }
             }
           }
         }
