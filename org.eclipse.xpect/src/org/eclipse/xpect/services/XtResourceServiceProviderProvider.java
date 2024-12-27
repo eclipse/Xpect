@@ -13,12 +13,11 @@
 package org.eclipse.xpect.services;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xpect.XpectConstants;
 import org.eclipse.xpect.registry.ILanguageInfo;
-import org.eclipse.xpect.runner.XpectRunner;
 import org.eclipse.xpect.runner.XpectTestGlobalState;
 import org.eclipse.xpect.util.IXtInjectorProvider;
+import org.eclipse.xtext.resource.IResourceServiceProvider;
 
 import com.google.inject.Injector;
 
