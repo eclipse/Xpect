@@ -25,7 +25,6 @@ import java.util.Set;
 import java.util.jar.Manifest;
 
 import org.apache.log4j.Logger;
-import org.eclipse.xpect.runner.XpectRunner;
 import org.eclipse.xpect.runner.XpectTestGlobalState;
 
 import com.google.common.base.Joiner;
