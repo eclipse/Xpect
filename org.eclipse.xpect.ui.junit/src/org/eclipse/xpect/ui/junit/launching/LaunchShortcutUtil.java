@@ -65,9 +65,9 @@ public class LaunchShortcutUtil {
 
 		String methodName = element.getDescription().getMethodName();
 		if (!Strings.isEmpty(methodName))
-			wc.setAttribute(JUnitLaunchConfigurationConstants.ATTR_TEST_METHOD_NAME, methodName);
+			wc.setAttribute(JUnitLaunchConfigurationConstants.ATTR_TEST_NAME, methodName);
 		else
-			wc.setAttribute(JUnitLaunchConfigurationConstants.ATTR_TEST_METHOD_NAME, element.getDescription().getClassName());
+			wc.setAttribute(JUnitLaunchConfigurationConstants.ATTR_TEST_NAME, element.getDescription().getClassName());
 		String fileInProject = element.getResource().getFullPath().removeFirstSegments(1).toString();
 		ensureContains(wc, IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, "-DxpectFiles=", fileInProject);
 		return wc;
