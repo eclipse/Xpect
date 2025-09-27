@@ -77,7 +77,7 @@ BRANCH_NAME=${env.BRANCH_NAME}
     stage('Test With Latest') {
       steps {
         wrap([$class: 'Xvnc', useXauthority: true]) {
-          withMaven(jdk: 'temurin-jdk21-latest', maven: 'apache-maven-3.9.9', options: [junitPublisher(disabled: false), openTasksPublisher(disabled: false)]) {
+          withMaven(jdk: 'temurin-jdk21-latest', maven: 'apache-maven-3.9.9', options: [junitPublisher(disabled: false)]) {
             dir('.') {
               sh '''
                 mvn \
@@ -103,7 +103,7 @@ BRANCH_NAME=${env.BRANCH_NAME}
       steps {
         sshagent(['projects-storage.eclipse.org-bot-ssh']) {
           wrap([$class: 'Xvnc', useXauthority: true]) {
-            withMaven(jdk: 'temurin-jdk17-latest', maven: 'apache-maven-3.9.9', options: [junitPublisher(disabled: false), openTasksPublisher(disabled: false)]) {
+            withMaven(jdk: 'temurin-jdk17-latest', maven: 'apache-maven-3.9.9', options: [junitPublisher(disabled: false)]) {
               dir('.') {
                 sh '''
                   if [[ $PROMOTE != true ]]; then
